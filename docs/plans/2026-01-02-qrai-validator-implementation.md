@@ -11,8 +11,8 @@
 ### Task 1.1: Initialize Workspace
 ```bash
 cd /Users/thibaut/Projects
-mv qr-validator qrai-validator
-cd qrai-validator
+mv qr-validator qraisc-scanner
+cd qraisc-scanner
 git init
 ```
 
@@ -26,7 +26,7 @@ members = ["crates/*"]
 version = "0.1.0"
 edition = "2024"
 license = "MIT"
-repository = "https://github.com/SuperNovae-studio/qrai-validator"
+repository = "https://github.com/SuperNovae-studio/qraisc-scanner"
 
 [workspace.dependencies]
 # Decoders
@@ -517,15 +517,15 @@ pub fn decode_only(image_bytes: &[u8]) -> Result<DecodeResult, QraiError> {
 ## Batch 7: CLI Binary
 
 ### Task 7.1: Create CLI Crate
-File: `crates/qrai-cli/Cargo.toml`
+File: `crates/qraisc-cli/Cargo.toml`
 ```toml
 [package]
-name = "qrai-cli"
+name = "qraisc-cli"
 version.workspace = true
 edition.workspace = true
 
 [[bin]]
-name = "qrai-validator"
+name = "qraisc-scanner"
 path = "src/main.rs"
 
 [dependencies]
@@ -536,14 +536,14 @@ anyhow.workspace = true
 ```
 
 ### Task 7.2: Implement CLI
-File: `crates/qrai-cli/src/main.rs`
+File: `crates/qraisc-cli/src/main.rs`
 ```rust
 use clap::Parser;
 use qrai_core::{validate, decode_only};
 use std::path::PathBuf;
 
 #[derive(Parser)]
-#[command(name = "qrai-validator")]
+#[command(name = "qraisc-scanner")]
 #[command(about = "Validate QR codes and compute scannability score")]
 struct Cli {
     /// Image file to validate
@@ -579,8 +579,8 @@ fn main() -> anyhow::Result<()> {
 
 **Verification**:
 ```bash
-cargo build -p qrai-cli
-./target/debug/qrai-validator test-images/clean/simple.png
+cargo build -p qraisc-cli
+./target/debug/qraisc-scanner test-images/clean/simple.png
 ```
 
 ---
@@ -610,12 +610,12 @@ napi-build = "2"
 ### Task 8.2: Create package.json
 ```json
 {
-  "name": "@qrcodeai/qrai-validator",
+  "name": "@qrcodeai/qraisc-scanner",
   "version": "0.1.0",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
-    "name": "qrai-validator",
+    "name": "qraisc-scanner",
     "triples": {
       "defaults": true,
       "additional": ["aarch64-apple-darwin"]
@@ -692,6 +692,6 @@ Generate with qrcode crate or download samples.
 - [ ] `cargo test --workspace` passes
 - [ ] `cargo clippy --workspace` no warnings
 - [ ] `cargo fmt --check` passes
-- [ ] CLI works: `qrai-validator test.png`
+- [ ] CLI works: `qraisc-scanner test.png`
 - [ ] Node binding works: `node -e "require('./').validate(...)"`
 - [ ] Performance: <200ms on standard QR

@@ -119,9 +119,9 @@ flowchart TD
 ### Project Structure
 
 ```
-qrai-validator/
+qraisc-scanner/
 ├── crates/
-│   ├── qrai-core/          # Core library
+│   ├── qraisc-core/          # Core library
 │   │   ├── src/
 │   │   │   ├── decoder.rs  # Multi-decoder + tiered strategies
 │   │   │   ├── scorer.rs   # Stress tests + scoring
@@ -129,7 +129,7 @@ qrai-validator/
 │   │   │   └── error.rs    # Error types
 │   │   └── Cargo.toml
 │   ├── qraisc-cli/         # CLI binary
-│   └── qrai-node/          # Node.js bindings (napi-rs)
+│   └── qraisc-node/          # Node.js bindings (napi-rs)
 ├── test-images/            # Benchmark QR codes
 ├── scripts/                # Benchmark & test scripts
 └── docs/                   # Design documents
@@ -157,7 +157,7 @@ cargo install --path crates/qraisc-cli
 ### Node.js
 
 ```bash
-cd crates/qrai-node
+cd crates/qraisc-node
 npm install
 npm run build
 ```
@@ -166,7 +166,7 @@ npm run build
 
 ```toml
 [dependencies]
-qrai-core = { git = "https://github.com/SuperNovae-studio/qrai-validator" }
+qraisc-core = { git = "https://github.com/SuperNovae-studio/qraisc-scanner" }
 ```
 
 ---
@@ -193,7 +193,7 @@ qraisc -d image.png
 ### Rust
 
 ```rust
-use qrai_core::validate;
+use qraisc_core::validate;
 
 let image_bytes = std::fs::read("qr.png")?;
 let result = validate(&image_bytes)?;
@@ -206,7 +206,7 @@ println!("Stress tests: {:?}", result.stress_results);
 ### Node.js
 
 ```typescript
-import { validate, decode, validateScoreOnly } from '@qrcodeai/qrai-validator';
+import { validate, decode, validateScoreOnly } from '@qrcodeai/qraisc-scanner';
 import { readFileSync } from 'fs';
 
 const imageBuffer = readFileSync('qr.png');

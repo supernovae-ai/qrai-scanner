@@ -1,6 +1,6 @@
 use anyhow::{Context, Result};
 use clap::Parser;
-use qrai_core::{decode_only, validate, validate_fast, ValidationResult, DecodeResult};
+use qraisc_core::{decode_only, validate, validate_fast, ValidationResult, DecodeResult};
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 
@@ -405,11 +405,11 @@ fn get_score_style(score: u8) -> (&'static str, &'static str, &'static str) {
     }
 }
 
-fn get_ec_description(ec: qrai_core::ErrorCorrectionLevel) -> &'static str {
+fn get_ec_description(ec: qraisc_core::ErrorCorrectionLevel) -> &'static str {
     match ec {
-        qrai_core::ErrorCorrectionLevel::L => "~7% recovery",
-        qrai_core::ErrorCorrectionLevel::M => "~15% recovery",
-        qrai_core::ErrorCorrectionLevel::Q => "~25% recovery",
-        qrai_core::ErrorCorrectionLevel::H => "~30% recovery",
+        qraisc_core::ErrorCorrectionLevel::L => "~7% recovery",
+        qraisc_core::ErrorCorrectionLevel::M => "~15% recovery",
+        qraisc_core::ErrorCorrectionLevel::Q => "~25% recovery",
+        qraisc_core::ErrorCorrectionLevel::H => "~30% recovery",
     }
 }

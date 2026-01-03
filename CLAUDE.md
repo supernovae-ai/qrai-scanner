@@ -10,11 +10,11 @@ High-performance QR code scanner and scannability scorer for QR Code AI SaaS.
 ## Architecture
 
 ```
-qrai-scanner/
+qraisc-scanner/
 ├── crates/
-│   ├── qrai-core/     # Core library (decoder, scorer, types)
+│   ├── qraisc-core/     # Core library (decoder, scorer, types)
 │   ├── qraisc-cli/    # CLI binary (qraisc)
-│   └── qrai-node/     # Node.js napi-rs bindings
+│   └── qraisc-node/     # Node.js napi-rs bindings
 ├── test-images/       # Test QR codes
 └── docs/plans/        # Design documents
 ```
@@ -30,19 +30,19 @@ qrai-scanner/
 ```bash
 # Development
 cargo test --workspace           # Run all tests
-cargo test -p qrai-core          # Test core only
+cargo test -p qraisc-core          # Test core only
 cargo clippy --workspace         # Lint
 cargo fmt --all                  # Format
 
 # Build
 cargo build -p qraisc-cli --release
-cargo build -p qrai-node --release
+cargo build -p qraisc-node --release
 
 # Run CLI
 ./target/release/qraisc <image.png>
 
 # Node binding
-cd crates/qrai-node && npm run build
+cd crates/qraisc-node && npm run build
 ```
 
 ## Performance Guidelines

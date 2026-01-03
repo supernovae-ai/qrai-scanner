@@ -38,10 +38,10 @@ Users need real-time feedback (<200ms) on whether their customized QR code is st
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        qrai-validator                           │
+│                        qraisc-scanner                           │
 ├─────────────────────────────────────────────────────────────────┤
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
-│  │  qrai-cli   │  │ qrai-node   │  │   (future)  │             │
+│  │  qraisc-cli   │  │ qrai-node   │  │   (future)  │             │
 │  │   binary    │  │  napi-rs    │  │    wasm     │             │
 │  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘             │
 │         │                │                │                     │
@@ -144,7 +144,7 @@ pub fn decode_only(image_bytes: &[u8]) -> Result<DecodeResult, QraiError>;
 ### Node.js (napi-rs)
 
 ```typescript
-import { validate } from '@qrcodeai/qrai-validator';
+import { validate } from '@qrcodeai/qraisc-scanner';
 
 const result = await validate(imageBuffer);
 // {
@@ -160,14 +160,14 @@ const result = await validate(imageBuffer);
 
 ```bash
 # Full validation with JSON output
-qrai-validator image.png
+qraisc-scanner image.png
 
 # Score only (for scripts)
-qrai-validator --score-only image.png
+qraisc-scanner --score-only image.png
 # Output: 85
 
 # Decode only (fast, no stress tests)
-qrai-validator --decode-only image.png
+qraisc-scanner --decode-only image.png
 ```
 
 ## Dependencies
@@ -192,13 +192,13 @@ napi-derive = "2"
 ## Project Structure
 
 ```
-qrai-validator/
+qraisc-scanner/
 ├── Cargo.toml              (workspace)
 ├── .gitignore
 ├── README.md
 ├── docs/
 │   └── plans/
-│       └── 2026-01-02-qrai-validator-design.md
+│       └── 2026-01-02-qraisc-scanner-design.md
 ├── crates/
 │   ├── qrai-core/
 │   │   ├── Cargo.toml
@@ -209,7 +209,7 @@ qrai-validator/
 │   │       ├── scorer.rs
 │   │       ├── error.rs
 │   │       └── preprocessing.rs
-│   ├── qrai-cli/
+│   ├── qraisc-cli/
 │   │   ├── Cargo.toml
 │   │   └── src/main.rs
 │   └── qrai-node/
@@ -224,7 +224,7 @@ qrai-validator/
 
 ## Implementation Plan
 
-See: `docs/plans/2026-01-02-qrai-validator-implementation.md`
+See: `docs/plans/2026-01-02-qraisc-scanner-implementation.md`
 
 ## Future Enhancements
 

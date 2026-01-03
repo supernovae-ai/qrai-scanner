@@ -1,0 +1,25 @@
+[package]
+name = "qraisc-core"
+version.workspace = true
+edition.workspace = true
+description = "High-performance QR code validation and scannability scoring"
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+rxing.workspace = true
+rqrr.workspace = true
+image.workspace = true
+rayon.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true
+qrcode.workspace = true
+criterion.workspace = true
+
+[[bench]]
+name = "validation"
+harness = false
