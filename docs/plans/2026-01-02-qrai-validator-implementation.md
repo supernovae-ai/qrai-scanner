@@ -11,8 +11,8 @@
 ### Task 1.1: Initialize Workspace
 ```bash
 cd /Users/thibaut/Projects
-mv qr-validator qraisc-scanner
-cd qraisc-scanner
+mv qr-validator qrai-scanner
+cd qrai-scanner
 git init
 ```
 
@@ -26,7 +26,7 @@ members = ["crates/*"]
 version = "0.1.0"
 edition = "2024"
 license = "MIT"
-repository = "https://github.com/SuperNovae-studio/qraisc-scanner"
+repository = "https://github.com/SuperNovae-studio/qrai-scanner"
 
 [workspace.dependencies]
 # Decoders
@@ -525,7 +525,7 @@ version.workspace = true
 edition.workspace = true
 
 [[bin]]
-name = "qraisc-scanner"
+name = "qrai-scanner"
 path = "src/main.rs"
 
 [dependencies]
@@ -543,7 +543,7 @@ use qrai_core::{validate, decode_only};
 use std::path::PathBuf;
 
 #[derive(Parser)]
-#[command(name = "qraisc-scanner")]
+#[command(name = "qrai-scanner")]
 #[command(about = "Validate QR codes and compute scannability score")]
 struct Cli {
     /// Image file to validate
@@ -580,7 +580,7 @@ fn main() -> anyhow::Result<()> {
 **Verification**:
 ```bash
 cargo build -p qraisc-cli
-./target/debug/qraisc-scanner test-images/clean/simple.png
+./target/debug/qrai-scanner test-images/clean/simple.png
 ```
 
 ---
@@ -610,12 +610,12 @@ napi-build = "2"
 ### Task 8.2: Create package.json
 ```json
 {
-  "name": "@qrcodeai/qraisc-scanner",
+  "name": "@qrcodeai/qrai-scanner",
   "version": "0.1.0",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
-    "name": "qraisc-scanner",
+    "name": "qrai-scanner",
     "triples": {
       "defaults": true,
       "additional": ["aarch64-apple-darwin"]
@@ -692,6 +692,6 @@ Generate with qrcode crate or download samples.
 - [ ] `cargo test --workspace` passes
 - [ ] `cargo clippy --workspace` no warnings
 - [ ] `cargo fmt --check` passes
-- [ ] CLI works: `qraisc-scanner test.png`
+- [ ] CLI works: `qrai-scanner test.png`
 - [ ] Node binding works: `node -e "require('./').validate(...)"`
 - [ ] Performance: <200ms on standard QR

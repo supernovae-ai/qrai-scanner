@@ -38,7 +38,7 @@ Users need real-time feedback (<200ms) on whether their customized QR code is st
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        qraisc-scanner                           │
+│                        qrai-scanner                           │
 ├─────────────────────────────────────────────────────────────────┤
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
 │  │  qraisc-cli   │  │ qrai-node   │  │   (future)  │             │
@@ -144,7 +144,7 @@ pub fn decode_only(image_bytes: &[u8]) -> Result<DecodeResult, QraiError>;
 ### Node.js (napi-rs)
 
 ```typescript
-import { validate } from '@qrcodeai/qraisc-scanner';
+import { validate } from '@qrcodeai/qrai-scanner';
 
 const result = await validate(imageBuffer);
 // {
@@ -160,14 +160,14 @@ const result = await validate(imageBuffer);
 
 ```bash
 # Full validation with JSON output
-qraisc-scanner image.png
+qrai-scanner image.png
 
 # Score only (for scripts)
-qraisc-scanner --score-only image.png
+qrai-scanner --score-only image.png
 # Output: 85
 
 # Decode only (fast, no stress tests)
-qraisc-scanner --decode-only image.png
+qrai-scanner --decode-only image.png
 ```
 
 ## Dependencies
@@ -192,13 +192,13 @@ napi-derive = "2"
 ## Project Structure
 
 ```
-qraisc-scanner/
+qrai-scanner/
 ├── Cargo.toml              (workspace)
 ├── .gitignore
 ├── README.md
 ├── docs/
 │   └── plans/
-│       └── 2026-01-02-qraisc-scanner-design.md
+│       └── 2026-01-02-qrai-scanner-design.md
 ├── crates/
 │   ├── qrai-core/
 │   │   ├── Cargo.toml
@@ -224,7 +224,7 @@ qraisc-scanner/
 
 ## Implementation Plan
 
-See: `docs/plans/2026-01-02-qraisc-scanner-implementation.md`
+See: `docs/plans/2026-01-02-qrai-scanner-implementation.md`
 
 ## Future Enhancements
 

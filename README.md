@@ -119,7 +119,7 @@ flowchart TD
 ### Project Structure
 
 ```
-qraisc-scanner/
+qrai-scanner/
 ├── crates/
 │   ├── qraisc-core/          # Core library
 │   │   ├── src/
@@ -166,7 +166,7 @@ npm run build
 
 ```toml
 [dependencies]
-qraisc-core = { git = "https://github.com/SuperNovae-studio/qraisc-scanner" }
+qraisc-core = { git = "https://github.com/SuperNovae-studio/qrai-scanner" }
 ```
 
 ---
@@ -206,7 +206,7 @@ println!("Stress tests: {:?}", result.stress_results);
 ### Node.js
 
 ```typescript
-import { validate, decode, validateScoreOnly } from '@qrcodeai/qraisc-scanner';
+import { validate, decode, validateScoreOnly } from '@qrcodeai/qrai-scanner';
 import { readFileSync } from 'fs';
 
 const imageBuffer = readFileSync('qr.png');

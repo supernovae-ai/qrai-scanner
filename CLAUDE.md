@@ -10,7 +10,7 @@ High-performance QR code scanner and scannability scorer for QR Code AI SaaS.
 ## Architecture
 
 ```
-qraisc-scanner/
+qrai-scanner/
 ├── crates/
 │   ├── qraisc-core/     # Core library (decoder, scorer, types)
 │   ├── qraisc-cli/    # CLI binary (qraisc)
