@@ -31,6 +31,46 @@ npm install
 npm run build
 ```
 
+### Local usage (without npm registry)
+
+After building from source, you can use the package locally in several ways:
+
+**Option 1: npm link (symlink)**
+
+```bash
+# In qraisc-node directory
+npm link
+
+# In your project
+npm link @qrcodeai/qrai-scanner
+```
+
+**Option 2: npm pack (tarball)**
+
+```bash
+# In qraisc-node directory
+npm pack  # Creates qrcodeai-qrai-scanner-0.1.0.tgz
+
+# In your project
+npm install /path/to/qrcodeai-qrai-scanner-0.1.0.tgz
+```
+
+**Option 3: Direct path in package.json**
+
+```json
+{
+  "dependencies": {
+    "@qrcodeai/qrai-scanner": "file:../qrai-scanner/crates/qraisc-node"
+  }
+}
+```
+
+**Option 4: Direct require**
+
+```javascript
+const scanner = require('/path/to/qrai-scanner/crates/qraisc-node');
+```
+
 ## Quick Start
 
 ```javascript
