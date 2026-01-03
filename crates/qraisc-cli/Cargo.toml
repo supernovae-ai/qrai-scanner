@@ -1,0 +1,17 @@
+[package]
+name = "qraisc-cli"
+version.workspace = true
+edition.workspace = true
+description = "CLI for QR code validation and scannability scoring"
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "qraisc"
+path = "src/main.rs"
+
+[dependencies]
+qrai-core = { path = "../qrai-core" }
+clap.workspace = true
+serde_json.workspace = true
+anyhow.workspace = true

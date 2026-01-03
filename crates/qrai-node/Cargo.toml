@@ -1,0 +1,18 @@
+[package]
+name = "qrai-node"
+version.workspace = true
+edition.workspace = true
+description = "Node.js bindings for QR code validation"
+license.workspace = true
+repository.workspace = true
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+qrai-core = { path = "../qrai-core" }
+napi = "2"
+napi-derive = "2"
+
+[build-dependencies]
+napi-build = "2"
