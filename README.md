@@ -19,9 +19,51 @@
 
 <br>
 
-[Quick Start](#quick-start) · [Why QRAI?](#why-qrai) · [API Reference](#api-reference) · [Benchmarks](#benchmarks) · [Architecture](#architecture)
+[Quick Start](#quick-start) · [Why QRAISC?](#why-qraisc) · [API Reference](#api-reference) · [Benchmarks](#benchmarks) · [Architecture](#architecture)
 
 </div>
+
+---
+
+## At a Glance
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
+block-beta
+    columns 5
+
+    block:input:1
+        columns 1
+        A["Image"]
+    end
+
+    space
+
+    block:process:1
+        columns 1
+        B["QRAISC<br>4-Tier Decode"]
+    end
+
+    space
+
+    block:output:1
+        columns 1
+        C["Content"]
+        D["Score"]
+        E["Metadata"]
+    end
+
+    A --> B
+    B --> C
+    B --> D
+    B --> E
+
+    style A fill:#06b6d4,stroke:#0891b2,color:#ffffff
+    style B fill:#6366f1,stroke:#4f46e5,color:#ffffff
+    style C fill:#10b981,stroke:#059669,color:#ffffff
+    style D fill:#f59e0b,stroke:#d97706,color:#ffffff
+    style E fill:#8b5cf6,stroke:#7c3aed,color:#ffffff
+```
 
 ---
 
@@ -184,6 +226,16 @@ flowchart TD
 
 ### Test Results: 74 Artistic QR Codes
 
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
+pie showData
+    accTitle: QRAISC Success Rate
+    accDescr: 89.2% of artistic QR codes successfully decoded
+    title Success Rate (74 Artistic QRs)
+    "Decoded" : 66
+    "Failed" : 8
+```
+
 | Metric | Value | Notes |
 |--------|-------|-------|
 | **Success Rate** | 66/74 (89.2%) | vs ~10% for standard scanners |
@@ -191,25 +243,61 @@ flowchart TD
 | **Fastest** | 77ms | Clean QRs (Tier 1) |
 | **P95** | ~2000ms | Artistic QRs (Tier 3-4) |
 
-### Speed Distribution
+### Speed Distribution by Tier
 
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
+pie showData
+    accTitle: Speed Distribution
+    accDescr: Distribution of QR codes across speed tiers
+    title Decode Time Distribution
+    "Tier 1 - Instant (<200ms)" : 15
+    "Tier 2 - Fast (200-500ms)" : 9
+    "Tier 3 - Medium (500-1500ms)" : 33
+    "Tier 4 - Slow (>1500ms)" : 9
+    "Failed" : 8
 ```
-Tier 1 - INSTANT  (<200ms)   ████████████████░░░░ 15 (20%)  Clean QRs
-Tier 2 - FAST    (200-500ms) █████████░░░░░░░░░░░  9 (12%)  Light preprocessing
-Tier 3 - MEDIUM  (500-1500ms)████████████████████ 33 (45%)  Parallel processing
-Tier 4 - SLOW    (>1500ms)   █████████░░░░░░░░░░░  9 (12%)  Brute force
-        FAILED               ████████░░░░░░░░░░░░  8 (11%)  Unscannable
+
+### Optimization Journey
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
+xychart-beta
+    accTitle: Performance Optimization Timeline
+    accDescr: Shows the 11x improvement in decode time
+    title "Average Decode Time (ms)"
+    x-axis ["Initial", "Phase 1", "Phase 2", "Phase 3", "Phase 4"]
+    y-axis "Time (ms)" 0 --> 8000
+    bar [8000, 2000, 1500, 1000, 967]
 ```
 
-### Optimization History
+| Phase | Strategy | Time | Speedup |
+|-------|----------|------|---------|
+| Initial | Baseline | 5-11s | — |
+| Phase 1 | Remove slow strategies | ~2s | 5x |
+| Phase 2 | Single luma8 conversion | ~1.5s | 7x |
+| Phase 3 | Strategy reordering | ~1s | 10x |
+| Phase 4 | Rayon parallelization | ~967ms | **11x** |
 
-| Phase | Time | Improvement |
-|-------|------|-------------|
-| Initial | 5-11s | Baseline |
-| Remove slow strategies | ~2s | 5x |
-| Single luma8 conversion | ~1.5s | 7x |
-| Strategy reordering | ~1s | 10x |
-| Rayon parallelization | ~967ms | **11x** |
+### Score Distribution Analysis
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
+quadrantChart
+    accTitle: QR Score vs Decode Time Analysis
+    accDescr: Shows relationship between score and processing time
+    title Score vs Time Quadrant
+    x-axis Low Score --> High Score
+    y-axis Fast --> Slow
+    quadrant-1 Perfect (High Score, Fast)
+    quadrant-2 Artistic (High Score, Slow)
+    quadrant-3 Quick Fail (Low Score, Fast)
+    quadrant-4 Stubborn (Low Score, Slow)
+    Clean QRs: [0.85, 0.15]
+    Light Artistic: [0.75, 0.35]
+    Heavy Artistic: [0.65, 0.70]
+    Failed: [0.15, 0.55]
+```
 
 ---
 
@@ -473,6 +561,58 @@ flowchart LR
 | [rayon](https://crates.io/crates/rayon) | Parallel processing |
 | [napi](https://crates.io/crates/napi) | Node.js bindings |
 | [clap](https://crates.io/crates/clap) | CLI argument parsing |
+
+### Developer Journey
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
+journey
+    accTitle: Developer Experience with QRAISC
+    accDescr: Steps a developer takes to integrate QRAISC
+    title Developer Journey
+    section Installation
+      Add dependency: 5: Dev
+      Import library: 5: Dev
+    section Quick Validation
+      Load image bytes: 5: Dev
+      Call isValid(): 5: Dev, QRAISC
+      Get content: 5: Dev
+    section Production Check
+      Call score(): 4: Dev, QRAISC
+      Check threshold: 4: Dev
+      Deploy if ready: 5: Dev
+    section Advanced
+      Full validate(): 3: Dev, QRAISC
+      Analyze stress tests: 3: Dev
+      Optimize QR design: 4: Dev
+```
+
+### Score Decision Flow
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
+stateDiagram-v2
+    accTitle: Score-based Decision Flow
+    accDescr: How to decide based on scannability score
+
+    [*] --> Validate
+    Validate --> Score
+
+    Score --> Excellent: score >= 80
+    Score --> Good: 60-79
+    Score --> Fair: 40-59
+    Score --> Poor: < 40
+
+    Excellent --> Deploy: Safe for all devices
+    Good --> Deploy: Works on most
+    Fair --> Review: May fail on some
+    Poor --> Regenerate: Too risky
+
+    Deploy --> [*]
+    Review --> Regenerate: If critical
+    Review --> Deploy: If acceptable
+    Regenerate --> Validate: New QR
+```
 
 ---
 

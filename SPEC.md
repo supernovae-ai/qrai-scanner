@@ -27,21 +27,91 @@ QRAISC is a specialized QR code validation library designed to decode AI-generat
 
 ### Core Components
 
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
+mindmap
+  root((QRAISC))
+    Decoder
+      4-Tier Strategy
+        Tier 1: Original
+        Tier 2: Quick Trio
+        Tier 3: Parallel Pool
+        Tier 4: Brute Force
+      Dual Decoder
+        rxing Primary
+        rqrr Fallback
+      Preprocessing
+        Otsu Threshold
+        Color Channels
+        Contrast Adjust
+    Scorer
+      7 Stress Tests
+        Original
+        Downscale 50%
+        Downscale 25%
+        Blur Light
+        Blur Medium
+        Low Contrast
+        Multi-decoder
+      Score 0-100
+        Excellent 80+
+        Good 60-79
+        Fair 40-59
+        Poor 0-39
+    Types
+      ValidationResult
+      DecodeResult
+      QrMetadata
+      StressResults
+      QrSummary
+    Bindings
+      CLI clap
+      Node.js napi-rs
+      WASM planned
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                        QRAISC                               │
-├─────────────────────────────────────────────────────────────┤
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐ │
-│  │   Decoder   │  │   Scorer    │  │      Types          │ │
-│  │             │  │             │  │                     │ │
-│  │ • 4-tier    │  │ • 7 stress  │  │ • ValidationResult  │ │
-│  │ • rxing     │  │   tests     │  │ • QrMetadata        │ │
-│  │ • rqrr      │  │ • 0-100     │  │ • StressResults     │ │
-│  │ • parallel  │  │   score     │  │ • DecodeResult      │ │
-│  └─────────────┘  └─────────────┘  └─────────────────────┘ │
-├─────────────────────────────────────────────────────────────┤
-│  Bindings: CLI (clap) │ Node.js (napi-rs)                   │
-└─────────────────────────────────────────────────────────────┘
+
+### System Flow
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
+flowchart LR
+    accTitle: QRAISC System Flow
+    accDescr: End-to-end flow from input to output
+
+    classDef input fill:#06b6d4,stroke:#0891b2,stroke-width:2px,color:#ffffff
+    classDef process fill:#6366f1,stroke:#4f46e5,stroke-width:2px,color:#ffffff
+    classDef output fill:#10b981,stroke:#059669,stroke-width:2px,color:#ffffff
+
+    subgraph INPUT[" Input "]
+        I1[Image Bytes]:::input
+        I2[File Path]:::input
+    end
+
+    subgraph DECODE[" Decode "]
+        D1[4-Tier<br>Decoder]:::process
+    end
+
+    subgraph SCORE[" Score "]
+        S1[7 Stress<br>Tests]:::process
+    end
+
+    subgraph OUTPUT[" Output "]
+        O1[Content]:::output
+        O2[Score 0-100]:::output
+        O3[Metadata]:::output
+    end
+
+    I1 --> D1
+    I2 --> D1
+    D1 --> S1
+    D1 --> O1
+    S1 --> O2
+    D1 --> O3
+
+    style INPUT fill:#cffafe,stroke:#06b6d4,stroke-width:2px,color:#164e63
+    style DECODE fill:#e0e7ff,stroke:#6366f1,stroke-width:2px,color:#312e81
+    style SCORE fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#78350f
+    style OUTPUT fill:#d1fae5,stroke:#10b981,stroke-width:2px,color:#064e3b
 ```
 
 ### 4-Tier Decoding Strategy
@@ -234,6 +304,33 @@ Follows [Semantic Versioning](https://semver.org/):
 ---
 
 ## Roadmap
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
+gantt
+    accTitle: QRAISC Development Roadmap
+    accDescr: Timeline for upcoming features
+    title QRAISC Roadmap 2025
+    dateFormat YYYY-MM
+
+    section v0.1.x Current
+    Core decoder + scorer       :done, v01, 2025-01, 2025-01
+    Node.js bindings            :done, v01b, 2025-01, 2025-01
+    CLI tool                    :done, v01c, 2025-01, 2025-01
+    Performance optimization    :done, v01d, 2025-01, 2025-01
+
+    section v0.2.0 Planned
+    Async validation API        :v02a, 2025-02, 2025-02
+    WebAssembly target          :v02b, 2025-02, 2025-03
+    Batch validation            :v02c, 2025-03, 2025-03
+    Custom stress config        :v02d, 2025-03, 2025-03
+
+    section v0.3.0 Future
+    ML preprocessing hints      :v03a, 2025-04, 2025-05
+    QR region detection         :v03b, 2025-05, 2025-06
+    Multi-QR detection          :v03c, 2025-06, 2025-07
+    Video streaming API         :v03d, 2025-07, 2025-08
+```
 
 ### v0.2.0 (Planned)
 
