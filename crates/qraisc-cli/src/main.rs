@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 use clap::Parser;
 use qrai_core::{decode_only, validate, validate_fast, ValidationResult, DecodeResult};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::time::Instant;
 
 /// QRAI Validator - QR code validation and scannability scoring
@@ -53,10 +53,6 @@ mod colors {
     pub const CYAN: &str = "\x1b[36m";
     pub const WHITE: &str = "\x1b[37m";
 
-    pub const BG_RED: &str = "\x1b[41m";
-    pub const BG_GREEN: &str = "\x1b[42m";
-    pub const BG_YELLOW: &str = "\x1b[43m";
-    pub const BG_BLUE: &str = "\x1b[44m";
 }
 
 fn main() -> Result<()> {
@@ -130,29 +126,29 @@ fn main() -> Result<()> {
 
 fn print_banner() {
     println!(r#"
-{}{}   ___  ____      _    ___      {}{}
-{}{}  / _ \|  _ \    / \  |_ _|     {}{}
-{}{} | | | | |_) |  / _ \  | |      {}{}
-{}{} | |_| |  _ <  / ___ \ | |      {}{}
-{}{}  \__\_\_| \_\/_/   \_\___|     {}{}
-{}{}                                {}{}
-{}{}  ╔═══════════════════════════╗ {}{}
-{}{}  ║   QR CODE VALIDATOR       ║ {}{}
-{}{}  ╚═══════════════════════════╝ {}{}
+{}{}   ___  ____      _    ___      {}
+{}{}  / _ \|  _ \    / \  |_ _|     {}
+{}{} | | | | |_) |  / _ \  | |      {}
+{}{} | |_| |  _ <  / ___ \ | |      {}
+{}{}  \__\_\_| \_\/_/   \_\___|     {}
+{}                                {}
+{}  ╔═══════════════════════════╗ {}
+{}  ║   QR CODE VALIDATOR       ║ {}
+{}  ╚═══════════════════════════╝ {}
 "#,
-        colors::BOLD, colors::CYAN, colors::RESET, "",
-        colors::BOLD, colors::CYAN, colors::RESET, "",
-        colors::BOLD, colors::CYAN, colors::RESET, "",
-        colors::BOLD, colors::CYAN, colors::RESET, "",
-        colors::BOLD, colors::CYAN, colors::RESET, "",
-        colors::DIM, "", colors::RESET, "",
-        colors::YELLOW, "", colors::RESET, "",
-        colors::YELLOW, "", colors::RESET, "",
-        colors::YELLOW, "", colors::RESET, "",
+        colors::BOLD, colors::CYAN, colors::RESET,
+        colors::BOLD, colors::CYAN, colors::RESET,
+        colors::BOLD, colors::CYAN, colors::RESET,
+        colors::BOLD, colors::CYAN, colors::RESET,
+        colors::BOLD, colors::CYAN, colors::RESET,
+        colors::DIM, colors::RESET,
+        colors::YELLOW, colors::RESET,
+        colors::YELLOW, colors::RESET,
+        colors::YELLOW, colors::RESET,
     );
 }
 
-fn print_decode_result(result: &DecodeResult, path: &PathBuf, time_ms: u64) {
+fn print_decode_result(result: &DecodeResult, path: &Path, time_ms: u64) {
     println!("{}╔══════════════════════════════════════════════════════════════════╗{}",
         colors::GREEN, colors::RESET);
     println!("{}║  {}✓ QR CODE DECODED{}                                               ║{}",
@@ -202,7 +198,7 @@ fn print_decode_result(result: &DecodeResult, path: &PathBuf, time_ms: u64) {
     println!();
 }
 
-fn print_validation_result(result: &ValidationResult, path: &PathBuf, time_ms: u64, fast_mode: bool) {
+fn print_validation_result(result: &ValidationResult, path: &Path, time_ms: u64, fast_mode: bool) {
     let score = result.score;
     let (score_color, score_emoji, score_label) = get_score_style(score);
 
@@ -311,8 +307,6 @@ fn print_score_bar(score: u8) {
 
     let score_color = if score >= 80 {
         colors::GREEN
-    } else if score >= 60 {
-        colors::YELLOW
     } else if score >= 40 {
         colors::YELLOW
     } else {
@@ -378,10 +372,10 @@ fn print_score_bar(score: u8) {
 
     // Score indicator below
     let arrow_pos = (score as usize * bar_width) / 100 + 5;
-    println!("  {}{}{}▼{}{}",
+    println!("  {}{}{}▼{}",
         " ".repeat(arrow_pos),
         score_color, colors::BOLD,
-        colors::RESET, "");
+        colors::RESET);
 }
 
 fn print_stress_row(name: &str, passed: bool, enabled: bool) {
@@ -393,9 +387,9 @@ fn print_stress_row(name: &str, passed: bool, enabled: bool) {
         ("✗", "FAIL", colors::RED)
     };
 
-    println!("  {}│{}  {} {:<20} {}[{}]{}",
+    println!("  {}│{}  {}{}{} {:<20} {}[{}]{}",
         colors::MAGENTA, colors::RESET,
-        format!("{}{}{}", color, icon, colors::RESET),
+        color, icon, colors::RESET,
         name,
         color, status, colors::RESET);
 }
