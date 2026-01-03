@@ -128,10 +128,10 @@ pub fn multi_decode_image(img: &DynamicImage) -> Result<MultiDecodeResult> {
     }
 
     // ========================================================================
-    // TIER 4: Mini brute force (64 random combos) - last resort
-    // Reduced from 256 since most successes happen earlier
+    // TIER 4: Full brute force (256 random combos) - last resort
+    // Some images like 3eb25154 need many tries to find winning params
     // ========================================================================
-    if let Ok(result) = try_mini_brute_force(img, 64) {
+    if let Ok(result) = try_mini_brute_force(img, 256) {
         return Ok(result);
     }
 
