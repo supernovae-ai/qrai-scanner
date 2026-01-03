@@ -1,0 +1,144 @@
+# qraisc-core
+
+> Core Rust library for QRAISC - High-performance QR code validation and scannability scoring
+
+## Installation
+
+### From crates.io (recommended)
+
+```toml
+[dependencies]
+qraisc-core = "0.1"
+```
+
+### From GitHub
+
+```toml
+[dependencies]
+qraisc-core = { git = "https://github.com/supernovae-studio/qrai-scanner" }
+```
+
+### From local path
+
+```toml
+[dependencies]
+qraisc-core = { path = "../qrai-scanner/crates/qraisc-core" }
+```
+
+## Quick Start
+
+```rust
+use qraisc_core::{validate, is_valid, score};
+
+fn main() {
+    // Simple validation - just check if QR is readable
+    if let Some(content) = is_valid("qr.png") {
+        println!("QR contains: {}", content);
+    }
+
+    // Get scannability score (0-100)
+    let s = score("qr.png");
+    println!("Scannability: {}/100", s);
+
+    // Full validation with stress tests
+    let bytes = std::fs::read("qr.png").unwrap();
+    let result = validate(&bytes).unwrap();
+
+    println!("Score: {}", result.score);
+    println!("Content: {:?}", result.content);
+    println!("Stress tests: {:?}", result.stress_results);
+}
+```
+
+## API Reference
+
+### Main Functions
+
+| Function | Description | Returns |
+|----------|-------------|---------|
+| `validate(&[u8])` | Full validation with stress tests | `Result<ValidationResult>` |
+| `validate_fast(&[u8])` | Reduced stress tests (~2x faster) | `Result<ValidationResult>` |
+| `decode_only(&[u8])` | Decode without scoring (fastest) | `Result<DecodeResult>` |
+
+### Convenience Helpers
+
+| Function | Description | Returns |
+|----------|-------------|---------|
+| `is_valid(path)` | Check if QR is valid | `Option<String>` |
+| `score(path)` | Get scannability score | `u8` (0-100) |
+| `score_bytes(&[u8])` | Score from bytes | `u8` (0-100) |
+| `passes_threshold(path, min)` | Check minimum score | `bool` |
+| `summarize(path)` | Get simple summary | `QrSummary` |
+
+## Types
+
+### ValidationResult
+
+```rust
+pub struct ValidationResult {
+    pub score: u8,              // 0-100
+    pub decodable: bool,
+    pub content: Option<String>,
+    pub metadata: Option<QrMetadata>,
+    pub stress_results: StressResults,
+}
+```
+
+### QrMetadata
+
+```rust
+pub struct QrMetadata {
+    pub version: u8,            // 1-40
+    pub error_correction: ErrorCorrectionLevel,  // L, M, Q, H
+    pub modules: u8,            // Grid size (21-177)
+    pub decoders_success: Vec<String>,
+}
+```
+
+### StressResults
+
+```rust
+pub struct StressResults {
+    pub original: bool,
+    pub downscale_50: bool,
+    pub downscale_25: bool,
+    pub blur_light: bool,
+    pub blur_medium: bool,
+    pub low_contrast: bool,
+}
+```
+
+## Score Interpretation
+
+| Score | Rating | Description |
+|-------|--------|-------------|
+| 80-100 | Excellent | Safe for all devices and conditions |
+| 70-79 | Good | Production ready |
+| 60-69 | Acceptable | May fail on older phones |
+| 40-59 | Fair | Consider regenerating |
+| 0-39 | Poor | Needs redesign |
+
+## Error Handling
+
+```rust
+use qraisc_core::{validate, QraiError};
+
+match validate(&bytes) {
+    Ok(result) => println!("Score: {}", result.score),
+    Err(QraiError::ImageLoad(msg)) => eprintln!("Bad image: {}", msg),
+    Err(QraiError::DecodeFailed) => eprintln!("No QR found"),
+    Err(e) => eprintln!("Error: {}", e),
+}
+```
+
+## Performance
+
+| Operation | Clean QR | Artistic QR |
+|-----------|----------|-------------|
+| `decode_only` | ~20ms | ~200ms |
+| `validate_fast` | ~50ms | ~500ms |
+| `validate` | ~80ms | ~1000ms |
+
+## License
+
+MIT

@@ -484,25 +484,99 @@ interface QrSummary {
 
 ## Installation
 
-### Rust Library
+### Node.js (npm)
 
-```toml
-[dependencies]
-qraisc-core = { git = "https://github.com/SuperNovae-studio/qrai-scanner" }
+```bash
+# From npm (recommended)
+npm install @qrcodeai/qrai-scanner
+
+# From GitHub
+npm install github:supernovae-studio/qrai-scanner
+
+# Build from source
+git clone https://github.com/supernovae-studio/qrai-scanner.git
+cd qrai-scanner/crates/qraisc-node
+npm install && npm run build
+```
+
+Then use it:
+
+```typescript
+import { validate, isValid, score } from '@qrcodeai/qrai-scanner';
+import { readFileSync } from 'fs';
+
+const buffer = readFileSync('qr.png');
+console.log(`Score: ${score(buffer)}/100`);
 ```
 
 ### CLI Tool
 
 ```bash
-cargo install --path crates/qraisc-cli
+# From crates.io (when published)
+cargo install qraisc-cli
+
+# From GitHub
+cargo install --git https://github.com/supernovae-studio/qrai-scanner qraisc-cli
+
+# Build from source
+git clone https://github.com/supernovae-studio/qrai-scanner.git
+cd qrai-scanner
+cargo build --release -p qraisc-cli
+
+# Add to PATH (macOS/Linux)
+sudo cp target/release/qraisc /usr/local/bin/
 ```
 
-### Node.js Bindings
+Then use it:
 
 ```bash
-cd crates/qraisc-node
-npm install && npm run build
+qraisc image.png           # Full validation
+qraisc -s image.png        # Score only (for scripts)
+qraisc -j image.png        # JSON output
 ```
+
+### Rust Library
+
+```toml
+# From crates.io (when published)
+[dependencies]
+qraisc-core = "0.1"
+
+# From GitHub
+[dependencies]
+qraisc-core = { git = "https://github.com/supernovae-studio/qrai-scanner" }
+
+# From local path
+[dependencies]
+qraisc-core = { path = "../qrai-scanner/crates/qraisc-core" }
+```
+
+Then use it:
+
+```rust
+use qraisc_core::{validate, is_valid, score};
+
+fn main() {
+    // Simple check
+    if let Some(content) = is_valid("qr.png") {
+        println!("QR contains: {}", content);
+    }
+
+    // Get score
+    let s = score("qr.png");
+    println!("Score: {}/100", s);
+}
+```
+
+### Platform Support
+
+| Platform | Node.js | CLI | Rust |
+|----------|---------|-----|------|
+| macOS x64 | ✅ | ✅ | ✅ |
+| macOS arm64 (M1/M2) | ✅ | ✅ | ✅ |
+| Linux x64 | ✅ | ✅ | ✅ |
+| Linux arm64 | ✅ | ✅ | ✅ |
+| Windows x64 | ✅ | ✅ | ✅ |
 
 ---
 
