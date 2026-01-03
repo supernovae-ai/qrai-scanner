@@ -5,7 +5,7 @@ use image::{DynamicImage, Luma};
 fn main() {
     let content = std::env::args()
         .nth(1)
-        .unwrap_or_else(|| "https://qrcodeai.supernovae.studio".to_string());
+        .unwrap_or_else(|| "https://qrcode-ai.com".to_string());
     let output = std::env::args()
         .nth(2)
         .unwrap_or_else(|| "test-qr.png".to_string());

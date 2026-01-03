@@ -32,7 +32,7 @@ use std::env;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let content = args.get(1).map(|s| s.as_str()).unwrap_or("https://qrcodeai.supernovae.studio");
+    let content = args.get(1).map(|s| s.as_str()).unwrap_or("https://qrcode-ai.com");
     let output = args.get(2).map(|s| s.as_str()).unwrap_or("test-qr.png");
 
     let code = QrCode::new(content.as_bytes()).unwrap();
@@ -55,7 +55,7 @@ cargo run --quiet --example gen_test_qr 2>/dev/null || {
 use image::{DynamicImage, Luma};
 
 fn main() {
-    let content = std::env::args().nth(1).unwrap_or_else(|| "https://qrcodeai.supernovae.studio".to_string());
+    let content = std::env::args().nth(1).unwrap_or_else(|| "https://qrcode-ai.com".to_string());
     let output = std::env::args().nth(2).unwrap_or_else(|| "test-qr.png".to_string());
 
     let code = qrcode::QrCode::new(content.as_bytes()).unwrap();
@@ -69,7 +69,7 @@ fn main() {
     eprintln!("✓ Generated: {} -> {}", content, output);
 }
 EOF
-    cargo run --quiet --example gen_test_qr -- "https://qrcodeai.supernovae.studio" "test-qr.png"
+    cargo run --quiet --example gen_test_qr -- "https://qrcode-ai.com" "test-qr.png"
 }
 
 echo ""

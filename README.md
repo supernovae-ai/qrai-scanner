@@ -8,7 +8,7 @@
 <strong>Decode the undecodable.</strong> Built for AI-generated and stylized QR codes that break standard scanners.
 </p>
 
-<p><em>Part of the <a href="https://qrcodeai.app">QR Code AI</a> ecosystem</em></p>
+<p><em>Part of the <a href="https://qrcode-ai.com">QR Code AI</a> ecosystem</em></p>
 
 [![Rust](https://img.shields.io/badge/Rust-1.75+-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue?logo=opensourceinitiative&logoColor=white)](LICENSE)
@@ -716,7 +716,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 <div align="center">
 
-**Built with Rust for [QR Code AI](https://qrcodeai.app)**
+**Built with Rust for [QR Code AI](https://qrcode-ai.com)**
 
 By **Thibaut** @ [SuperNovae Studio](https://supernovae.studio)
 
