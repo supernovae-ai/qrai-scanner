@@ -47,22 +47,17 @@ pub struct StressResults {
 }
 
 /// QR code error correction level
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
 pub enum ErrorCorrectionLevel {
     /// ~7% recovery capacity
     L,
-    /// ~15% recovery capacity
+    /// ~15% recovery capacity (default)
+    #[default]
     M,
     /// ~25% recovery capacity
     Q,
     /// ~30% recovery capacity
     H,
-}
-
-impl Default for ErrorCorrectionLevel {
-    fn default() -> Self {
-        Self::M
-    }
 }
 
 impl fmt::Display for ErrorCorrectionLevel {

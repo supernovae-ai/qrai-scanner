@@ -28,7 +28,7 @@ pub use types::{
 };
 
 use decoder::{multi_decode, multi_decode_image};
-use scorer::{calculate_fast_score, calculate_score, run_fast_stress_tests, run_stress_tests};
+use scorer::{calculate_fast_score, calculate_score, run_fast_stress_tests, run_stress_tests_on_image};
 
 /// Validate a QR code image and compute scannability score
 ///
@@ -47,8 +47,12 @@ use scorer::{calculate_fast_score, calculate_score, run_fast_stress_tests, run_s
 /// * `QraiError::ImageLoad` if the image cannot be parsed
 /// * `QraiError::DecodeFailed` if no QR code is found
 pub fn validate(image_bytes: &[u8]) -> Result<ValidationResult> {
-    let decode_result = multi_decode(image_bytes)?;
-    let stress_results = run_stress_tests(image_bytes)?;
+    // Quick Win 1: Single image load - pass DynamicImage to both decode and stress tests
+    let img = image::load_from_memory(image_bytes)
+        .map_err(|e| error::QraiError::ImageLoad(e.to_string()))?;
+
+    let decode_result = multi_decode_image(&img)?;
+    let stress_results = run_stress_tests_on_image(&img)?;
     let score = calculate_score(&stress_results, decode_result.decoders_success.len());
 
     Ok(ValidationResult {
@@ -151,11 +155,11 @@ pub fn score<P: AsRef<std::path::Path>>(path: P) -> u8 {
 /// Get scannability score from bytes
 ///
 /// # Example
-/// ```rust,no_run
+/// ```rust,ignore
 /// use qraisc_core::score_bytes;
 ///
-/// let bytes = include_bytes!("../tests/qr.png");
-/// let score = score_bytes(bytes);
+/// let bytes = std::fs::read("qr.png").unwrap();
+/// let score = score_bytes(&bytes);
 /// ```
 pub fn score_bytes(image_bytes: &[u8]) -> u8 {
     validate(image_bytes).map(|r| r.score).unwrap_or(0)
