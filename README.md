@@ -267,6 +267,133 @@ flowchart LR
 
 ---
 
+## Node.js Integration
+
+### Installation
+
+```bash
+cd crates/qraisc-node
+npm install && npm run build
+```
+
+### One-liner Examples
+
+```typescript
+import { isValid, score, isProductionReady, summarize } from '@qrcodeai/qrai-scanner';
+import { readFileSync } from 'fs';
+
+const buffer = readFileSync('qr.png');
+
+// Check if QR is valid
+const content = isValid(buffer);
+if (content) {
+  console.log(`QR contains: ${content}`);
+}
+
+// Get scannability score
+console.log(`Score: ${score(buffer)}/100`);
+
+// Check production readiness
+if (isProductionReady(buffer)) {
+  console.log('Ready for production!');
+}
+```
+
+### Full Validation
+
+```typescript
+import { validate, validateFast, decode } from '@qrcodeai/qrai-scanner';
+import { readFileSync } from 'fs';
+
+const buffer = readFileSync('qr.png');
+
+// Full validation with stress tests (~1s)
+const result = validate(buffer);
+console.log(`Score: ${result.score}/100`);
+console.log(`Content: ${result.content}`);
+console.log(`EC Level: ${result.errorCorrection}`);
+
+// Fast validation (~500ms)
+const fast = validateFast(buffer);
+
+// Decode only, no score (~100ms)
+const decoded = decode(buffer);
+```
+
+### Summary Helper
+
+```typescript
+import { summarize } from '@qrcodeai/qrai-scanner';
+
+const summary = summarize(readFileSync('qr.png'));
+
+console.log(summary);
+// {
+//   valid: true,
+//   score: 85,
+//   content: 'https://example.com',
+//   errorCorrection: 'H',
+//   rating: 'Excellent',
+//   productionReady: true
+// }
+
+if (summary.productionReady) {
+  await uploadToProduction(summary.content);
+}
+```
+
+### API Reference (Node.js)
+
+#### Core Functions
+
+| Function | Description | Performance |
+|----------|-------------|-------------|
+| `validate(buffer)` | Full validation with score | ~1s |
+| `validateFast(buffer)` | Reduced stress tests | ~500ms |
+| `decode(buffer)` | Just decode, no score | ~100ms |
+
+#### Convenience Helpers
+
+| Function | Description | Returns |
+|----------|-------------|---------|
+| `isValid(buffer)` | Check if valid | `string \| null` |
+| `score(buffer)` | Get score | `number (0-100)` |
+| `passesThreshold(buffer, min)` | Check threshold | `boolean` |
+| `isProductionReady(buffer)` | Score >= 70? | `boolean` |
+| `summarize(buffer)` | Get summary | `QrSummary` |
+| `getRating(score)` | Score to rating | `string` |
+
+#### Types
+
+```typescript
+interface ValidationResult {
+  score: number;              // 0-100
+  decodable: boolean;
+  content: string | null;
+  version: number | null;     // QR version 1-40
+  errorCorrection: string | null; // L/M/Q/H
+  modules: number | null;
+  decodersSuccess: string[];
+  stressOriginal: boolean;
+  stressDownscale50: boolean;
+  stressDownscale25: boolean;
+  stressBlurLight: boolean;
+  stressBlurMedium: boolean;
+  stressLowContrast: boolean;
+}
+
+interface QrSummary {
+  valid: boolean;
+  score: number;
+  content: string;
+  errorCorrection: string;
+  rating: string;           // Excellent/Good/Fair/Poor
+  productionReady: boolean; // score >= 70
+}
+```
+
+---
+
 ## Installation
 
 ### Rust Library

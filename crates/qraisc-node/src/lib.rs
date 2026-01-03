@@ -184,3 +184,160 @@ fn ec_to_string(ec: ErrorCorrectionLevel) -> String {
         ErrorCorrectionLevel::H => "H".to_string(),
     }
 }
+
+// ============================================================================
+// CONVENIENCE HELPERS - Simple one-liners for common tasks
+// ============================================================================
+
+/// Simple summary of QR validation
+#[napi(object)]
+pub struct QrSummary {
+    /// Whether the QR is valid and decodable
+    pub valid: bool,
+    /// Scannability score (0-100)
+    pub score: u8,
+    /// Decoded content (empty if invalid)
+    pub content: String,
+    /// Error correction level (L/M/Q/H or "N/A")
+    pub error_correction: String,
+    /// Human-readable rating (Excellent/Good/Fair/Poor)
+    pub rating: String,
+    /// Whether this QR is production-ready (score >= 70)
+    pub production_ready: bool,
+}
+
+/// Check if QR code is valid (returns content or null)
+///
+/// @example
+/// ```typescript
+/// const content = isValid(buffer);
+/// if (content) {
+///   console.log(`QR contains: ${content}`);
+/// }
+/// ```
+///
+/// @param imageBuffer - Raw image bytes (PNG, JPEG, etc.)
+/// @returns Decoded content string, or null if QR is invalid
+#[napi]
+pub fn is_valid(image_buffer: Buffer) -> Option<String> {
+    core_decode_only(&image_buffer).ok().map(|r| r.content)
+}
+
+/// Get scannability score (0-100)
+///
+/// @example
+/// ```typescript
+/// const s = score(buffer);
+/// console.log(`Scannability: ${s}/100`);
+/// ```
+///
+/// @param imageBuffer - Raw image bytes (PNG, JPEG, etc.)
+/// @returns Score from 0 (unreadable) to 100 (highly scannable)
+#[napi]
+pub fn score(image_buffer: Buffer) -> u8 {
+    core_validate(&image_buffer)
+        .map(|r| r.score)
+        .unwrap_or(0)
+}
+
+/// Check if QR meets minimum score threshold
+///
+/// @example
+/// ```typescript
+/// if (passesThreshold(buffer, 70)) {
+///   console.log('Production ready!');
+/// }
+/// ```
+///
+/// @param imageBuffer - Raw image bytes (PNG, JPEG, etc.)
+/// @param minScore - Minimum score required (0-100)
+/// @returns true if score >= minScore
+#[napi]
+pub fn passes_threshold(image_buffer: Buffer, min_score: u8) -> bool {
+    score(image_buffer) >= min_score
+}
+
+/// Get production readiness (score >= 70)
+///
+/// @example
+/// ```typescript
+/// if (isProductionReady(buffer)) {
+///   await uploadQr(buffer);
+/// }
+/// ```
+///
+/// @param imageBuffer - Raw image bytes (PNG, JPEG, etc.)
+/// @returns true if QR is production-ready
+#[napi]
+pub fn is_production_ready(image_buffer: Buffer) -> bool {
+    passes_threshold(image_buffer, 70)
+}
+
+/// Get simple summary of QR validation
+///
+/// @example
+/// ```typescript
+/// const summary = summarize(buffer);
+/// console.log(`${summary.rating}: ${summary.score}/100`);
+/// if (summary.productionReady) {
+///   console.log(`Content: ${summary.content}`);
+/// }
+/// ```
+///
+/// @param imageBuffer - Raw image bytes (PNG, JPEG, etc.)
+/// @returns QrSummary with all key info
+#[napi]
+pub fn summarize(image_buffer: Buffer) -> QrSummary {
+    match core_validate(&image_buffer) {
+        Ok(result) => {
+            let score_val = result.score;
+            let rating = match score_val {
+                80..=100 => "Excellent",
+                60..=79 => "Good",
+                40..=59 => "Fair",
+                _ => "Poor",
+            }
+            .to_string();
+
+            QrSummary {
+                valid: result.decodable,
+                score: score_val,
+                content: result.content.unwrap_or_default(),
+                error_correction: result
+                    .metadata
+                    .map(|m| ec_to_string(m.error_correction))
+                    .unwrap_or_else(|| "N/A".to_string()),
+                rating,
+                production_ready: score_val >= 70,
+            }
+        }
+        Err(_) => QrSummary {
+            valid: false,
+            score: 0,
+            content: String::new(),
+            error_correction: "N/A".to_string(),
+            rating: "Invalid".to_string(),
+            production_ready: false,
+        },
+    }
+}
+
+/// Get human-readable rating for a score
+///
+/// @example
+/// ```typescript
+/// const rating = getRating(85); // "Excellent"
+/// ```
+///
+/// @param score - Score from 0-100
+/// @returns Rating string (Excellent/Good/Fair/Poor)
+#[napi]
+pub fn get_rating(score: u8) -> String {
+    match score {
+        80..=100 => "Excellent",
+        60..=79 => "Good",
+        40..=59 => "Fair",
+        _ => "Poor",
+    }
+    .to_string()
+}
