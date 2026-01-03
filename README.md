@@ -1,113 +1,175 @@
-# QRAI Validator
+# QRAISC - QR AI Scanner
 
 <div align="center">
 
-![Rust](https://img.shields.io/badge/Rust-1.75+-orange?logo=rust)
-![License](https://img.shields.io/badge/License-MIT-blue)
-![Performance](https://img.shields.io/badge/Avg%20Decode-967ms-green)
-![Success Rate](https://img.shields.io/badge/Success%20Rate-89.2%25-brightgreen)
+<h3>High-Performance QR Code Validation for Artistic QR Codes</h3>
 
-**High-performance QR code validation and scannability scoring for artistic QR codes**
+<p>
+<strong>Decode the undecodable.</strong> Built for AI-generated and stylized QR codes that break standard scanners.
+</p>
 
-[Features](#features) • [Installation](#installation) • [Usage](#usage) • [Benchmarks](#benchmarks) • [Architecture](#architecture)
+<p><em>Part of the <a href="https://qrcodeai.app">QR Code AI</a> ecosystem</em></p>
+
+[![Rust](https://img.shields.io/badge/Rust-1.75+-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
+[![License](https://img.shields.io/badge/License-MIT-blue?logo=opensourceinitiative&logoColor=white)](LICENSE)
+[![Success Rate](https://img.shields.io/badge/Success_Rate-89.2%25-brightgreen?logo=checkmarx&logoColor=white)](README.md#benchmarks)
+[![Avg Time](https://img.shields.io/badge/Avg_Time-967ms-green?logo=speedtest&logoColor=white)](README.md#benchmarks)
+[![Node.js](https://img.shields.io/badge/Node.js-Bindings-339933?logo=nodedotjs&logoColor=white)](README.md#nodejs)
+[![crates.io](https://img.shields.io/badge/crates.io-qraisc--core-orange?logo=rust&logoColor=white)](https://crates.io/crates/qraisc-core)
+
+<br>
+
+[Quick Start](#quick-start) · [Why QRAI?](#why-qrai) · [API Reference](#api-reference) · [Benchmarks](#benchmarks) · [Architecture](#architecture)
 
 </div>
 
 ---
 
-## Features
+## Quick Start
 
-- **Multi-Decoder Engine** — Dual decoder system (rxing + rqrr) with automatic fallback
-- **Tiered Strategy** — 4-tier progressive decoding from instant to brute-force
-- **Artistic QR Support** — Optimized for AI-generated and stylized QR codes
-- **Scannability Score** — 0-100 score based on real-world stress tests
-- **Parallel Processing** — Rayon-powered parallel preprocessing with early exit
-- **Node.js Bindings** — Native napi-rs integration for JavaScript/TypeScript
-- **CLI Tool** — Command-line interface with colored output
+### One-liner Rust
+
+```rust
+use qraisc_core::is_valid;
+
+// Check if QR is valid and get content
+if let Some(content) = is_valid("qr.png") {
+    println!("QR contains: {}", content);
+}
+```
+
+### Score Check
+
+```rust
+use qraisc_core::{score, passes_threshold};
+
+// Get scannability score (0-100)
+let s = score("qr.png");
+println!("Score: {}/100", s);
+
+// Check if production-ready (score >= 70)
+if passes_threshold("qr.png", 70) {
+    println!("Ready for production!");
+}
+```
+
+### Full Validation
+
+```rust
+use qraisc_core::validate;
+
+let bytes = std::fs::read("qr.png")?;
+let result = validate(&bytes)?;
+
+println!("Score: {}", result.score);           // 0-100
+println!("Content: {:?}", result.content);      // Decoded text
+println!("Version: {:?}", result.metadata);     // QR metadata
+```
+
+### Node.js
+
+```typescript
+import { validate, decode } from '@qrcodeai/qrai-scanner';
+import { readFileSync } from 'fs';
+
+const result = validate(readFileSync('qr.png'));
+console.log(`Score: ${result.score}/100`);
+console.log(`Content: ${result.content}`);
+```
+
+### CLI
+
+```bash
+# Full validation (JSON)
+qraisc image.png
+
+# Score only (for scripts)
+qraisc -s image.png    # Output: 85
+
+# Decode only (fast)
+qraisc -d image.png
+```
 
 ---
 
-## Performance
+## Why QRAISC?
 
-### Benchmark Results (74 Artistic QR Codes)
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
+flowchart LR
+    accTitle: Why QRAISC Scanner
+    accDescr: Comparison between standard scanners and QRAISC
 
-| Metric | Value |
-|--------|-------|
-| **Success Rate** | 66/74 (89.2%) |
-| **Average Time** | 967ms |
-| **Fastest** | 77ms (clean QRs) |
-| **Target** | <200ms (clean), <1000ms (artistic) |
+    classDef success fill:#10b981,stroke:#059669,stroke-width:2px,color:#ffffff
+    classDef error fill:#ef4444,stroke:#dc2626,stroke-width:2px,color:#ffffff
+    classDef process fill:#6366f1,stroke:#4f46e5,stroke-width:2px,color:#ffffff
+    classDef data fill:#06b6d4,stroke:#0891b2,stroke-width:2px,color:#ffffff
 
-### Speed Tiers
+    ART[Artistic QR]:::data --> STD[Standard Scanner]:::process
+    ART --> QRAISC[QRAISC Scanner]:::process
 
+    STD --> FAIL[11% Success]:::error
+    QRAISC --> WIN[89% Success]:::success
 ```
-⚡ FAST    (<200ms)   │████████████████░░░░│ 15 images (20%)
-🟢 GOOD   (200-500ms) │█████████░░░░░░░░░░░│  9 images (12%)
-🟡 MEDIUM (500-1500ms)│████████████████████│ 33 images (45%)
-🔴 SLOW   (>1500ms)   │█████████░░░░░░░░░░░│  9 images (12%)
-❌ FAILED             │████████░░░░░░░░░░░░│  8 images (11%)
-```
 
-### Before/After Optimization
+### The Problem
 
-| Phase | Artistic QR Time | Improvement |
-|-------|-----------------|-------------|
-| Initial | 5-11 seconds | baseline |
-| Phase 1: Remove slow strategies | ~2 seconds | 5x faster |
-| Phase 2: Single luma8 conversion | ~1.5 seconds | 7x faster |
-| Phase 3: Strategy reordering | ~1 second | 10x faster |
-| Phase 4: Rayon parallelization | ~967ms | **11x faster** |
+AI-generated and artistic QR codes break standard scanners:
 
----
+| Challenge | Why Scanners Fail |
+|-----------|-------------------|
+| **Low Contrast** | Artistic elements blend with QR modules |
+| **Color Interference** | Non-black/white colors confuse binarization |
+| **Central Obstructions** | Large logos covering the data area |
+| **Texture Noise** | Gradients and patterns create false edges |
 
-## Architecture
+### The Solution
 
-### Tiered Decoder Flow
+QRAISC uses a **4-tier progressive decoding strategy** that applies increasingly aggressive preprocessing until successful decode:
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
 flowchart TD
-    accTitle: QRAI Validator Tiered Decoder Architecture
-    accDescr: Shows the 4-tier strategy for decoding QR codes
+    accTitle: QRAI 4-Tier Decoding Strategy
+    accDescr: Progressive decoding from fast to thorough
 
     classDef success fill:#10b981,stroke:#059669,stroke-width:2px,color:#ffffff
     classDef process fill:#6366f1,stroke:#4f46e5,stroke-width:2px,color:#ffffff
     classDef decision fill:#f59e0b,stroke:#d97706,stroke-width:2px,color:#ffffff
     classDef error fill:#ef4444,stroke:#dc2626,stroke-width:2px,color:#ffffff
-    classDef info fill:#8b5cf6,stroke:#7c3aed,stroke-width:2px,color:#ffffff
     classDef data fill:#06b6d4,stroke:#0891b2,stroke-width:2px,color:#ffffff
 
     INPUT[QR Image]:::data --> T1
 
-    subgraph TIER1[" TIER 1 - Original ~80ms "]
-        T1[Try Original]:::process --> D1{OK?}:::decision
+    subgraph TIER1[" Tier 1: Original ~80ms "]
+        T1[Direct Decode]:::process --> D1{OK?}:::decision
     end
 
     D1 -->|Yes| SUCCESS
     D1 -->|No| T2
 
-    subgraph TIER2[" TIER 2 - Quick Trio ~100ms "]
-        T2[Otsu + Inverted + High Contrast]:::process --> D2{OK?}:::decision
+    subgraph TIER2[" Tier 2: Quick Trio ~100ms "]
+        T2[Otsu + Invert + Contrast]:::process --> D2{OK?}:::decision
     end
 
     D2 -->|Yes| SUCCESS
     D2 -->|No| T3
 
-    subgraph TIER3[" TIER 3 - Parallel Pool ~500ms "]
-        T3[Known Params + Color Channels]:::process --> D3{OK?}:::decision
+    subgraph TIER3[" Tier 3: Parallel Pool ~500ms "]
+        T3[R/G/B + HSV + Grayscale]:::process --> D3{OK?}:::decision
     end
 
     D3 -->|Yes| SUCCESS
     D3 -->|No| T4
 
-    subgraph TIER4[" TIER 4 - Brute Force ~2000ms "]
-        T4[256 Random Combos]:::info --> D4{OK?}:::decision
+    subgraph TIER4[" Tier 4: Brute Force ~2s "]
+        T4[256 Random Combinations]:::process --> D4{OK?}:::decision
     end
 
     D4 -->|Yes| SUCCESS
     D4 -->|No| FAIL
 
-    SUCCESS[Decoded + Score]:::success
+    SUCCESS[Decoded!]:::success
     FAIL[Unscannable]:::error
 
     style TIER1 fill:#d1fae5,stroke:#10b981,stroke-width:2px,color:#064e3b
@@ -116,126 +178,70 @@ flowchart TD
     style TIER4 fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#78350f
 ```
 
-### Project Structure
+---
+
+## Benchmarks
+
+### Test Results: 74 Artistic QR Codes
+
+| Metric | Value | Notes |
+|--------|-------|-------|
+| **Success Rate** | 66/74 (89.2%) | vs ~10% for standard scanners |
+| **Average Time** | 967ms | Includes all tiers |
+| **Fastest** | 77ms | Clean QRs (Tier 1) |
+| **P95** | ~2000ms | Artistic QRs (Tier 3-4) |
+
+### Speed Distribution
 
 ```
-qrai-scanner/
-├── crates/
-│   ├── qraisc-core/          # Core library
-│   │   ├── src/
-│   │   │   ├── decoder.rs  # Multi-decoder + tiered strategies
-│   │   │   ├── scorer.rs   # Stress tests + scoring
-│   │   │   ├── types.rs    # ValidationResult, QrMetadata
-│   │   │   └── error.rs    # Error types
-│   │   └── Cargo.toml
-│   ├── qraisc-cli/         # CLI binary
-│   └── qraisc-node/          # Node.js bindings (napi-rs)
-├── test-images/            # Benchmark QR codes
-├── scripts/                # Benchmark & test scripts
-└── docs/                   # Design documents
+Tier 1 - INSTANT  (<200ms)   ████████████████░░░░ 15 (20%)  Clean QRs
+Tier 2 - FAST    (200-500ms) █████████░░░░░░░░░░░  9 (12%)  Light preprocessing
+Tier 3 - MEDIUM  (500-1500ms)████████████████████ 33 (45%)  Parallel processing
+Tier 4 - SLOW    (>1500ms)   █████████░░░░░░░░░░░  9 (12%)  Brute force
+        FAILED               ████████░░░░░░░░░░░░  8 (11%)  Unscannable
 ```
 
-### Preprocessing Strategies
+### Optimization History
 
-| Tier | Strategy | Time Budget | Description |
-|------|----------|-------------|-------------|
-| 1 | Original | ~80ms | Direct decode, no preprocessing |
-| 2 | Quick Trio | ~100ms | Otsu threshold, inverted, high contrast |
-| 3 | Parallel Pool | ~500ms | Color channels (R/G/B/Sat), HSV, custom grayscale |
-| 4 | Brute Force | ~2000ms | 256 random combos: size, contrast, blur, grayscale |
+| Phase | Time | Improvement |
+|-------|------|-------------|
+| Initial | 5-11s | Baseline |
+| Remove slow strategies | ~2s | 5x |
+| Single luma8 conversion | ~1.5s | 7x |
+| Strategy reordering | ~1s | 10x |
+| Rayon parallelization | ~967ms | **11x** |
 
 ---
 
-## Installation
+## API Reference
 
-### CLI
+### Core Functions
 
-```bash
-cargo install --path crates/qraisc-cli
-```
+| Function | Description | Performance |
+|----------|-------------|-------------|
+| `validate()` | Full validation with score | ~1s |
+| `validate_fast()` | Reduced stress tests | ~500ms |
+| `decode_only()` | Just decode, no score | ~100ms |
 
-### Node.js
+### Convenience Helpers
 
-```bash
-cd crates/qraisc-node
-npm install
-npm run build
-```
+| Function | Description | Returns |
+|----------|-------------|---------|
+| `is_valid(path)` | Check if QR is valid | `Option<String>` |
+| `score(path)` | Get scannability score | `u8 (0-100)` |
+| `score_bytes(bytes)` | Score from bytes | `u8 (0-100)` |
+| `passes_threshold(path, min)` | Check minimum score | `bool` |
+| `summarize(path)` | Get simple summary | `QrSummary` |
 
-### As Rust Library
+### Scannability Score
 
-```toml
-[dependencies]
-qraisc-core = { git = "https://github.com/SuperNovae-studio/qrai-scanner" }
-```
-
----
-
-## Usage
-
-### CLI
-
-```bash
-# Full validation with JSON output
-qraisc image.png
-
-# Pretty printed JSON
-qraisc -p image.png
-
-# Score only (for scripts)
-qraisc -s image.png
-# Output: 85
-
-# Decode only (fast, no stress tests)
-qraisc -d image.png
-```
-
-### Rust
-
-```rust
-use qraisc_core::validate;
-
-let image_bytes = std::fs::read("qr.png")?;
-let result = validate(&image_bytes)?;
-
-println!("Score: {}", result.score);
-println!("Content: {:?}", result.content);
-println!("Stress tests: {:?}", result.stress_results);
-```
-
-### Node.js
-
-```typescript
-import { validate, decode, validateScoreOnly } from '@qrcodeai/qrai-scanner';
-import { readFileSync } from 'fs';
-
-const imageBuffer = readFileSync('qr.png');
-
-// Full validation
-const result = validate(imageBuffer);
-console.log(`Score: ${result.score}`);
-console.log(`Content: ${result.content}`);
-
-// Fast decode (no stress tests)
-const decoded = decode(imageBuffer);
-console.log(`Content: ${decoded.content}`);
-
-// Score only
-const score = validateScoreOnly(imageBuffer);
-console.log(`Score: ${score}`);
-```
-
----
-
-## Scoring System
-
-The scannability score is computed by running the QR through stress tests:
+The score (0-100) indicates how reliably the QR will scan across devices:
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
 flowchart LR
-    accTitle: Stress Test Pipeline
-    accDescr: Shows the stress tests used for scoring
+    accTitle: Scannability Score Components
+    accDescr: How the score is calculated from stress tests
 
     classDef test fill:#6366f1,stroke:#4f46e5,stroke-width:2px,color:#ffffff
     classDef weight fill:#f59e0b,stroke:#d97706,stroke-width:2px,color:#ffffff
@@ -249,20 +255,97 @@ flowchart LR
     QR --> T6[Low Contrast<br>15pts]:::test
     QR --> T7[Multi-decoder<br>15pts]:::test
 
-    T1 & T2 & T3 & T4 & T5 & T6 & T7 --> SUM[Sum Passed]:::weight --> SCORE[Score 0-100]:::result
+    T1 & T2 & T3 & T4 & T5 & T6 & T7 --> SUM[Sum Points]:::weight --> SCORE[Score 0-100]:::result
 ```
 
-| Test | Weight | Description |
-|------|--------|-------------|
-| Original | 20 | Decode at original resolution |
-| Downscale 50% | 15 | Decode at half size |
-| Downscale 25% | 10 | Decode at quarter size |
-| Blur (light) | 15 | Decode with σ=1.0 Gaussian blur |
-| Blur (medium) | 10 | Decode with σ=2.0 Gaussian blur |
-| Low Contrast | 15 | Decode with 50% contrast reduction |
-| Multi-decoder | 15 | Bonus if both rxing and rqrr succeed |
+| Score | Rating | Production Use |
+|-------|--------|----------------|
+| 80-100 | Excellent | Safe for all devices |
+| 60-79 | Good | Works on most devices |
+| 40-59 | Fair | May fail on older phones |
+| 0-39 | Poor | Consider regenerating |
 
-**Score = (passed tests × weights) / total weight × 100**
+---
+
+## Installation
+
+### Rust Library
+
+```toml
+[dependencies]
+qraisc-core = { git = "https://github.com/SuperNovae-studio/qrai-scanner" }
+```
+
+### CLI Tool
+
+```bash
+cargo install --path crates/qraisc-cli
+```
+
+### Node.js Bindings
+
+```bash
+cd crates/qraisc-node
+npm install && npm run build
+```
+
+---
+
+## Architecture
+
+### Project Structure
+
+```
+qrai-scanner/
+├── crates/
+│   ├── qraisc-core/        # Core library (decoder, scorer, types)
+│   │   ├── src/
+│   │   │   ├── decoder.rs  # Multi-decoder + 4-tier strategy
+│   │   │   ├── scorer.rs   # Stress tests + scoring
+│   │   │   ├── types.rs    # ValidationResult, QrMetadata
+│   │   │   └── error.rs    # Error types
+│   │   └── Cargo.toml
+│   ├── qraisc-cli/         # CLI binary
+│   └── qraisc-node/        # Node.js napi-rs bindings
+├── test-qr-speed/          # Benchmark images (74 artistic QRs)
+├── scripts/                # Benchmark & test scripts
+└── docs/                   # Design documents
+```
+
+### Dual Decoder System
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
+flowchart LR
+    accTitle: Dual Decoder System
+    accDescr: rxing as primary, rqrr as fallback
+
+    classDef primary fill:#6366f1,stroke:#4f46e5,stroke-width:2px,color:#ffffff
+    classDef fallback fill:#8b5cf6,stroke:#7c3aed,stroke-width:2px,color:#ffffff
+    classDef success fill:#10b981,stroke:#059669,stroke-width:2px,color:#ffffff
+    classDef data fill:#06b6d4,stroke:#0891b2,stroke-width:2px,color:#ffffff
+
+    IMG[Preprocessed Image]:::data --> RXING[rxing<br>ZXing Port]:::primary
+    RXING -->|Success| DONE[Decoded]:::success
+    RXING -->|Fail| RQRR[rqrr<br>Quirc Port]:::fallback
+    RQRR --> DONE
+```
+
+| Decoder | Origin | Strength |
+|---------|--------|----------|
+| [rxing](https://crates.io/crates/rxing) | ZXing (Java) | Better on noisy images |
+| [rqrr](https://crates.io/crates/rqrr) | Quirc (C) | Faster on clean images |
+
+### Dependencies
+
+| Crate | Purpose |
+|-------|---------|
+| [rxing](https://crates.io/crates/rxing) | Primary QR decoder |
+| [rqrr](https://crates.io/crates/rqrr) | Fallback decoder |
+| [image](https://crates.io/crates/image) | Image loading & transforms |
+| [rayon](https://crates.io/crates/rayon) | Parallel processing |
+| [napi](https://crates.io/crates/napi) | Node.js bindings |
+| [clap](https://crates.io/crates/clap) | CLI argument parsing |
 
 ---
 
@@ -276,40 +359,11 @@ cargo test --workspace
 cargo build -p qraisc-cli --release
 
 # Run benchmarks
-bash scripts/benchmark-artistic.sh
+cargo bench -p qraisc-core
 
-# Format code
-cargo fmt --all
-
-# Lint
-cargo clippy --workspace
+# Format & lint
+cargo fmt --all && cargo clippy --workspace
 ```
-
----
-
-## Dependencies
-
-| Crate | Purpose |
-|-------|---------|
-| [rxing](https://crates.io/crates/rxing) | Primary QR decoder (ZXing port) |
-| [rqrr](https://crates.io/crates/rqrr) | Fallback decoder (Quirc port) |
-| [image](https://crates.io/crates/image) | Image loading & transforms |
-| [rayon](https://crates.io/crates/rayon) | Parallel processing |
-| [napi](https://crates.io/crates/napi) | Node.js bindings |
-| [clap](https://crates.io/crates/clap) | CLI argument parsing |
-
----
-
-## Why Artistic QRs Are Hard
-
-Artistic/AI-generated QR codes present unique challenges:
-
-1. **Low Contrast** — Artistic elements blend with QR modules
-2. **Color Interference** — Non-standard colors confuse decoders
-3. **Central Obstructions** — Large images covering data area
-4. **Texture Noise** — Gradients and patterns create false edges
-
-Our tiered approach handles 89% of artistic QRs by progressively applying more aggressive preprocessing until successful decode.
 
 ---
 
@@ -319,8 +373,10 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-## Author
+<div align="center">
 
-**Thibaut** @ [SuperNovae Studio](https://supernovae.studio)
+**Built with Rust for [QR Code AI](https://qrcodeai.app)**
 
-Built with Rust for [QR Code AI](https://qrcodeai.app)
+By **Thibaut** @ [SuperNovae Studio](https://supernovae.studio)
+
+</div>

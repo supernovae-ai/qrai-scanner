@@ -115,6 +115,104 @@ pub fn decode_from_path(path: &std::path::Path) -> Result<DecodeResult> {
     decode_only(&image_bytes)
 }
 
+// ============================================================================
+// CONVENIENCE HELPERS - Simple one-liners for common tasks
+// ============================================================================
+
+/// Check if a QR code is valid (returns content or None)
+///
+/// # Example
+/// ```rust,no_run
+/// use qraisc_core::is_valid;
+///
+/// if let Some(content) = is_valid("qr.png") {
+///     println!("QR contains: {}", content);
+/// }
+/// ```
+pub fn is_valid<P: AsRef<std::path::Path>>(path: P) -> Option<String> {
+    decode_from_path(path.as_ref()).ok().map(|r| r.content)
+}
+
+/// Get scannability score (0-100) for a QR code
+///
+/// # Example
+/// ```rust,no_run
+/// use qraisc_core::score;
+///
+/// let score = score("qr.png");
+/// println!("Scannability: {}/100", score);
+/// ```
+pub fn score<P: AsRef<std::path::Path>>(path: P) -> u8 {
+    validate_from_path(path.as_ref())
+        .map(|r| r.score)
+        .unwrap_or(0)
+}
+
+/// Get scannability score from bytes
+///
+/// # Example
+/// ```rust,no_run
+/// use qraisc_core::score_bytes;
+///
+/// let bytes = include_bytes!("../tests/qr.png");
+/// let score = score_bytes(bytes);
+/// ```
+pub fn score_bytes(image_bytes: &[u8]) -> u8 {
+    validate(image_bytes).map(|r| r.score).unwrap_or(0)
+}
+
+/// Check if QR meets minimum score threshold
+///
+/// # Example
+/// ```rust,no_run
+/// use qraisc_core::passes_threshold;
+///
+/// if passes_threshold("qr.png", 70) {
+///     println!("QR is production-ready!");
+/// }
+/// ```
+pub fn passes_threshold<P: AsRef<std::path::Path>>(path: P, min_score: u8) -> bool {
+    score(path) >= min_score
+}
+
+/// Validate and return a simple summary struct
+#[derive(Debug, Clone)]
+pub struct QrSummary {
+    pub valid: bool,
+    pub score: u8,
+    pub content: String,
+    pub error_correction: String,
+}
+
+/// Get a simple summary of QR validation
+///
+/// # Example
+/// ```rust,no_run
+/// use qraisc_core::summarize;
+///
+/// let summary = summarize("qr.png");
+/// println!("{:?}", summary);
+/// ```
+pub fn summarize<P: AsRef<std::path::Path>>(path: P) -> QrSummary {
+    match validate_from_path(path.as_ref()) {
+        Ok(result) => QrSummary {
+            valid: result.decodable,
+            score: result.score,
+            content: result.content.unwrap_or_default(),
+            error_correction: result
+                .metadata
+                .map(|m| format!("{:?}", m.error_correction))
+                .unwrap_or_else(|| "Unknown".to_string()),
+        },
+        Err(_) => QrSummary {
+            valid: false,
+            score: 0,
+            content: String::new(),
+            error_correction: "N/A".to_string(),
+        },
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
