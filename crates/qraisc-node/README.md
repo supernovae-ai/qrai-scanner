@@ -19,13 +19,13 @@ pnpm add @supernovae-ai/qrai-scanner
 ### From GitHub
 
 ```bash
-npm install github:supernovae-studio/qrai-scanner
+npm install github:SuperNovae-ai/qrai-scanner
 ```
 
 ### Build from source
 
 ```bash
-git clone https://github.com/supernovae-studio/qrai-scanner.git
+git clone https://github.com/SuperNovae-ai/qrai-scanner.git
 cd qrai-scanner/crates/qraisc-node
 npm install
 npm run build

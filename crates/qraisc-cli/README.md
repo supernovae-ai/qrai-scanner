@@ -13,13 +13,13 @@ cargo install qraisc-cli
 ### From GitHub
 
 ```bash
-cargo install --git https://github.com/supernovae-studio/qrai-scanner qraisc-cli
+cargo install --git https://github.com/SuperNovae-ai/qrai-scanner qraisc-cli
 ```
 
 ### Build from source
 
 ```bash
-git clone https://github.com/supernovae-studio/qrai-scanner.git
+git clone https://github.com/SuperNovae-ai/qrai-scanner.git
 cd qrai-scanner
 cargo build --release -p qraisc-cli
 # Binary at: target/release/qraisc

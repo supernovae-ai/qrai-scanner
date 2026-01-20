@@ -26,7 +26,7 @@ members = ["crates/*"]
 version = "0.1.0"
 edition = "2024"
 license = "MIT"
-repository = "https://github.com/SuperNovae-studio/qrai-scanner"
+repository = "https://github.com/SuperNovae-ai/qrai-scanner"
 
 [workspace.dependencies]
 # Decoders

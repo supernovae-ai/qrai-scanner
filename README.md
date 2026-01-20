@@ -491,10 +491,10 @@ interface QrSummary {
 npm install @supernovae-ai/qrai-scanner
 
 # From GitHub
-npm install github:supernovae-studio/qrai-scanner
+npm install github:SuperNovae-ai/qrai-scanner
 
 # Build from source
-git clone https://github.com/supernovae-studio/qrai-scanner.git
+git clone https://github.com/SuperNovae-ai/qrai-scanner.git
 cd qrai-scanner/crates/qraisc-node
 npm install && npm run build
 ```
@@ -516,10 +516,10 @@ console.log(`Score: ${score(buffer)}/100`);
 cargo install qraisc-cli
 
 # From GitHub
-cargo install --git https://github.com/supernovae-studio/qrai-scanner qraisc-cli
+cargo install --git https://github.com/SuperNovae-ai/qrai-scanner qraisc-cli
 
 # Build from source
-git clone https://github.com/supernovae-studio/qrai-scanner.git
+git clone https://github.com/SuperNovae-ai/qrai-scanner.git
 cd qrai-scanner
 cargo build --release -p qraisc-cli
 
@@ -544,7 +544,7 @@ qraisc-core = "0.1"
 
 # From GitHub
 [dependencies]
-qraisc-core = { git = "https://github.com/supernovae-studio/qrai-scanner" }
+qraisc-core = { git = "https://github.com/SuperNovae-ai/qrai-scanner" }
 
 # From local path
 [dependencies]

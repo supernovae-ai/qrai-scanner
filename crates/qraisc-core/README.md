@@ -147,7 +147,7 @@ Part of [**QR Code AI**](https://qrcode-ai.com) by **Thibaut MÉLEN** & [**Super
   <img src="https://avatars.githubusercontent.com/u/20891897?s=200&v=4" alt="Thibaut MÉLEN" width="32"/>
 </a>
 &nbsp;&nbsp;
-<a href="https://github.com/SuperNovae-studio">
+<a href="https://github.com/SuperNovae-ai">
   <img src="https://avatars.githubusercontent.com/u/33066282?s=200&v=4" alt="SuperNovae Studio" width="32"/>
 </a>
 
