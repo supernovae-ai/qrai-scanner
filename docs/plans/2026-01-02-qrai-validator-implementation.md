@@ -610,7 +610,7 @@ napi-build = "2"
 ### Task 8.2: Create package.json
 ```json
 {
-  "name": "@qrcodeai/qrai-scanner",
+  "name": "@supernovae/qrai-scanner",
   "version": "0.1.0",
   "main": "index.js",
   "types": "index.d.ts",

@@ -144,7 +144,7 @@ pub fn decode_only(image_bytes: &[u8]) -> Result<DecodeResult, QraiError>;
 ### Node.js (napi-rs)
 
 ```typescript
-import { validate } from '@qrcodeai/qrai-scanner';
+import { validate } from '@supernovae/qrai-scanner';
 
 const result = await validate(imageBuffer);
 // {

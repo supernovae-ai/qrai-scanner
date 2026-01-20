@@ -1,5 +1,5 @@
 {
-  "name": "@qrcodeai/qrai-scanner",
+  "name": "@supernovae/qrai-scanner",
   "version": "0.1.0",
   "description": "High-performance QR code validation and scannability scoring",
   "main": "index.js",

@@ -111,7 +111,7 @@ println!("Version: {:?}", result.metadata);     // QR metadata
 ### Node.js
 
 ```typescript
-import { validate, decode } from '@qrcodeai/qrai-scanner';
+import { validate, decode } from '@supernovae/qrai-scanner';
 import { readFileSync } from 'fs';
 
 const result = validate(readFileSync('qr.png'));
@@ -367,7 +367,7 @@ npm install && npm run build
 ### One-liner Examples
 
 ```typescript
-import { isValid, score, isProductionReady, summarize } from '@qrcodeai/qrai-scanner';
+import { isValid, score, isProductionReady, summarize } from '@supernovae/qrai-scanner';
 import { readFileSync } from 'fs';
 
 const buffer = readFileSync('qr.png');
@@ -390,7 +390,7 @@ if (isProductionReady(buffer)) {
 ### Full Validation
 
 ```typescript
-import { validate, validateFast, decode } from '@qrcodeai/qrai-scanner';
+import { validate, validateFast, decode } from '@supernovae/qrai-scanner';
 import { readFileSync } from 'fs';
 
 const buffer = readFileSync('qr.png');
@@ -411,7 +411,7 @@ const decoded = decode(buffer);
 ### Summary Helper
 
 ```typescript
-import { summarize } from '@qrcodeai/qrai-scanner';
+import { summarize } from '@supernovae/qrai-scanner';
 
 const summary = summarize(readFileSync('qr.png'));
 
@@ -488,7 +488,7 @@ interface QrSummary {
 
 ```bash
 # From npm (recommended)
-npm install @qrcodeai/qrai-scanner
+npm install @supernovae/qrai-scanner
 
 # From GitHub
 npm install github:supernovae-studio/qrai-scanner
@@ -502,7 +502,7 @@ npm install && npm run build
 Then use it:
 
 ```typescript
-import { validate, isValid, score } from '@qrcodeai/qrai-scanner';
+import { validate, isValid, score } from '@supernovae/qrai-scanner';
 import { readFileSync } from 'fs';
 
 const buffer = readFileSync('qr.png');
