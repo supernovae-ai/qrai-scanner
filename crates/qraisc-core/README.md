@@ -153,7 +153,7 @@ MIT
 
 <div align="center">
 
-Part of [QR Code AI](https://qrcode-ai.com) by [SuperNovae Studio](https://supernovae.studio)
+Part of [QR Code AI](https://qrcode-ai.com) by **Thibaut MELEN** & [SuperNovae AGI](https://supernovae.studio)
 
 <br/>
 
