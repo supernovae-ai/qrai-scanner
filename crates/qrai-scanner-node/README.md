@@ -2,7 +2,7 @@
 
 # @supernovae-ai/qrai-scanner
 
-**Node.js bindings for QRAISC - High-performance QR code validation**
+**Node.js bindings for qrai-scanner - High-performance QR code validation**
 
 [![npm](https://img.shields.io/npm/v/@supernovae-ai/qrai-scanner?style=flat-square&logo=npm&logoColor=white&color=red)](https://www.npmjs.com/package/@supernovae-ai/qrai-scanner)
 [![License](https://img.shields.io/npm/l/@supernovae-ai/qrai-scanner?style=flat-square&color=blue)](LICENSE)
@@ -35,7 +35,7 @@ npm install github:SuperNovae-ai/qrai-scanner
 
 ```bash
 git clone https://github.com/SuperNovae-ai/qrai-scanner.git
-cd qrai-scanner/crates/qraisc-node
+cd qrai-scanner/crates/qrai-scanner-node
 npm install
 npm run build
 ```
@@ -47,7 +47,7 @@ After building from source, you can use the package locally in several ways:
 **Option 1: npm link (symlink)**
 
 ```bash
-# In qraisc-node directory
+# In qrai-scanner-node directory
 npm link
 
 # In your project
@@ -57,7 +57,7 @@ npm link @supernovae-ai/qrai-scanner
 **Option 2: npm pack (tarball)**
 
 ```bash
-# In qraisc-node directory
+# In qrai-scanner-node directory
 npm pack  # Creates qrcodeai-qrai-scanner-0.1.0.tgz
 
 # In your project
@@ -69,7 +69,7 @@ npm install /path/to/qrcodeai-qrai-scanner-0.1.0.tgz
 ```json
 {
   "dependencies": {
-    "@supernovae-ai/qrai-scanner": "file:../qrai-scanner/crates/qraisc-node"
+    "@supernovae-ai/qrai-scanner": "file:../qrai-scanner/crates/qrai-scanner-node"
   }
 }
 ```
@@ -77,7 +77,7 @@ npm install /path/to/qrcodeai-qrai-scanner-0.1.0.tgz
 **Option 4: Direct require**
 
 ```javascript
-const scanner = require('/path/to/qrai-scanner/crates/qraisc-node');
+const scanner = require('/path/to/qrai-scanner/crates/qrai-scanner-node');
 ```
 
 ## Quick Start

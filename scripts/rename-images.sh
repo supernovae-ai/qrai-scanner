@@ -174,7 +174,7 @@ check_dependencies() {
   # Check for CLI binary
   if [[ ! -x "$CLI_BINARY" ]]; then
     log_error "CLI binary not found or not executable: $CLI_BINARY"
-    log_error "Run: cargo build -p qraisc-cli --release"
+    log_error "Run: cargo build -p qrai-scanner-cli --release"
     missing=1
   fi
 

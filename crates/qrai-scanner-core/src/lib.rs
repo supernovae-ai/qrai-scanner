@@ -8,7 +8,7 @@
 //! # Example
 //!
 //! ```rust,no_run
-//! use qraisc_core::validate;
+//! use qrai_scanner_core::validate;
 //!
 //! let image_bytes = std::fs::read("qr.png").unwrap();
 //! let result = validate(&image_bytes).unwrap();
@@ -127,7 +127,7 @@ pub fn decode_from_path(path: &std::path::Path) -> Result<DecodeResult> {
 ///
 /// # Example
 /// ```rust,no_run
-/// use qraisc_core::is_valid;
+/// use qrai_scanner_core::is_valid;
 ///
 /// if let Some(content) = is_valid("qr.png") {
 ///     println!("QR contains: {}", content);
@@ -141,7 +141,7 @@ pub fn is_valid<P: AsRef<std::path::Path>>(path: P) -> Option<String> {
 ///
 /// # Example
 /// ```rust,no_run
-/// use qraisc_core::score;
+/// use qrai_scanner_core::score;
 ///
 /// let score = score("qr.png");
 /// println!("Scannability: {}/100", score);
@@ -156,7 +156,7 @@ pub fn score<P: AsRef<std::path::Path>>(path: P) -> u8 {
 ///
 /// # Example
 /// ```rust,ignore
-/// use qraisc_core::score_bytes;
+/// use qrai_scanner_core::score_bytes;
 ///
 /// let bytes = std::fs::read("qr.png").unwrap();
 /// let score = score_bytes(&bytes);
@@ -169,7 +169,7 @@ pub fn score_bytes(image_bytes: &[u8]) -> u8 {
 ///
 /// # Example
 /// ```rust,no_run
-/// use qraisc_core::passes_threshold;
+/// use qrai_scanner_core::passes_threshold;
 ///
 /// if passes_threshold("qr.png", 70) {
 ///     println!("QR is production-ready!");
@@ -192,7 +192,7 @@ pub struct QrSummary {
 ///
 /// # Example
 /// ```rust,no_run
-/// use qraisc_core::summarize;
+/// use qrai_scanner_core::summarize;
 ///
 /// let summary = summarize("qr.png");
 /// println!("{:?}", summary);

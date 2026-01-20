@@ -1,4 +1,4 @@
-# qraisc-node - Node.js Bindings
+# qrai-scanner-node - Node.js Bindings
 
 Native Rust bindings for Node.js via napi-rs.
 
@@ -121,10 +121,10 @@ No npm registry needed. The `.node` binary is compiled locally:
 
 ```bash
 # In another project
-npm install ../qrai-scanner/crates/qraisc-node
+npm install ../qrai-scanner/crates/qrai-scanner-node
 
 # Or with npm link
-cd crates/qraisc-node && npm link
+cd crates/qrai-scanner-node && npm link
 cd your-project && npm link @supernovae-ai/qrai-scanner
 ```
 
@@ -135,7 +135,7 @@ cd your-project && npm link @supernovae-ai/qrai-scanner
 | `napi` | N-API bindings for Rust |
 | `napi-derive` | Procedural macros (`#[napi]`) |
 | `napi-build` | Build script helpers |
-| `qraisc-core` | Core QR validation logic |
+| `qrai-scanner-core` | Core QR validation logic |
 
 ## Performance
 

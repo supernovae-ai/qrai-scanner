@@ -41,7 +41,7 @@ Users need real-time feedback (<200ms) on whether their customized QR code is st
 │                        qrai-scanner                           │
 ├─────────────────────────────────────────────────────────────────┤
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
-│  │  qraisc-cli   │  │ qrai-node   │  │   (future)  │             │
+│  │  qrai-scanner-cli   │  │ qrai-node   │  │   (future)  │             │
 │  │   binary    │  │  napi-rs    │  │    wasm     │             │
 │  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘             │
 │         │                │                │                     │
@@ -209,7 +209,7 @@ qrai-scanner/
 │   │       ├── scorer.rs
 │   │       ├── error.rs
 │   │       └── preprocessing.rs
-│   ├── qraisc-cli/
+│   ├── qrai-scanner-cli/
 │   │   ├── Cargo.toml
 │   │   └── src/main.rs
 │   └── qrai-node/

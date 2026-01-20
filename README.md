@@ -15,7 +15,7 @@
 [![Success Rate](https://img.shields.io/badge/Success_Rate-89.2%25-brightgreen?logo=checkmarx&logoColor=white)](README.md#benchmarks)
 [![Avg Time](https://img.shields.io/badge/Avg_Time-967ms-green?logo=speedtest&logoColor=white)](README.md#benchmarks)
 [![Node.js](https://img.shields.io/badge/Node.js-Bindings-339933?logo=nodedotjs&logoColor=white)](README.md#nodejs)
-[![crates.io](https://img.shields.io/badge/crates.io-qraisc--core-orange?logo=rust&logoColor=white)](https://crates.io/crates/qraisc-core)
+[![crates.io](https://img.shields.io/badge/crates.io-qraisc--core-orange?logo=rust&logoColor=white)](https://crates.io/crates/qrai-scanner-core)
 
 <br>
 
@@ -72,7 +72,7 @@ block-beta
 ### One-liner Rust
 
 ```rust
-use qraisc_core::is_valid;
+use qrai_scanner_core::is_valid;
 
 // Check if QR is valid and get content
 if let Some(content) = is_valid("qr.png") {
@@ -83,7 +83,7 @@ if let Some(content) = is_valid("qr.png") {
 ### Score Check
 
 ```rust
-use qraisc_core::{score, passes_threshold};
+use qrai_scanner_core::{score, passes_threshold};
 
 // Get scannability score (0-100)
 let s = score("qr.png");
@@ -98,7 +98,7 @@ if passes_threshold("qr.png", 70) {
 ### Full Validation
 
 ```rust
-use qraisc_core::validate;
+use qrai_scanner_core::validate;
 
 let bytes = std::fs::read("qr.png")?;
 let result = validate(&bytes)?;
@@ -360,7 +360,7 @@ flowchart LR
 ### Installation
 
 ```bash
-cd crates/qraisc-node
+cd crates/qrai-scanner-node
 npm install && npm run build
 ```
 
@@ -495,7 +495,7 @@ npm install github:SuperNovae-ai/qrai-scanner
 
 # Build from source
 git clone https://github.com/SuperNovae-ai/qrai-scanner.git
-cd qrai-scanner/crates/qraisc-node
+cd qrai-scanner/crates/qrai-scanner-node
 npm install && npm run build
 ```
 
@@ -513,15 +513,15 @@ console.log(`Score: ${score(buffer)}/100`);
 
 ```bash
 # From crates.io (when published)
-cargo install qraisc-cli
+cargo install qrai-scanner-cli
 
 # From GitHub
-cargo install --git https://github.com/SuperNovae-ai/qrai-scanner qraisc-cli
+cargo install --git https://github.com/SuperNovae-ai/qrai-scanner qrai-scanner-cli
 
 # Build from source
 git clone https://github.com/SuperNovae-ai/qrai-scanner.git
 cd qrai-scanner
-cargo build --release -p qraisc-cli
+cargo build --release -p qrai-scanner-cli
 
 # Add to PATH (macOS/Linux)
 sudo cp target/release/qraisc /usr/local/bin/
@@ -540,21 +540,21 @@ qraisc -j image.png        # JSON output
 ```toml
 # From crates.io (when published)
 [dependencies]
-qraisc-core = "0.1"
+qrai-scanner-core = "0.1"
 
 # From GitHub
 [dependencies]
-qraisc-core = { git = "https://github.com/SuperNovae-ai/qrai-scanner" }
+qrai-scanner-core = { git = "https://github.com/SuperNovae-ai/qrai-scanner" }
 
 # From local path
 [dependencies]
-qraisc-core = { path = "../qrai-scanner/crates/qraisc-core" }
+qrai-scanner-core = { path = "../qrai-scanner/crates/qrai-scanner-core" }
 ```
 
 Then use it:
 
 ```rust
-use qraisc_core::{validate, is_valid, score};
+use qrai_scanner_core::{validate, is_valid, score};
 
 fn main() {
     // Simple check
@@ -587,15 +587,15 @@ fn main() {
 ```
 qrai-scanner/
 ├── crates/
-│   ├── qraisc-core/        # Core library (decoder, scorer, types)
+│   ├── qrai-scanner-core/        # Core library (decoder, scorer, types)
 │   │   ├── src/
 │   │   │   ├── decoder.rs  # Multi-decoder + 4-tier strategy
 │   │   │   ├── scorer.rs   # Stress tests + scoring
 │   │   │   ├── types.rs    # ValidationResult, QrMetadata
 │   │   │   └── error.rs    # Error types
 │   │   └── Cargo.toml
-│   ├── qraisc-cli/         # CLI binary
-│   └── qraisc-node/        # Node.js napi-rs bindings
+│   ├── qrai-scanner-cli/         # CLI binary
+│   └── qrai-scanner-node/        # Node.js napi-rs bindings
 ├── test-qr-speed/          # Benchmark images (74 artistic QRs)
 ├── scripts/                # Benchmark & test scripts
 └── docs/                   # Design documents
@@ -697,10 +697,10 @@ stateDiagram-v2
 cargo test --workspace
 
 # Build release
-cargo build -p qraisc-cli --release
+cargo build -p qrai-scanner-cli --release
 
 # Run benchmarks
-cargo bench -p qraisc-core
+cargo bench -p qrai-scanner-core
 
 # Format & lint
 cargo fmt --all && cargo clippy --workspace

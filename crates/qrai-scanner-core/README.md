@@ -1,13 +1,13 @@
 <div align="center">
 
-# qraisc-core
+# qrai-scanner-core
 
 **High-performance QR code validation and scannability scoring**
 
-[![Crates.io](https://img.shields.io/crates/v/qraisc-core?style=flat-square&logo=rust&logoColor=white&color=orange)](https://crates.io/crates/qraisc-core)
-[![Docs.rs](https://img.shields.io/docsrs/qraisc-core?style=flat-square&logo=docs.rs&logoColor=white)](https://docs.rs/qraisc-core)
-[![License](https://img.shields.io/crates/l/qraisc-core?style=flat-square&color=blue)](LICENSE)
-[![Downloads](https://img.shields.io/crates/d/qraisc-core?style=flat-square&color=green)](https://crates.io/crates/qraisc-core)
+[![Crates.io](https://img.shields.io/crates/v/qrai-scanner-core?style=flat-square&logo=rust&logoColor=white&color=orange)](https://crates.io/crates/qrai-scanner-core)
+[![Docs.rs](https://img.shields.io/docsrs/qrai-scanner-core?style=flat-square&logo=docs.rs&logoColor=white)](https://docs.rs/qrai-scanner-core)
+[![License](https://img.shields.io/crates/l/qrai-scanner-core?style=flat-square&color=blue)](LICENSE)
+[![Downloads](https://img.shields.io/crates/d/qrai-scanner-core?style=flat-square&color=green)](https://crates.io/crates/qrai-scanner-core)
 
 <br/>
 
@@ -38,13 +38,13 @@ Validate and score QR codes that standard scanners can't read:
 
 ```toml
 [dependencies]
-qraisc-core = "0.1"
+qrai-scanner-core = "0.1"
 ```
 
 ## Quick Start
 
 ```rust
-use qraisc_core::{validate, is_valid, score};
+use qrai_scanner_core::{validate, is_valid, score};
 
 fn main() {
     // Simple validation - just check if QR is readable

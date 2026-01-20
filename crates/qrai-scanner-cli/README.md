@@ -1,11 +1,11 @@
 <div align="center">
 
-# qraisc-cli
+# qrai-scanner-cli
 
 **Command-line QR code validator and scannability scorer**
 
-[![Crates.io](https://img.shields.io/crates/v/qraisc-cli?style=flat-square&logo=rust&logoColor=white&color=orange)](https://crates.io/crates/qraisc-cli)
-[![License](https://img.shields.io/crates/l/qraisc-cli?style=flat-square&color=blue)](LICENSE)
+[![Crates.io](https://img.shields.io/crates/v/qrai-scanner-cli?style=flat-square&logo=rust&logoColor=white&color=orange)](https://crates.io/crates/qrai-scanner-cli)
+[![License](https://img.shields.io/crates/l/qrai-scanner-cli?style=flat-square&color=blue)](LICENSE)
 
 *Validate AI-generated and artistic QR codes from the command line.*
 
@@ -18,13 +18,13 @@
 ### From crates.io (recommended)
 
 ```bash
-cargo install qraisc-cli
+cargo install qrai-scanner-cli
 ```
 
 ### From GitHub
 
 ```bash
-cargo install --git https://github.com/SuperNovae-ai/qrai-scanner qraisc-cli
+cargo install --git https://github.com/SuperNovae-ai/qrai-scanner qrai-scanner-cli
 ```
 
 ### Build from source
@@ -32,7 +32,7 @@ cargo install --git https://github.com/SuperNovae-ai/qrai-scanner qraisc-cli
 ```bash
 git clone https://github.com/SuperNovae-ai/qrai-scanner.git
 cd qrai-scanner
-cargo build --release -p qraisc-cli
+cargo build --release -p qrai-scanner-cli
 # Binary at: target/release/qraisc
 ```
 

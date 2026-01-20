@@ -1,5 +1,5 @@
 [package]
-name = "qraisc-node"
+name = "qrai-scanner-node"
 version.workspace = true
 edition.workspace = true
 description = "Node.js bindings for QR code validation"
@@ -10,7 +10,7 @@ repository.workspace = true
 crate-type = ["cdylib"]
 
 [dependencies]
-qraisc-core = { path = "../qraisc-core" }
+qrai-scanner-core = { path = "../qrai-scanner-core" }
 napi = "2"
 napi-derive = "2"
 

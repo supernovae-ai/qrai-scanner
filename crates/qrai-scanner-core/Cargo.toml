@@ -1,5 +1,5 @@
 [package]
-name = "qraisc-core"
+name = "qrai-scanner-core"
 version.workspace = true
 edition.workspace = true
 description = "High-performance QR code validation and scannability scoring for artistic QR codes"

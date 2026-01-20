@@ -517,10 +517,10 @@ pub fn decode_only(image_bytes: &[u8]) -> Result<DecodeResult, QraiError> {
 ## Batch 7: CLI Binary
 
 ### Task 7.1: Create CLI Crate
-File: `crates/qraisc-cli/Cargo.toml`
+File: `crates/qrai-scanner-cli/Cargo.toml`
 ```toml
 [package]
-name = "qraisc-cli"
+name = "qrai-scanner-cli"
 version.workspace = true
 edition.workspace = true
 
@@ -536,7 +536,7 @@ anyhow.workspace = true
 ```
 
 ### Task 7.2: Implement CLI
-File: `crates/qraisc-cli/src/main.rs`
+File: `crates/qrai-scanner-cli/src/main.rs`
 ```rust
 use clap::Parser;
 use qrai_core::{validate, decode_only};
@@ -579,7 +579,7 @@ fn main() -> anyhow::Result<()> {
 
 **Verification**:
 ```bash
-cargo build -p qraisc-cli
+cargo build -p qrai-scanner-cli
 ./target/debug/qrai-scanner test-images/clean/simple.png
 ```
 

@@ -202,7 +202,7 @@ rustc-hash = "1.1"
 
 After each phase, run:
 ```bash
-cargo build -p qraisc-cli --release
+cargo build -p qrai-scanner-cli --release
 time ./target/release/qraisc examples/qrcodes/qrcode-ai-*.png
 ```
 

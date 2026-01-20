@@ -271,7 +271,7 @@ qraisc -d <image>        # Decode only (fast)
 
 ### Benchmarks
 
-- `cargo bench -p qraisc-core`
+- `cargo bench -p qrai-scanner-core`
 - Criterion-based microbenchmarks
 - Full validation on 74 artistic QRs
 
