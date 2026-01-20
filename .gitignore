@@ -1,7 +1,30 @@
+# Build artifacts
 /target
-Cargo.lock
-*.swp
-.DS_Store
-node_modules/
 *.node
+
+# Dependencies
+node_modules/
+Cargo.lock
+
+# Editor
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
 .env
+.env.local
+
+# Test assets (too large for git)
+/test-qr-speed/
+
+# Root level npm (dev convenience only)
+/package.json
+/package-lock.json
+
+# Videos (use Git LFS or external hosting)
+*.mp4
