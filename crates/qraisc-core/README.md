@@ -139,7 +139,7 @@ MIT
 
 <div align="center">
 
-Part of [**QR Code AI**](https://qrcode-ai.com) by **Thibaut MÉLEN** & [**SuperNovae AGI**](https://supernovae.studio)
+Part of [**QR Code AI**](https://qrcode-ai.com) by **Thibaut MÉLEN** & [**SuperNovae Studio**](https://supernovae.studio)
 
 <br/>
 
@@ -148,7 +148,7 @@ Part of [**QR Code AI**](https://qrcode-ai.com) by **Thibaut MÉLEN** & [**Super
 </a>
 &nbsp;&nbsp;
 <a href="https://github.com/SuperNovae-studio">
-  <img src="https://avatars.githubusercontent.com/u/33066282?s=200&v=4" alt="SuperNovae AGI" width="32"/>
+  <img src="https://avatars.githubusercontent.com/u/33066282?s=200&v=4" alt="SuperNovae Studio" width="32"/>
 </a>
 
 </div>
