@@ -126,9 +126,13 @@ jobs:
           # List what we have
           find npm -name "*.node" -ls
 
-      - name: Publish to npm
+      - name: Prepare and publish to npm
         run: |
           cd crates/qrai-scanner-node
-          npm publish --access public
+          # Copy all .node files to root directory
+          find npm -name "*.node" -exec cp {} . \;
+          ls -la *.node
+          # Publish without prepublish hook
+          npm publish --access public --ignore-scripts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
