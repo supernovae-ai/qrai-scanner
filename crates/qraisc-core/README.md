@@ -2,7 +2,7 @@
 
 <div align="center">
 
-**High-performance QR code validation and scannability scoring for artistic QR codes**
+**High-performance QR code validation and scannability scoring**
 
 [![Crates.io](https://img.shields.io/crates/v/qraisc-core.svg)](https://crates.io/crates/qraisc-core)
 [![Documentation](https://docs.rs/qraisc-core/badge.svg)](https://docs.rs/qraisc-core)
@@ -10,19 +10,20 @@
 
 *Decode the undecodable. Built for AI-generated and stylized QR codes that break standard scanners.*
 
-<br/>
-
-<a href="https://github.com/ThibautMelen">
-  <img src="https://avatars.githubusercontent.com/u/20891897?s=200&v=4" alt="ThibautMelen" width="32"/>
-</a>
-&nbsp;&nbsp;
-<a href="https://github.com/SuperNovae-studio">
-  <img src="https://avatars.githubusercontent.com/u/33066282?s=200&v=4" alt="SuperNovae Studio" width="32"/>
-</a>
-
 </div>
 
 ---
+
+## What it does
+
+Validate and score QR codes that standard scanners can't read:
+
+- **Artistic QR codes** - AI-generated, stylized, custom designs
+- **Image QR codes** - QR embedded in photos, illustrations
+- **Custom QR codes** - Logos, colors, gradients, rounded corners
+- **Degraded QR codes** - Blurred, low contrast, small size
+
+Part of the [QR Code AI](https://qrcode-ai.com) ecosystem.
 
 ## Installation
 
@@ -52,7 +53,6 @@ fn main() {
 
     println!("Score: {}", result.score);
     println!("Content: {:?}", result.content);
-    println!("Stress tests: {:?}", result.stress_results);
 }
 ```
 
@@ -147,4 +147,22 @@ match validate(&bytes) {
 
 ## License
 
-MIT - Part of the [QR Code AI](https://qrcode-ai.com) ecosystem by [SuperNovae Studio](https://supernovae.studio)
+MIT
+
+---
+
+<div align="center">
+
+Part of [QR Code AI](https://qrcode-ai.com) by [SuperNovae Studio](https://supernovae.studio)
+
+<br/>
+
+<a href="https://github.com/ThibautMelen">
+  <img src="https://avatars.githubusercontent.com/u/20891897?s=200&v=4" alt="ThibautMelen" width="32"/>
+</a>
+&nbsp;&nbsp;
+<a href="https://github.com/SuperNovae-studio">
+  <img src="https://avatars.githubusercontent.com/u/33066282?s=200&v=4" alt="SuperNovae Studio" width="32"/>
+</a>
+
+</div>
