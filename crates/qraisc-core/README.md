@@ -1,28 +1,34 @@
 # qraisc-core
 
-> Core Rust library for QRAISC - High-performance QR code validation and scannability scoring
+<div align="center">
+
+**High-performance QR code validation and scannability scoring for artistic QR codes**
+
+[![Crates.io](https://img.shields.io/crates/v/qraisc-core.svg)](https://crates.io/crates/qraisc-core)
+[![Documentation](https://docs.rs/qraisc-core/badge.svg)](https://docs.rs/qraisc-core)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+*Decode the undecodable. Built for AI-generated and stylized QR codes that break standard scanners.*
+
+<br/>
+
+<a href="https://github.com/ThibautMelen">
+  <img src="https://avatars.githubusercontent.com/u/20891897?s=200&v=4" alt="ThibautMelen" width="32"/>
+</a>
+&nbsp;&nbsp;
+<a href="https://github.com/SuperNovae-studio">
+  <img src="https://avatars.githubusercontent.com/u/33066282?s=200&v=4" alt="SuperNovae Studio" width="32"/>
+</a>
+
+</div>
+
+---
 
 ## Installation
-
-### From crates.io (recommended)
 
 ```toml
 [dependencies]
 qraisc-core = "0.1"
-```
-
-### From GitHub
-
-```toml
-[dependencies]
-qraisc-core = { git = "https://github.com/supernovae-studio/qrai-scanner" }
-```
-
-### From local path
-
-```toml
-[dependencies]
-qraisc-core = { path = "../qrai-scanner/crates/qraisc-core" }
 ```
 
 ## Quick Start
@@ -141,4 +147,4 @@ match validate(&bytes) {
 
 ## License
 
-MIT
+MIT - Part of the [QR Code AI](https://qrcode-ai.com) ecosystem by [SuperNovae Studio](https://supernovae.studio)
