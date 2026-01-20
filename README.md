@@ -710,14 +710,22 @@ cargo fmt --all && cargo clippy --workspace
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
+MIT
 
 ---
 
 <div align="center">
 
-**Built with Rust for [QR Code AI](https://qrcode-ai.com)**
+Part of [**QR Code AI**](https://qrcode-ai.com) by **Thibaut MÉLEN** & [**SuperNovae Studio**](https://supernovae.studio)
 
-By **Thibaut** @ [SuperNovae Studio](https://supernovae.studio)
+<br/>
+
+<a href="https://github.com/ThibautMelen">
+  <img src="https://avatars.githubusercontent.com/u/20891897?s=200&v=4" alt="Thibaut MÉLEN" width="32"/>
+</a>
+&nbsp;&nbsp;
+<a href="https://github.com/SuperNovae-ai">
+  <img src="https://avatars.githubusercontent.com/u/33066282?s=200&v=4" alt="SuperNovae Studio" width="32"/>
+</a>
 
 </div>

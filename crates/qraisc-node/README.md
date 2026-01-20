@@ -1,8 +1,17 @@
+<div align="center">
+
 # @supernovae-ai/qrai-scanner
 
-> Node.js bindings for QRAISC - High-performance QR code validation and scannability scoring
+**Node.js bindings for QRAISC - High-performance QR code validation**
 
-Native Rust performance in Node.js via napi-rs. Validate AI-generated and artistic QR codes that break standard scanners.
+[![npm](https://img.shields.io/npm/v/@supernovae-ai/qrai-scanner?style=flat-square&logo=npm&logoColor=white&color=red)](https://www.npmjs.com/package/@supernovae-ai/qrai-scanner)
+[![License](https://img.shields.io/npm/l/@supernovae-ai/qrai-scanner?style=flat-square&color=blue)](LICENSE)
+
+*Native Rust performance in Node.js via napi-rs.<br/>Validate AI-generated and artistic QR codes that break standard scanners.*
+
+</div>
+
+<br/>
 
 ## Installation
 
@@ -327,3 +336,21 @@ Pre-built binaries for:
 ## License
 
 MIT
+
+---
+
+<div align="center">
+
+Part of [**QR Code AI**](https://qrcode-ai.com) by **Thibaut MÉLEN** & [**SuperNovae Studio**](https://supernovae.studio)
+
+<br/>
+
+<a href="https://github.com/ThibautMelen">
+  <img src="https://avatars.githubusercontent.com/u/20891897?s=200&v=4" alt="Thibaut MÉLEN" width="32"/>
+</a>
+&nbsp;&nbsp;
+<a href="https://github.com/SuperNovae-ai">
+  <img src="https://avatars.githubusercontent.com/u/33066282?s=200&v=4" alt="SuperNovae Studio" width="32"/>
+</a>
+
+</div>

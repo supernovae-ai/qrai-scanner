@@ -1,6 +1,17 @@
+<div align="center">
+
 # qraisc-cli
 
-> Command-line QR code validator and scannability scorer
+**Command-line QR code validator and scannability scorer**
+
+[![Crates.io](https://img.shields.io/crates/v/qraisc-cli?style=flat-square&logo=rust&logoColor=white&color=orange)](https://crates.io/crates/qraisc-cli)
+[![License](https://img.shields.io/crates/l/qraisc-cli?style=flat-square&color=blue)](LICENSE)
+
+*Validate AI-generated and artistic QR codes from the command line.*
+
+</div>
+
+<br/>
 
 ## Installation
 
@@ -199,3 +210,21 @@ qraisc -j image.png | jq '.stress_results'
 ## License
 
 MIT
+
+---
+
+<div align="center">
+
+Part of [**QR Code AI**](https://qrcode-ai.com) by **Thibaut MÉLEN** & [**SuperNovae Studio**](https://supernovae.studio)
+
+<br/>
+
+<a href="https://github.com/ThibautMelen">
+  <img src="https://avatars.githubusercontent.com/u/20891897?s=200&v=4" alt="Thibaut MÉLEN" width="32"/>
+</a>
+&nbsp;&nbsp;
+<a href="https://github.com/SuperNovae-ai">
+  <img src="https://avatars.githubusercontent.com/u/33066282?s=200&v=4" alt="SuperNovae Studio" width="32"/>
+</a>
+
+</div>

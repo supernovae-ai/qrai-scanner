@@ -2,7 +2,7 @@
 
 **Date**: 2026-01-02
 **Status**: Approved
-**Author**: Thibaut + Claude
+**Author**: Thibaut MÉLEN
 
 ---
 
