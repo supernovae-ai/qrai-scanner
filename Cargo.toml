@@ -7,7 +7,7 @@ version = "0.1.0"
 edition = "2021"
 license = "MIT"
 repository = "https://github.com/SuperNovae-studio/qrai-scanner"
-authors = ["Thibaut MELEN <thibaut@supernovae.studio>", "SuperNovae AGI"]
+authors = ["Thibaut MÉLEN <thibaut@supernovae.studio>", "SuperNovae AGI <contact@supernovae.studio>"]
 
 [workspace.dependencies]
 # Decoders
