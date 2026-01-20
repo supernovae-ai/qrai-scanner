@@ -125,7 +125,7 @@ npm install ../qrai-scanner/crates/qraisc-node
 
 # Or with npm link
 cd crates/qraisc-node && npm link
-cd your-project && npm link @supernovae/qrai-scanner
+cd your-project && npm link @supernovae-ai/qrai-scanner
 ```
 
 ## Key Dependencies

@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "@supernovae/qrai-scanner": "file:crates/qraisc-node"
+    "@supernovae-ai/qrai-scanner": "file:crates/qraisc-node"
   }
 }

@@ -1,4 +1,4 @@
-# @supernovae/qrai-scanner
+# @supernovae-ai/qrai-scanner
 
 > Node.js bindings for QRAISC - High-performance QR code validation and scannability scoring
 
@@ -9,11 +9,11 @@ Native Rust performance in Node.js via napi-rs. Validate AI-generated and artist
 ### From npm (recommended)
 
 ```bash
-npm install @supernovae/qrai-scanner
+npm install @supernovae-ai/qrai-scanner
 # or
-yarn add @supernovae/qrai-scanner
+yarn add @supernovae-ai/qrai-scanner
 # or
-pnpm add @supernovae/qrai-scanner
+pnpm add @supernovae-ai/qrai-scanner
 ```
 
 ### From GitHub
@@ -42,7 +42,7 @@ After building from source, you can use the package locally in several ways:
 npm link
 
 # In your project
-npm link @supernovae/qrai-scanner
+npm link @supernovae-ai/qrai-scanner
 ```
 
 **Option 2: npm pack (tarball)**
@@ -60,7 +60,7 @@ npm install /path/to/qrcodeai-qrai-scanner-0.1.0.tgz
 ```json
 {
   "dependencies": {
-    "@supernovae/qrai-scanner": "file:../qrai-scanner/crates/qraisc-node"
+    "@supernovae-ai/qrai-scanner": "file:../qrai-scanner/crates/qraisc-node"
   }
 }
 ```
@@ -75,7 +75,7 @@ const scanner = require('/path/to/qrai-scanner/crates/qraisc-node');
 
 ```javascript
 import { readFileSync } from 'fs';
-import { validate, isValid, score, summarize } from '@supernovae/qrai-scanner';
+import { validate, isValid, score, summarize } from '@supernovae-ai/qrai-scanner';
 
 const buffer = readFileSync('qr.png');
 
@@ -222,7 +222,7 @@ import type {
   ValidationResult,
   DecodeResult,
   QrSummary
-} from '@supernovae/qrai-scanner';
+} from '@supernovae-ai/qrai-scanner';
 
 const result: ValidationResult = validate(buffer);
 ```
@@ -234,7 +234,7 @@ const result: ValidationResult = validate(buffer);
 ```typescript
 import express from 'express';
 import multer from 'multer';
-import { validate, isProductionReady } from '@supernovae/qrai-scanner';
+import { validate, isProductionReady } from '@supernovae-ai/qrai-scanner';
 
 const app = express();
 const upload = multer();
@@ -261,7 +261,7 @@ app.post('/check', upload.single('qr'), (req, res) => {
 ```typescript
 import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
-import { score, getRating } from '@supernovae/qrai-scanner';
+import { score, getRating } from '@supernovae-ai/qrai-scanner';
 
 const qrDir = './qr-codes';
 const files = readdirSync(qrDir).filter(f => f.endsWith('.png'));
@@ -278,7 +278,7 @@ for (const file of files) {
 ```typescript
 // pages/api/validate.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { validate } from '@supernovae/qrai-scanner';
+import { validate } from '@supernovae-ai/qrai-scanner';
 
 export const config = {
   api: { bodyParser: false }
