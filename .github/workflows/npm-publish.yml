@@ -109,12 +109,22 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          path: crates/qrai-scanner-node/artifacts
+          path: artifacts
 
-      - name: Move artifacts
+      - name: Move artifacts to npm directories
         run: |
           cd crates/qrai-scanner-node
-          npm run artifacts
+          # Create npm directories
+          mkdir -p npm/darwin-x64 npm/darwin-arm64 npm/linux-x64-gnu npm/linux-arm64-gnu npm/linux-x64-musl npm/win32-x64-msvc
+          # Move binaries
+          cp ../../artifacts/bindings-x86_64-apple-darwin/*.node npm/darwin-x64/ || true
+          cp ../../artifacts/bindings-aarch64-apple-darwin/*.node npm/darwin-arm64/ || true
+          cp ../../artifacts/bindings-x86_64-unknown-linux-gnu/*.node npm/linux-x64-gnu/ || true
+          cp ../../artifacts/bindings-aarch64-unknown-linux-gnu/*.node npm/linux-arm64-gnu/ || true
+          cp ../../artifacts/bindings-x86_64-unknown-linux-musl/*.node npm/linux-x64-musl/ || true
+          cp ../../artifacts/bindings-x86_64-pc-windows-msvc/*.node npm/win32-x64-msvc/ || true
+          # List what we have
+          find npm -name "*.node" -ls
 
       - name: Publish to npm
         run: |
