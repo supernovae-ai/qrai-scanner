@@ -2,9 +2,13 @@
 name = "qraisc-core"
 version.workspace = true
 edition.workspace = true
-description = "High-performance QR code validation and scannability scoring"
+description = "High-performance QR code validation and scannability scoring for artistic QR codes"
 license.workspace = true
 repository.workspace = true
+authors.workspace = true
+keywords = ["qrcode", "qr", "scanner", "validation", "decoder"]
+categories = ["multimedia::images", "encoding"]
+readme = "README.md"
 
 [dependencies]
 rxing.workspace = true
