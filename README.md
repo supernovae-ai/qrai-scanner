@@ -255,25 +255,14 @@ xychart-beta
 | Phase 3 | Strategy reordering | ~1s | 10x |
 | Phase 4 | Rayon parallelization | ~967ms | **11x** |
 
-### Score Distribution Analysis
+### Score vs Speed Analysis
 
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
-quadrantChart
-    accTitle: QR Score vs Decode Time Analysis
-    accDescr: Shows relationship between score and processing time
-    title Score vs Time Quadrant
-    x-axis Low Score --> High Score
-    y-axis Fast --> Slow
-    quadrant-1 Perfect (High Score, Fast)
-    quadrant-2 Artistic (High Score, Slow)
-    quadrant-3 Quick Fail (Low Score, Fast)
-    quadrant-4 Stubborn (Low Score, Slow)
-    Clean QRs: [0.85, 0.15]
-    Light Artistic: [0.75, 0.35]
-    Heavy Artistic: [0.65, 0.70]
-    Failed: [0.15, 0.55]
-```
+| Category | Score | Speed | Description |
+|----------|-------|-------|-------------|
+| **Clean QRs** | High (80+) | Fast (<200ms) | Standard QRs, Tier 1 decode |
+| **Light Artistic** | Good (60-80) | Medium (200-500ms) | Subtle effects, Tier 2 |
+| **Heavy Artistic** | Fair (40-60) | Slow (500-1500ms) | Strong effects, Tier 3 |
+| **Failed** | Poor (<40) | Variable | Undecodable or unreliable |
 
 ---
 
