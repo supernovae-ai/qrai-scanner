@@ -45,15 +45,39 @@ flowchart LR
 
 ## Installation
 
+### Node.js
+
+Requires [Node.js](https://nodejs.org/) 18+ (includes npm).
+
 ```bash
-# Node.js
 npm install @supernovae-ai/qrai-scanner
+```
 
-# Rust CLI
+```typescript
+import { validate, score } from '@supernovae-ai/qrai-scanner';
+```
+
+### Rust CLI
+
+Requires [Rust](https://rustup.rs/) toolchain.
+
+```bash
 cargo install qrai-scanner-cli
+```
 
-# Rust Library
+```bash
+qraisc image.png        # Full validation
+qraisc -s image.png     # Score only
+```
+
+### Rust Library
+
+```bash
 cargo add qrai-scanner-core
+```
+
+```rust
+use qrai_scanner_core::{validate, score};
 ```
 
 ---
