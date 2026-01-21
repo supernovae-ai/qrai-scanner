@@ -20,7 +20,7 @@
 
 <br>
 
-[Quick Start](#quick-start) · [Why QRAISC?](#why-qraisc) · [API Reference](#api-reference) · [Benchmarks](#benchmarks) · [Architecture](#architecture)
+[Installation](#installation) · [Quick Start](#quick-start) · [Why QRAISC?](#why-qraisc) · [Benchmarks](#benchmarks) · [API Reference](#api-reference)
 
 </div>
 
@@ -39,6 +39,21 @@ flowchart LR
     B --> C[✅ Content]:::output
     B --> D[📊 Score]:::output
     B --> E[📋 Metadata]:::output
+```
+
+---
+
+## Installation
+
+```bash
+# Node.js
+npm install @supernovae-ai/qrai-scanner
+
+# Rust CLI
+cargo install qrai-scanner-cli
+
+# Rust Library
+cargo add qrai-scanner-core
 ```
 
 ---
