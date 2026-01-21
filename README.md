@@ -15,7 +15,8 @@
 [![Success Rate](https://img.shields.io/badge/Success_Rate-89.2%25-brightgreen?logo=checkmarx&logoColor=white)](README.md#benchmarks)
 [![Avg Time](https://img.shields.io/badge/Avg_Time-967ms-green?logo=speedtest&logoColor=white)](README.md#benchmarks)
 [![Node.js](https://img.shields.io/badge/Node.js-Bindings-339933?logo=nodedotjs&logoColor=white)](README.md#nodejs)
-[![crates.io](https://img.shields.io/badge/crates.io-qraisc--core-orange?logo=rust&logoColor=white)](https://crates.io/crates/qrai-scanner-core)
+[![crates.io](https://img.shields.io/crates/v/qrai-scanner-core?logo=rust&logoColor=white&label=crates.io)](https://crates.io/crates/qrai-scanner-core)
+[![npm](https://img.shields.io/npm/v/@supernovae-ai/qrai-scanner?logo=npm&logoColor=white&label=npm)](https://www.npmjs.com/package/@supernovae-ai/qrai-scanner)
 
 <br>
 
@@ -29,40 +30,15 @@
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
-block-beta
-    columns 5
+flowchart LR
+    classDef input fill:#06b6d4,stroke:#0891b2,stroke-width:2px,color:#ffffff
+    classDef process fill:#6366f1,stroke:#4f46e5,stroke-width:2px,color:#ffffff
+    classDef output fill:#10b981,stroke:#059669,stroke-width:2px,color:#ffffff
 
-    block:input:1
-        columns 1
-        A["Image"]
-    end
-
-    space
-
-    block:process:1
-        columns 1
-        B["QRAISC<br>4-Tier Decode"]
-    end
-
-    space
-
-    block:output:1
-        columns 1
-        C["Content"]
-        D["Score"]
-        E["Metadata"]
-    end
-
-    A --> B
-    B --> C
-    B --> D
-    B --> E
-
-    style A fill:#06b6d4,stroke:#0891b2,color:#ffffff
-    style B fill:#6366f1,stroke:#4f46e5,color:#ffffff
-    style C fill:#10b981,stroke:#059669,color:#ffffff
-    style D fill:#f59e0b,stroke:#d97706,color:#ffffff
-    style E fill:#8b5cf6,stroke:#7c3aed,color:#ffffff
+    A[📷 Image]:::input --> B[QRAISC<br>4-Tier Decode]:::process
+    B --> C[✅ Content]:::output
+    B --> D[📊 Score]:::output
+    B --> E[📋 Metadata]:::output
 ```
 
 ---
