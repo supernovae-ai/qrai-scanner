@@ -126,7 +126,24 @@ jobs:
           # List what we have
           find npm -name "*.node" -ls
 
+      - name: Check if version exists on npm
+        id: check-version
+        run: |
+          cd crates/qrai-scanner-node
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "package=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+          echo "version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+          if npm view "$PACKAGE_NAME@$PACKAGE_VERSION" version 2>/dev/null; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Version $PACKAGE_VERSION already exists on npm, skipping publish"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Version $PACKAGE_VERSION not found on npm, will publish"
+          fi
+
       - name: Prepare and publish to npm
+        if: steps.check-version.outputs.exists == 'false'
         run: |
           cd crates/qrai-scanner-node
           # Copy all .node files to root directory
@@ -136,3 +153,7 @@ jobs:
           npm publish --access public --ignore-scripts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Skip publish (version exists)
+        if: steps.check-version.outputs.exists == 'true'
+        run: echo "Skipping publish - version ${{ steps.check-version.outputs.version }} already exists on npm"
