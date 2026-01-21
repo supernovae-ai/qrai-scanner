@@ -28,3 +28,7 @@ Thumbs.db
 
 # Videos (use Git LFS or external hosting)
 *.mp4
+
+# Claude Code
+.claude/
+CLAUDE.md
