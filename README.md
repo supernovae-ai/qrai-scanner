@@ -516,7 +516,7 @@ console.log(`Score: ${score(buffer)}/100`);
 ### CLI Tool
 
 ```bash
-# From crates.io (when published)
+# From crates.io
 cargo install qrcode-ai-scanner-cli
 
 # From GitHub
@@ -542,7 +542,7 @@ qrcode-ai -j image.png        # JSON output
 ### Rust Library
 
 ```toml
-# From crates.io (when published)
+# From crates.io
 [dependencies]
 qrcode-ai-scanner-core = "0.1"
 
