@@ -1,4 +1,4 @@
-# QRAISC - QR AI Scanner
+# QR Code AI Scanner
 
 <div align="center">
 
@@ -20,7 +20,7 @@
 
 <br>
 
-[Installation](#installation) · [Quick Start](#quick-start) · [Why QRAISC?](#why-qraisc) · [Benchmarks](#benchmarks) · [API Reference](#api-reference)
+[Installation](#installation) · [Quick Start](#quick-start) · [Why This Scanner?](#why-this-scanner) · [Benchmarks](#benchmarks) · [API Reference](#api-reference)
 
 </div>
 
@@ -35,7 +35,7 @@ flowchart LR
     classDef process fill:#6366f1,stroke:#4f46e5,stroke-width:2px,color:#ffffff
     classDef output fill:#10b981,stroke:#059669,stroke-width:2px,color:#ffffff
 
-    A[📷 Image]:::input --> B[QRAISC<br>4-Tier Decode]:::process
+    A[📷 Image]:::input --> B[Scanner<br>4-Tier Decode]:::process
     B --> C[✅ Content]:::output
     B --> D[📊 Score]:::output
     B --> E[📋 Metadata]:::output
@@ -149,13 +149,13 @@ qrcode-ai -d image.png
 
 ---
 
-## Why QRAISC?
+## Why This Scanner?
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
 flowchart LR
-    accTitle: Why QRAISC Scanner
-    accDescr: Comparison between standard scanners and QRAISC
+    accTitle: Standard vs QR Code AI Scanner
+    accDescr: Comparison showing 89% success rate vs 11% for standard scanners
 
     classDef success fill:#10b981,stroke:#059669,stroke-width:2px,color:#ffffff
     classDef error fill:#ef4444,stroke:#dc2626,stroke-width:2px,color:#ffffff
@@ -163,10 +163,10 @@ flowchart LR
     classDef data fill:#06b6d4,stroke:#0891b2,stroke-width:2px,color:#ffffff
 
     ART[Artistic QR]:::data --> STD[Standard Scanner]:::process
-    ART --> QRAISC[QRAISC Scanner]:::process
+    ART --> SCANNER[QR Code AI Scanner]:::process
 
     STD --> FAIL[11% Success]:::error
-    QRAISC --> WIN[89% Success]:::success
+    SCANNER --> WIN[89% Success]:::success
 ```
 
 ### The Problem
@@ -182,12 +182,12 @@ AI-generated and artistic QR codes break standard scanners:
 
 ### The Solution
 
-QRAISC uses a **4-tier progressive decoding strategy** that applies increasingly aggressive preprocessing until successful decode:
+QR Code AI Scanner uses a **4-tier progressive decoding strategy** that applies increasingly aggressive preprocessing until successful decode:
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
 flowchart TD
-    accTitle: QRAI 4-Tier Decoding Strategy
+    accTitle: 4-Tier Decoding Strategy
     accDescr: Progressive decoding from fast to thorough
 
     classDef success fill:#10b981,stroke:#059669,stroke-width:2px,color:#ffffff
@@ -244,7 +244,7 @@ flowchart TD
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
 pie showData
-    accTitle: QRAISC Success Rate
+    accTitle: Scanner Success Rate
     accDescr: 89.2% of artistic QR codes successfully decoded
     title Success Rate (74 Artistic QRs)
     "Decoded" : 66
@@ -645,22 +645,22 @@ flowchart LR
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
 journey
-    accTitle: Developer Experience with QRAISC
-    accDescr: Steps a developer takes to integrate QRAISC
+    accTitle: Developer Experience with QR Code AI Scanner
+    accDescr: Steps a developer takes to integrate the scanner
     title Developer Journey
     section Installation
       Add dependency: 5: Dev
       Import library: 5: Dev
     section Quick Validation
       Load image bytes: 5: Dev
-      Call isValid(): 5: Dev, QRAISC
+      Call isValid(): 5: Dev, Scanner
       Get content: 5: Dev
     section Production Check
-      Call score(): 4: Dev, QRAISC
+      Call score(): 4: Dev, Scanner
       Check threshold: 4: Dev
       Deploy if ready: 5: Dev
     section Advanced
-      Full validate(): 3: Dev, QRAISC
+      Full validate(): 3: Dev, Scanner
       Analyze stress tests: 3: Dev
       Optimize QR design: 4: Dev
 ```

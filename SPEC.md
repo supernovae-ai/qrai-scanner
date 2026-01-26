@@ -1,10 +1,10 @@
-# QRAISC Specification
+# QR Code AI Scanner Specification
 
-> **QR AI Scanner** - High-Performance QR Code Validation for Artistic QR Codes
+> High-Performance QR Code Validation for Artistic QR Codes
 
 ## Overview
 
-QRAISC is a specialized QR code validation library designed to decode AI-generated and artistic QR codes that break standard scanners. It provides scannability scoring to assess production readiness.
+QR Code AI Scanner is a specialized QR code validation library designed to decode AI-generated and artistic QR codes that break standard scanners. It provides scannability scoring to assess production readiness.
 
 ## Goals
 
@@ -30,7 +30,7 @@ QRAISC is a specialized QR code validation library designed to decode AI-generat
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
 mindmap
-  root((QRAISC))
+  root((Scanner))
     Decoder
       4-Tier Strategy
         Tier 1: Original
@@ -75,7 +75,7 @@ mindmap
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
 flowchart LR
-    accTitle: QRAISC System Flow
+    accTitle: Scanner System Flow
     accDescr: End-to-end flow from input to output
 
     classDef input fill:#06b6d4,stroke:#0891b2,stroke-width:2px,color:#ffffff
@@ -308,9 +308,9 @@ Follows [Semantic Versioning](https://semver.org/):
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b'}}}%%
 gantt
-    accTitle: QRAISC Development Roadmap
+    accTitle: QR Code AI Scanner Development Roadmap
     accDescr: Timeline for upcoming features
-    title QRAISC Roadmap 2025
+    title Roadmap 2025
     dateFormat YYYY-MM
 
     section v0.1.x Current
