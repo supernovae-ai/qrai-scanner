@@ -134,7 +134,7 @@ pub struct StressResults {
 
 ## License
 
-MIT
+AGPL-3.0
 
 ---
 

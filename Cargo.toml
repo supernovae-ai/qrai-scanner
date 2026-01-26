@@ -3,9 +3,9 @@ resolver = "2"
 members = ["crates/*"]
 
 [workspace.package]
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
-license = "MIT"
+license = "AGPL-3.0"
 repository = "https://github.com/supernovae-st/qrcode-ai-scanner"
 authors = ["Thibaut MÉLEN <thibaut@supernovae.studio>", "SuperNovae AGI <contact@supernovae.studio>"]
 

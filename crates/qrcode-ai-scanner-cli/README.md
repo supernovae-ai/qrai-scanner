@@ -211,7 +211,7 @@ qrcode-ai -j image.png | jq '.stress_results'
 
 ## License
 
-MIT
+AGPL-3.0
 
 ---
 

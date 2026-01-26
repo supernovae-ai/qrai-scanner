@@ -12,7 +12,7 @@
 <p><em>Part of the <a href="https://qrcode-ai.com">QR Code AI</a> ecosystem · <a href="https://github.com/supernovae-st/qrcode-ai">GitHub</a></em></p>
 
 [![Rust](https://img.shields.io/badge/Rust-1.75+-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
-[![License](https://img.shields.io/badge/License-MIT-blue?logo=opensourceinitiative&logoColor=white)](LICENSE)
+[![License](https://img.shields.io/badge/License-AGPL--3.0-blue?logo=opensourceinitiative&logoColor=white)](LICENSE)
 [![Success Rate](https://img.shields.io/badge/Success_Rate-89.2%25-brightgreen?logo=checkmarx&logoColor=white)](README.md#benchmarks)
 [![Avg Time](https://img.shields.io/badge/Avg_Time-967ms-green?logo=speedtest&logoColor=white)](README.md#benchmarks)
 [![Node.js](https://img.shields.io/badge/Node.js-Bindings-339933?logo=nodedotjs&logoColor=white)](README.md#nodejs)
@@ -716,7 +716,7 @@ cargo fmt --all && cargo clippy --workspace
 
 ## License
 
-MIT
+AGPL-3.0
 
 ---
 

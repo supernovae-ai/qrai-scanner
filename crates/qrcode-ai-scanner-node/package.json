@@ -5,7 +5,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "author": "Thibaut @ SuperNovae Studio",
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/supernovae-st/qrcode-ai-scanner"
