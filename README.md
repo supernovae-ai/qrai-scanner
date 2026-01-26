@@ -2,10 +2,11 @@
 
 <div align="center">
 
-<h3>High-Performance QR Code Validation for Artistic QR Codes</h3>
+<h3>High-Performance QR Code Validation & Scannability Scoring</h3>
 
 <p>
-<strong>Decode the undecodable.</strong> Built for AI-generated and stylized QR codes that break standard scanners.
+<strong>Decode the undecodable.</strong> Built for QR codes that break standard scanners:<br/>
+🎨 <strong>Artistic</strong> · 🖼️ <strong>Image-embedded</strong> · 🎯 <strong>Custom styled</strong> · 📸 <strong>Photo-captured</strong>
 </p>
 
 <p><em>Part of the <a href="https://qrcode-ai.com">QR Code AI</a> ecosystem</em></p>
@@ -171,14 +172,15 @@ flowchart LR
 
 ### The Problem
 
-AI-generated and artistic QR codes break standard scanners:
+Standard QR scanners fail on non-standard QR codes:
 
-| Challenge | Why Scanners Fail |
-|-----------|-------------------|
-| **Low Contrast** | Artistic elements blend with QR modules |
-| **Color Interference** | Non-black/white colors confuse binarization |
-| **Central Obstructions** | Large logos covering the data area |
-| **Texture Noise** | Gradients and patterns create false edges |
+| QR Type | Challenge | Why Scanners Fail |
+|---------|-----------|-------------------|
+| 🎨 **Artistic** | AI-generated art styles | Extreme visual noise, pattern interference |
+| 🖼️ **Image-embedded** | QR inside photos | Background confusion, perspective distortion |
+| 🎯 **Custom styled** | Colors, logos, blur effects | Non-black/white colors, central obstructions |
+| 📸 **Photo-captured** | Camera photos of QR codes | Lighting, blur, angle, compression artifacts |
+| 🔀 **Multi-pattern** | Gradients, textures, rounded corners | False edges, module boundary confusion |
 
 ### The Solution
 

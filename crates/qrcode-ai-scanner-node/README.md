@@ -7,7 +7,9 @@
 [![npm](https://img.shields.io/npm/v/@supernovae-st/qrcode-ai-scanner?style=flat-square&logo=npm&logoColor=white&color=red)](https://www.npmjs.com/package/@supernovae-st/qrcode-ai-scanner)
 [![License](https://img.shields.io/npm/l/@supernovae-st/qrcode-ai-scanner?style=flat-square&color=blue)](LICENSE)
 
-*Native Rust performance in Node.js via napi-rs.<br/>Validate AI-generated and artistic QR codes that break standard scanners.*
+🎨 Artistic · 🖼️ Image-embedded · 🎯 Custom styled · 📸 Photo-captured
+
+*Native Rust performance in Node.js via napi-rs.<br/>Validate QR codes that break standard scanners.*
 
 </div>
 

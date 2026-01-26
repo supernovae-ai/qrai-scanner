@@ -7,7 +7,9 @@
 [![Crates.io](https://img.shields.io/crates/v/qrcode-ai-scanner-cli?style=flat-square&logo=rust&logoColor=white&color=orange)](https://crates.io/crates/qrcode-ai-scanner-cli)
 [![License](https://img.shields.io/crates/l/qrcode-ai-scanner-cli?style=flat-square&color=blue)](LICENSE)
 
-*Validate AI-generated and artistic QR codes from the command line.*
+🎨 Artistic · 🖼️ Image-embedded · 🎯 Custom styled · 📸 Photo-captured
+
+*Validate QR codes that break standard scanners, from the command line.*
 
 </div>
 

@@ -11,11 +11,11 @@
 
 <br/>
 
-🎨 Artistic QR &nbsp;•&nbsp; 🖼️ Image QR &nbsp;•&nbsp; 🎯 Custom QR &nbsp;•&nbsp; 📊 Scannability Score
+🎨 Artistic &nbsp;•&nbsp; 🖼️ Image-embedded &nbsp;•&nbsp; 🎯 Custom styled &nbsp;•&nbsp; 📸 Photo-captured
 
 <br/>
 
-*Decode the undecodable. Built for AI-generated and stylized QR codes<br/>that break standard scanners.*
+*Decode the undecodable. Built for QR codes that break standard scanners.*
 
 <br/>
 
@@ -29,10 +29,11 @@
 
 Validate and score QR codes that standard scanners can't read:
 
-- **Artistic QR codes** — AI-generated, stylized, custom designs
-- **Image QR codes** — QR embedded in photos, illustrations
-- **Custom QR codes** — Logos, colors, gradients, rounded corners
-- **Degraded QR codes** — Blurred, low contrast, small size
+- **Artistic QR codes** — AI-generated, stylized, custom art designs
+- **Image-embedded QR codes** — QR inside photos, illustrations, backgrounds
+- **Custom styled QR codes** — Logos, colors, gradients, blur, rounded corners
+- **Photo-captured QR codes** — Camera photos with lighting, angle, compression
+- **Multi-pattern QR codes** — Textures, overlays, complex visual effects
 
 ## Installation
 
