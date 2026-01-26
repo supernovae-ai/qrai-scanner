@@ -20,7 +20,7 @@
 
 <br>
 
-[Installation](#installation) · [Quick Start](#quick-start) · [Why QRAISC?](#why-qrcode-ai) · [Benchmarks](#benchmarks) · [API Reference](#api-reference)
+[Installation](#installation) · [Quick Start](#quick-start) · [Why QRAISC?](#why-qraisc) · [Benchmarks](#benchmarks) · [API Reference](#api-reference)
 
 </div>
 
