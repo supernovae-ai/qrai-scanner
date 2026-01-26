@@ -1,6 +1,6 @@
 {
-  "name": "@supernovae-ai/qrai-scanner",
-  "version": "0.1.0",
+  "name": "@supernovae-st/qrcode-ai-scanner",
+  "version": "0.2.0",
   "description": "High-performance QR code validation and scannability scoring",
   "main": "index.js",
   "types": "index.d.ts",
@@ -8,7 +8,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SuperNovae-ai/qrai-scanner"
+    "url": "https://github.com/supernovae-st/qrcode-ai-scanner"
   },
   "keywords": [
     "qrcode",
