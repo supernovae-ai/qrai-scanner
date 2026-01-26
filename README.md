@@ -25,6 +25,8 @@
 
 </div>
 
+> **License:** This software is [AGPL-3.0](LICENSE) licensed. If you modify it and provide it as a network service, you must make your source code available. [Learn more](https://www.gnu.org/licenses/agpl-3.0.en.html).
+
 ---
 
 ## At a Glance
@@ -546,7 +548,7 @@ qrcode-ai -j image.png        # JSON output
 ```toml
 # From crates.io
 [dependencies]
-qrcode-ai-scanner-core = "0.1"
+qrcode-ai-scanner-core = "0.2"
 
 # From GitHub
 [dependencies]
