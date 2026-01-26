@@ -28,7 +28,30 @@ pub use types::{
 };
 
 use decoder::{multi_decode, multi_decode_image};
+use image::GenericImageView;
 use scorer::{calculate_fast_score, calculate_score, run_fast_stress_tests, run_stress_tests_on_image};
+
+// ============================================================================
+// SECURITY: Maximum allowed image dimensions to prevent DoS attacks
+// 10000x10000 = 100MP = ~300MB uncompressed RGB, reasonable for QR scanning
+// ============================================================================
+const MAX_DIMENSION: u32 = 10_000;
+
+/// Validate image dimensions to prevent DoS via memory exhaustion
+fn validate_dimensions(width: u32, height: u32) -> Result<()> {
+    if width > MAX_DIMENSION || height > MAX_DIMENSION {
+        return Err(error::QraiError::DimensionsTooLarge {
+            width,
+            height,
+            max_dimension: MAX_DIMENSION,
+        });
+    }
+    // Also check for potential overflow in pixel calculations
+    if width.checked_mul(height).is_none() {
+        return Err(error::QraiError::DimensionOverflow { width, height });
+    }
+    Ok(())
+}
 
 /// Validate a QR code image and compute scannability score
 ///
@@ -50,6 +73,10 @@ pub fn validate(image_bytes: &[u8]) -> Result<ValidationResult> {
     // Quick Win 1: Single image load - pass DynamicImage to both decode and stress tests
     let img = image::load_from_memory(image_bytes)
         .map_err(|e| error::QraiError::ImageLoad(e.to_string()))?;
+
+    // SECURITY: Validate image dimensions to prevent DoS
+    let (width, height) = img.dimensions();
+    validate_dimensions(width, height)?;
 
     let decode_result = multi_decode_image(&img)?;
     let stress_results = run_stress_tests_on_image(&img)?;
@@ -93,6 +120,10 @@ pub fn decode_only(image_bytes: &[u8]) -> Result<DecodeResult> {
 pub fn validate_fast(image_bytes: &[u8]) -> Result<ValidationResult> {
     let img = image::load_from_memory(image_bytes)
         .map_err(|e| error::QraiError::ImageLoad(e.to_string()))?;
+
+    // SECURITY: Validate image dimensions to prevent DoS
+    let (width, height) = img.dimensions();
+    validate_dimensions(width, height)?;
 
     let decode_result = multi_decode_image(&img)?;
     let stress_results = run_fast_stress_tests(&img)?;

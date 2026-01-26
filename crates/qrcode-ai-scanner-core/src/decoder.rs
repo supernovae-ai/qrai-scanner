@@ -1,7 +1,49 @@
 use crate::error::{QraiError, Result};
 use crate::types::{ErrorCorrectionLevel, MultiDecodeResult, QrMetadata};
-use image::{DynamicImage, GenericImageView, GrayImage};
+use image::{DynamicImage, GenericImageView, GrayImage, RgbImage};
 use rayon::prelude::*;
+
+// ============================================================================
+// SECURITY: Safe image buffer construction helpers
+// These replace .unwrap() calls with proper error handling
+// ============================================================================
+
+/// Maximum allowed image dimension (65536 x 65536 = 4GB max memory)
+const MAX_DIMENSION: u32 = 65536;
+
+/// Safely create a GrayImage from raw data with dimension validation
+fn safe_gray_from_raw(width: u32, height: u32, data: Vec<u8>) -> Option<GrayImage> {
+    // Validate dimensions to prevent overflow
+    if width > MAX_DIMENSION || height > MAX_DIMENSION {
+        return None;
+    }
+    let expected = (width as usize).checked_mul(height as usize)?;
+    if data.len() != expected {
+        return None;
+    }
+    GrayImage::from_raw(width, height, data)
+}
+
+/// Safely create an RgbImage from raw data with dimension validation
+fn safe_rgb_from_raw(width: u32, height: u32, data: Vec<u8>) -> Option<RgbImage> {
+    // Validate dimensions to prevent overflow
+    if width > MAX_DIMENSION || height > MAX_DIMENSION {
+        return None;
+    }
+    let expected = (width as usize).checked_mul(height as usize)?.checked_mul(3)?;
+    if data.len() != expected {
+        return None;
+    }
+    RgbImage::from_raw(width, height, data)
+}
+
+/// Safe pixel count calculation with overflow protection
+fn safe_pixel_count(width: u32, height: u32) -> Option<usize> {
+    if width > MAX_DIMENSION || height > MAX_DIMENSION {
+        return None;
+    }
+    (width as usize).checked_mul(height as usize)
+}
 
 /// Random preprocessing parameters for brute-force decoding
 #[derive(Debug, Clone, Copy)]
@@ -107,12 +149,13 @@ pub fn multi_decode_image(img: &DynamicImage) -> Result<MultiDecodeResult> {
     // ========================================================================
     // TIER 2: Quick preprocessing trio (parallel) - ~100ms
     // These catch many artistic QRs without heavy processing
+    // SECURITY: Filter out None values from safe image processing
     // ========================================================================
-    let quick_variants = vec![
+    let quick_variants: Vec<DynamicImage> = [
         apply_otsu_threshold(img),
-        invert_image(&apply_otsu_threshold(img)),
+        apply_otsu_threshold(img).and_then(|otsu| invert_image(&otsu)),
         apply_high_contrast_threshold(img),
-    ];
+    ].into_iter().flatten().collect();
 
     if let Some(result) = quick_variants.par_iter().find_map_any(|v| try_decode_with_both(v).ok()) {
         return Ok(result);
@@ -140,8 +183,9 @@ pub fn multi_decode_image(img: &DynamicImage) -> Result<MultiDecodeResult> {
 
 /// Unified parallel pool: known-good params + color channels + HSV
 /// All 34+ strategies run simultaneously, first success exits instantly
+/// SECURITY: Gracefully handles image processing failures by filtering them out
 fn try_unified_parallel_pool(img: &DynamicImage) -> Result<MultiDecodeResult> {
-    // Pre-extract all variants
+    // Pre-extract all variants (returns empty vec on failure)
     let channels = extract_color_channels(img);
     let hue = extract_hue_channel(img);
     let value = extract_value_channel(img);
@@ -165,29 +209,45 @@ fn try_unified_parallel_pool(img: &DynamicImage) -> Result<MultiDecodeResult> {
         PreprocessParams { resize: 300, contrast: 4.0, brightness: 1.0, blur: 1.5, grayscale: true },
     ];
 
+    // SECURITY: Filter out None values from preprocessing
     for params in &known_good_params {
-        variants.push(apply_preprocessing_fast(img, params));
+        if let Some(processed) = apply_preprocessing_fast(img, params) {
+            variants.push(processed);
+        }
     }
 
-    // Color channels + variants
+    // Color channels + variants (filter out failures)
     for ch in &channels {
         variants.push(ch.clone());
-        variants.push(apply_otsu_threshold(ch));
+        if let Some(otsu) = apply_otsu_threshold(ch) {
+            variants.push(otsu);
+        }
     }
 
-    // HSV channels
-    variants.push(hue.clone());
-    variants.push(apply_otsu_threshold(&hue));
-    variants.push(value.clone());
-    variants.push(enhance_contrast(&value));
+    // HSV channels (only add if extraction succeeded)
+    if let Some(ref h) = hue {
+        variants.push(h.clone());
+        if let Some(otsu) = apply_otsu_threshold(h) {
+            variants.push(otsu);
+        }
+    }
+    if let Some(ref v) = value {
+        variants.push(v.clone());
+        if let Some(enhanced) = enhance_contrast(v) {
+            variants.push(enhanced);
+        }
+    }
 
     // Try all in parallel with 3 variants each (raw + otsu + inverted)
+    // SECURITY: Gracefully handle processing failures inside parallel loop
     variants.par_iter().find_map_any(|v| {
         if let Ok(r) = try_decode_with_both(v) { return Some(r); }
-        let otsu = apply_otsu_threshold(v);
-        if let Ok(r) = try_decode_with_both(&otsu) { return Some(r); }
-        let inv = invert_image(&otsu);
-        if let Ok(r) = try_decode_with_both(&inv) { return Some(r); }
+        if let Some(otsu) = apply_otsu_threshold(v) {
+            if let Ok(r) = try_decode_with_both(&otsu) { return Some(r); }
+            if let Some(inv) = invert_image(&otsu) {
+                if let Ok(r) = try_decode_with_both(&inv) { return Some(r); }
+            }
+        }
         None
     }).ok_or(QraiError::DecodeFailed)
 }
@@ -221,20 +281,24 @@ fn try_mini_brute_force(img: &DynamicImage, num_tries: u32) -> Result<MultiDecod
         })
         .collect();
 
+    // SECURITY: Gracefully handle processing failures
     params_list.par_iter().find_map_any(|params| {
-        let processed = apply_preprocessing_fast(img, params);
+        let processed = apply_preprocessing_fast(img, params)?;
         if let Ok(r) = try_decode_with_both(&processed) { return Some(r); }
-        let otsu = apply_otsu_threshold(&processed);
-        if let Ok(r) = try_decode_with_both(&otsu) { return Some(r); }
-        let inv = invert_image(&otsu);
-        if let Ok(r) = try_decode_with_both(&inv) { return Some(r); }
+        if let Some(otsu) = apply_otsu_threshold(&processed) {
+            if let Ok(r) = try_decode_with_both(&otsu) { return Some(r); }
+            if let Some(inv) = invert_image(&otsu) {
+                if let Ok(r) = try_decode_with_both(&inv) { return Some(r); }
+            }
+        }
         None
     }).ok_or(QraiError::DecodeFailed)
 }
 
 /// Fast preprocessing using thumbnail() for resize (much faster than Lanczos3)
 /// Optimized: Uses raw buffer instead of put_pixel for contrast/brightness
-fn apply_preprocessing_fast(img: &DynamicImage, params: &PreprocessParams) -> DynamicImage {
+/// Returns None if image buffer creation fails (security: prevents panic on malformed input)
+fn apply_preprocessing_fast(img: &DynamicImage, params: &PreprocessParams) -> Option<DynamicImage> {
     let mut result = img.clone();
 
     // 1. Fast resize using thumbnail (nearest neighbor is fastest)
@@ -272,9 +336,8 @@ fn apply_preprocessing_fast(img: &DynamicImage, params: &PreprocessParams) -> Dy
             })
             .collect();
 
-        result = DynamicImage::ImageRgb8(
-            image::RgbImage::from_raw(width, height, adjusted_data).unwrap(),
-        );
+        // SECURITY: Use safe buffer creation instead of unwrap()
+        result = DynamicImage::ImageRgb8(safe_rgb_from_raw(width, height, adjusted_data)?);
     }
 
     // 4. Light blur if specified (skip if negligible)
@@ -282,7 +345,7 @@ fn apply_preprocessing_fast(img: &DynamicImage, params: &PreprocessParams) -> Dy
         result = result.blur(params.blur);
     }
 
-    result
+    Some(result)
 }
 
 /// Try decoding with both decoders on a single image
@@ -357,7 +420,8 @@ fn try_decode_with_both(img: &DynamicImage) -> Result<MultiDecodeResult> {
 
 /// Enhance contrast using histogram stretching
 /// Optimized: Uses raw buffer instead of put_pixel
-fn enhance_contrast(img: &DynamicImage) -> DynamicImage {
+/// Returns None if image buffer creation fails (security: prevents panic on malformed input)
+fn enhance_contrast(img: &DynamicImage) -> Option<DynamicImage> {
     let gray = img.to_luma8();
     let (width, height) = gray.dimensions();
     let raw = gray.as_raw();
@@ -369,7 +433,7 @@ fn enhance_contrast(img: &DynamicImage) -> DynamicImage {
 
     // Avoid division by zero
     if max_val == min_val {
-        return DynamicImage::ImageLuma8(gray);
+        return Some(DynamicImage::ImageLuma8(gray));
     }
 
     // Stretch histogram to full range using raw buffer
@@ -379,20 +443,23 @@ fn enhance_contrast(img: &DynamicImage) -> DynamicImage {
         .map(|&v| (((v - min_val) as f32 / range) * 255.0) as u8)
         .collect();
 
-    DynamicImage::ImageLuma8(GrayImage::from_raw(width, height, enhanced_data).unwrap())
+    // SECURITY: Use safe buffer creation instead of unwrap()
+    Some(DynamicImage::ImageLuma8(safe_gray_from_raw(width, height, enhanced_data)?))
 }
 
 /// Apply Otsu's thresholding for automatic binarization
 /// Optimized: Uses raw buffer instead of put_pixel
-fn apply_otsu_threshold(img: &DynamicImage) -> DynamicImage {
+/// Returns None if image buffer creation fails (security: prevents panic on malformed input)
+fn apply_otsu_threshold(img: &DynamicImage) -> Option<DynamicImage> {
     let gray = img.to_luma8();
     let (width, height) = gray.dimensions();
     let raw = gray.as_raw();
 
+    // SECURITY: Use checked multiplication to prevent overflow
+    let total_pixels = safe_pixel_count(width, height)? as u32;
+
     // Compute histogram
     let mut histogram = [0u32; 256];
-    let total_pixels = width * height;
-
     for &v in raw.iter() {
         histogram[v as usize] += 1;
     }
@@ -438,28 +505,32 @@ fn apply_otsu_threshold(img: &DynamicImage) -> DynamicImage {
         .map(|&v| if v > threshold { 255 } else { 0 })
         .collect();
 
-    DynamicImage::ImageLuma8(GrayImage::from_raw(width, height, binary_data).unwrap())
+    // SECURITY: Use safe buffer creation instead of unwrap()
+    Some(DynamicImage::ImageLuma8(safe_gray_from_raw(width, height, binary_data)?))
 }
 
 /// Invert image colors (useful when QR is inverted)
 /// Optimized: Uses raw buffer instead of put_pixel
-fn invert_image(img: &DynamicImage) -> DynamicImage {
+/// Returns None if image buffer creation fails (security: prevents panic on malformed input)
+fn invert_image(img: &DynamicImage) -> Option<DynamicImage> {
     let gray = img.to_luma8();
     let (width, height) = gray.dimensions();
 
     let inverted_data: Vec<u8> = gray.as_raw().iter().map(|&v| 255 - v).collect();
 
-    DynamicImage::ImageLuma8(GrayImage::from_raw(width, height, inverted_data).unwrap())
+    // SECURITY: Use safe buffer creation instead of unwrap()
+    Some(DynamicImage::ImageLuma8(safe_gray_from_raw(width, height, inverted_data)?))
 }
 
 /// High contrast threshold - more aggressive binarization
 /// Optimized: Uses raw buffer instead of put_pixel
-fn apply_high_contrast_threshold(img: &DynamicImage) -> DynamicImage {
+/// Returns None if image buffer creation fails (security: prevents panic on malformed input)
+fn apply_high_contrast_threshold(img: &DynamicImage) -> Option<DynamicImage> {
     let gray = img.to_luma8();
     let (width, height) = gray.dimensions();
 
-    // First enhance contrast
-    let enhanced = enhance_contrast(&DynamicImage::ImageLuma8(gray));
+    // First enhance contrast (propagate None if it fails)
+    let enhanced = enhance_contrast(&DynamicImage::ImageLuma8(gray))?;
     let enhanced_raw = enhanced.to_luma8();
 
     // Then apply a fixed middle threshold using raw buffer
@@ -469,15 +540,22 @@ fn apply_high_contrast_threshold(img: &DynamicImage) -> DynamicImage {
         .map(|&v| if v > 127 { 255 } else { 0 })
         .collect();
 
-    DynamicImage::ImageLuma8(GrayImage::from_raw(width, height, binary_data).unwrap())
+    // SECURITY: Use safe buffer creation instead of unwrap()
+    Some(DynamicImage::ImageLuma8(safe_gray_from_raw(width, height, binary_data)?))
 }
 
 /// Extract individual color channels as grayscale images
 /// Quick Win 3: Single-pass extraction - 4x faster than separate iterations
+/// Returns empty vec if image buffer creation fails (security: prevents panic on malformed input)
 fn extract_color_channels(img: &DynamicImage) -> Vec<DynamicImage> {
     let rgb = img.to_rgb8();
     let (width, height) = rgb.dimensions();
-    let pixel_count = (width * height) as usize;
+
+    // SECURITY: Use checked multiplication to prevent overflow
+    let pixel_count = match safe_pixel_count(width, height) {
+        Some(count) => count,
+        None => return vec![],
+    };
 
     // Pre-allocate raw buffers for all channels
     let mut red_data = Vec::with_capacity(pixel_count);
@@ -501,22 +579,26 @@ fn extract_color_channels(img: &DynamicImage) -> Vec<DynamicImage> {
         saturation_data.push(max_v - min_v);
     }
 
-    // Convert raw buffers to GrayImages
-    vec![
-        DynamicImage::ImageLuma8(GrayImage::from_raw(width, height, red_data).unwrap()),
-        DynamicImage::ImageLuma8(GrayImage::from_raw(width, height, green_data).unwrap()),
-        DynamicImage::ImageLuma8(GrayImage::from_raw(width, height, blue_data).unwrap()),
-        DynamicImage::ImageLuma8(GrayImage::from_raw(width, height, saturation_data).unwrap()),
-    ]
+    // SECURITY: Use safe buffer creation, filter out failures
+    [red_data, green_data, blue_data, saturation_data]
+        .into_iter()
+        .filter_map(|data| {
+            safe_gray_from_raw(width, height, data)
+                .map(DynamicImage::ImageLuma8)
+        })
+        .collect()
 }
 
 /// Extract Hue channel from HSV colorspace
 /// Useful for images where colors have similar luminance but different hues
 /// Optimized: Uses raw buffer instead of put_pixel
-fn extract_hue_channel(img: &DynamicImage) -> DynamicImage {
+/// Returns None if image buffer creation fails (security: prevents panic on malformed input)
+fn extract_hue_channel(img: &DynamicImage) -> Option<DynamicImage> {
     let rgb = img.to_rgb8();
     let (width, height) = rgb.dimensions();
-    let pixel_count = (width * height) as usize;
+
+    // SECURITY: Use checked multiplication to prevent overflow
+    let pixel_count = safe_pixel_count(width, height)?;
 
     let mut hue_data = Vec::with_capacity(pixel_count);
 
@@ -543,15 +625,19 @@ fn extract_hue_channel(img: &DynamicImage) -> DynamicImage {
         hue_data.push(((hue.abs() % 360.0) / 360.0 * 255.0) as u8);
     }
 
-    DynamicImage::ImageLuma8(GrayImage::from_raw(width, height, hue_data).unwrap())
+    // SECURITY: Use safe buffer creation instead of unwrap()
+    Some(DynamicImage::ImageLuma8(safe_gray_from_raw(width, height, hue_data)?))
 }
 
 /// Extract Value (brightness) channel from HSV colorspace
 /// Optimized: Uses raw buffer instead of put_pixel
-fn extract_value_channel(img: &DynamicImage) -> DynamicImage {
+/// Returns None if image buffer creation fails (security: prevents panic on malformed input)
+fn extract_value_channel(img: &DynamicImage) -> Option<DynamicImage> {
     let rgb = img.to_rgb8();
     let (width, height) = rgb.dimensions();
-    let pixel_count = (width * height) as usize;
+
+    // SECURITY: Use checked multiplication to prevent overflow
+    let pixel_count = safe_pixel_count(width, height)?;
 
     let mut value_data = Vec::with_capacity(pixel_count);
 
@@ -559,7 +645,8 @@ fn extract_value_channel(img: &DynamicImage) -> DynamicImage {
         value_data.push(pixel.0[0].max(pixel.0[1]).max(pixel.0[2]));
     }
 
-    DynamicImage::ImageLuma8(GrayImage::from_raw(width, height, value_data).unwrap())
+    // SECURITY: Use safe buffer creation instead of unwrap()
+    Some(DynamicImage::ImageLuma8(safe_gray_from_raw(width, height, value_data)?))
 }
 
 /// Extract version from rxing result (if available in metadata)

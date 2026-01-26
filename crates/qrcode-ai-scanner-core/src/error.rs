@@ -18,6 +18,22 @@ pub enum QraiError {
     /// Image processing error
     #[error("Image processing error: {0}")]
     ImageProcessing(String),
+
+    /// Image dimensions exceed safety limits
+    #[error("Image too large: {width}x{height} exceeds maximum {max_dimension}x{max_dimension}")]
+    DimensionsTooLarge {
+        width: u32,
+        height: u32,
+        max_dimension: u32,
+    },
+
+    /// Failed to create image buffer (dimension/data mismatch)
+    #[error("Failed to create image buffer: expected {expected} bytes, got {actual}")]
+    BufferMismatch { expected: usize, actual: usize },
+
+    /// Integer overflow in dimension calculation
+    #[error("Dimension overflow: {width} x {height} overflows")]
+    DimensionOverflow { width: u32, height: u32 },
 }
 
 pub type Result<T> = std::result::Result<T, QraiError>;

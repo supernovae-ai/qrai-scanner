@@ -1,6 +1,6 @@
 {
   "name": "@supernovae-st/qrcode-ai-scanner",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "High-performance QR code validation and scannability scoring",
   "main": "index.js",
   "types": "index.d.ts",
@@ -45,11 +45,11 @@
     "node": ">= 16"
   },
   "optionalDependencies": {
-    "@supernovae-st/qrcode-ai-scanner-win32-x64-msvc": "0.2.1",
-    "@supernovae-st/qrcode-ai-scanner-darwin-x64": "0.2.1",
-    "@supernovae-st/qrcode-ai-scanner-linux-x64-gnu": "0.2.1",
-    "@supernovae-st/qrcode-ai-scanner-darwin-arm64": "0.2.1",
-    "@supernovae-st/qrcode-ai-scanner-linux-arm64-gnu": "0.2.1",
-    "@supernovae-st/qrcode-ai-scanner-linux-arm64-musl": "0.2.1"
+    "@supernovae-st/qrcode-ai-scanner-win32-x64-msvc": "0.2.2",
+    "@supernovae-st/qrcode-ai-scanner-darwin-x64": "0.2.2",
+    "@supernovae-st/qrcode-ai-scanner-linux-x64-gnu": "0.2.2",
+    "@supernovae-st/qrcode-ai-scanner-darwin-arm64": "0.2.2",
+    "@supernovae-st/qrcode-ai-scanner-linux-arm64-gnu": "0.2.2",
+    "@supernovae-st/qrcode-ai-scanner-linux-arm64-musl": "0.2.2"
   }
 }
