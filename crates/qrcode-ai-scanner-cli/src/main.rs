@@ -1,12 +1,12 @@
 use anyhow::{Context, Result};
 use clap::Parser;
-use qrai_scanner_core::{decode_only, validate, validate_fast, ValidationResult, DecodeResult};
+use qrcode_ai_scanner_core::{decode_only, validate, validate_fast, ValidationResult, DecodeResult};
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 
 /// QRAI Validator - QR code validation and scannability scoring
 #[derive(Parser, Debug)]
-#[command(name = "qrai-validator")]
+#[command(name = "qrcode-ai")]
 #[command(author = "Thibaut @ SuperNovae Studio")]
 #[command(version = env!("CARGO_PKG_VERSION"))]
 #[command(about = "Validate QR codes and compute scannability score")]
@@ -405,11 +405,11 @@ fn get_score_style(score: u8) -> (&'static str, &'static str, &'static str) {
     }
 }
 
-fn get_ec_description(ec: qrai_scanner_core::ErrorCorrectionLevel) -> &'static str {
+fn get_ec_description(ec: qrcode_ai_scanner_core::ErrorCorrectionLevel) -> &'static str {
     match ec {
-        qrai_scanner_core::ErrorCorrectionLevel::L => "~7% recovery",
-        qrai_scanner_core::ErrorCorrectionLevel::M => "~15% recovery",
-        qrai_scanner_core::ErrorCorrectionLevel::Q => "~25% recovery",
-        qrai_scanner_core::ErrorCorrectionLevel::H => "~30% recovery",
+        qrcode_ai_scanner_core::ErrorCorrectionLevel::L => "~7% recovery",
+        qrcode_ai_scanner_core::ErrorCorrectionLevel::M => "~15% recovery",
+        qrcode_ai_scanner_core::ErrorCorrectionLevel::Q => "~25% recovery",
+        qrcode_ai_scanner_core::ErrorCorrectionLevel::H => "~30% recovery",
     }
 }

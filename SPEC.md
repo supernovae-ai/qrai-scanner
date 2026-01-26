@@ -209,10 +209,10 @@ getRating(score: number): string
 ### CLI
 
 ```bash
-qraisc <image>           # Full validation (JSON)
-qraisc -p <image>        # Pretty printed
-qraisc -s <image>        # Score only (for scripts)
-qraisc -d <image>        # Decode only (fast)
+qrcode-ai <image>           # Full validation (JSON)
+qrcode-ai -p <image>        # Pretty printed
+qrcode-ai -s <image>        # Score only (for scripts)
+qrcode-ai -d <image>        # Decode only (fast)
 ```
 
 ---
@@ -271,7 +271,7 @@ qraisc -d <image>        # Decode only (fast)
 
 ### Benchmarks
 
-- `cargo bench -p qrai-scanner-core`
+- `cargo bench -p qrcode-ai-scanner-core`
 - Criterion-based microbenchmarks
 - Full validation on 74 artistic QRs
 

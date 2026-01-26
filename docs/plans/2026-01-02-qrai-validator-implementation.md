@@ -11,8 +11,8 @@
 ### Task 1.1: Initialize Workspace
 ```bash
 cd /Users/thibaut/Projects
-mv qr-validator qrai-scanner
-cd qrai-scanner
+mv qr-validator qrcode-ai-scanner
+cd qrcode-ai-scanner
 git init
 ```
 
@@ -26,7 +26,7 @@ members = ["crates/*"]
 version = "0.1.0"
 edition = "2024"
 license = "MIT"
-repository = "https://github.com/SuperNovae-ai/qrai-scanner"
+repository = "https://github.com/supernovae-st/qrcode-ai-scanner"
 
 [workspace.dependencies]
 # Decoders
@@ -517,15 +517,15 @@ pub fn decode_only(image_bytes: &[u8]) -> Result<DecodeResult, QraiError> {
 ## Batch 7: CLI Binary
 
 ### Task 7.1: Create CLI Crate
-File: `crates/qrai-scanner-cli/Cargo.toml`
+File: `crates/qrcode-ai-scanner-cli/Cargo.toml`
 ```toml
 [package]
-name = "qrai-scanner-cli"
+name = "qrcode-ai-scanner-cli"
 version.workspace = true
 edition.workspace = true
 
 [[bin]]
-name = "qrai-scanner"
+name = "qrcode-ai-scanner"
 path = "src/main.rs"
 
 [dependencies]
@@ -536,14 +536,14 @@ anyhow.workspace = true
 ```
 
 ### Task 7.2: Implement CLI
-File: `crates/qrai-scanner-cli/src/main.rs`
+File: `crates/qrcode-ai-scanner-cli/src/main.rs`
 ```rust
 use clap::Parser;
 use qrai_core::{validate, decode_only};
 use std::path::PathBuf;
 
 #[derive(Parser)]
-#[command(name = "qrai-scanner")]
+#[command(name = "qrcode-ai-scanner")]
 #[command(about = "Validate QR codes and compute scannability score")]
 struct Cli {
     /// Image file to validate
@@ -579,8 +579,8 @@ fn main() -> anyhow::Result<()> {
 
 **Verification**:
 ```bash
-cargo build -p qrai-scanner-cli
-./target/debug/qrai-scanner test-images/clean/simple.png
+cargo build -p qrcode-ai-scanner-cli
+./target/debug/qrcode-ai-scanner test-images/clean/simple.png
 ```
 
 ---
@@ -610,12 +610,12 @@ napi-build = "2"
 ### Task 8.2: Create package.json
 ```json
 {
-  "name": "@supernovae-ai/qrai-scanner",
+  "name": "@supernovae-st/qrcode-ai-scanner",
   "version": "0.1.0",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
-    "name": "qrai-scanner",
+    "name": "qrcode-ai-scanner",
     "triples": {
       "defaults": true,
       "additional": ["aarch64-apple-darwin"]
@@ -692,6 +692,6 @@ Generate with qrcode crate or download samples.
 - [ ] `cargo test --workspace` passes
 - [ ] `cargo clippy --workspace` no warnings
 - [ ] `cargo fmt --check` passes
-- [ ] CLI works: `qrai-scanner test.png`
+- [ ] CLI works: `qrcode-ai-scanner test.png`
 - [ ] Node binding works: `node -e "require('./').validate(...)"`
 - [ ] Performance: <200ms on standard QR

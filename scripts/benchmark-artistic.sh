@@ -7,7 +7,7 @@ total_time=0
 for f in test-images/*.png; do
     name=$(basename "$f" .png | sed 's/qrcode-ai-//' | cut -c1-8)
     start=$(python3 -c 'import time; print(int(time.time()*1000))')
-    result=$(./target/release/qraisc "$f" 2>&1)
+    result=$(./target/release/qrcode-ai "$f" 2>&1)
     end=$(python3 -c 'import time; print(int(time.time()*1000))')
     elapsed=$((end - start))
     total_time=$((total_time + elapsed))

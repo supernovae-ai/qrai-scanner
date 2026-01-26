@@ -2,7 +2,7 @@
 # Don't use set -e since some QR codes fail to validate
 
 DIR="test-qr-speed"
-CLI="./target/release/qraisc"
+CLI="./target/release/qrcode-ai"
 
 echo "=== RENAMING WITH SCORE ==="
 echo ""

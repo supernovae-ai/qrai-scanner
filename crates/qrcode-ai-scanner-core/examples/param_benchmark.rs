@@ -1,6 +1,6 @@
 //! Parameter benchmarking tool for finding optimal preprocessing params for slow artistic QR codes
 //!
-//! Run with: cargo run --release -p qrai-scanner-core --example param_benchmark
+//! Run with: cargo run --release -p qrcode-ai-scanner-core --example param_benchmark
 
 use image::{DynamicImage, GenericImageView, GrayImage, Luma};
 use std::fs;

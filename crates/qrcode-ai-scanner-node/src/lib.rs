@@ -1,6 +1,6 @@
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
-use qrai_scanner_core::{
+use qrcode_ai_scanner_core::{
     decode_only as core_decode_only, validate as core_validate,
     validate_fast as core_validate_fast, ErrorCorrectionLevel,
 };

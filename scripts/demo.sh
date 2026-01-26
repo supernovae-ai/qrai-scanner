@@ -1,5 +1,5 @@
 #!/bin/bash
-# QRAI Validator - Demo Script
+# QRCode-AI - Demo Script
 # Generates a test QR code and runs validation
 
 set -e
@@ -11,14 +11,14 @@ cd "$PROJECT_DIR"
 
 echo ""
 echo "╔════════════════════════════════════════════════════════════════╗"
-echo "║            QRAI Validator - Demo                               ║"
+echo "║            QRCode-AI - Demo                               ║"
 echo "╚════════════════════════════════════════════════════════════════╝"
 echo ""
 
 # Build if needed
-if [ ! -f "target/release/qrai-validator" ]; then
+if [ ! -f "target/release/qrcode-ai" ]; then
     echo "🔨 Building release binary..."
-    cargo build -p qrai-cli --release --quiet
+    cargo build -p qrcode-ai-scanner-cli --release --quiet
 fi
 
 # Generate a test QR code using a small Rust program
@@ -77,10 +77,10 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo ""
 
 # Run the validator
-echo "🔍 Running QRAI Validator..."
+echo "🔍 Running QRCode-AI..."
 echo ""
 
-./target/release/qrai-validator test-qr.png
+./target/release/qrcode-ai test-qr.png
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -88,7 +88,7 @@ echo ""
 echo "🚀 Fast mode (-f):"
 echo ""
 
-./target/release/qrai-validator -f test-qr.png
+./target/release/qrcode-ai -f test-qr.png
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -96,7 +96,7 @@ echo ""
 echo "⚡ Decode only mode (-d):"
 echo ""
 
-./target/release/qrai-validator -d test-qr.png
+./target/release/qrcode-ai -d test-qr.png
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -104,7 +104,7 @@ echo ""
 echo "📊 JSON output (-j):"
 echo ""
 
-./target/release/qrai-validator -j test-qr.png | head -20
+./target/release/qrcode-ai -j test-qr.png | head -20
 echo "  ..."
 
 echo ""
@@ -113,7 +113,7 @@ echo ""
 echo "✅ Demo complete!"
 echo ""
 echo "Try it yourself:"
-echo "  ./target/release/qrai-validator <your-qr.png>"
-echo "  ./target/release/qrai-validator -f <your-qr.png>    # Fast mode"
-echo "  ./target/release/qrai-validator -t <your-qr.png>    # With timing"
+echo "  ./target/release/qrcode-ai <your-qr.png>"
+echo "  ./target/release/qrcode-ai -f <your-qr.png>    # Fast mode"
+echo "  ./target/release/qrcode-ai -t <your-qr.png>    # With timing"
 echo ""

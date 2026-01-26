@@ -15,12 +15,12 @@
 [![Success Rate](https://img.shields.io/badge/Success_Rate-89.2%25-brightgreen?logo=checkmarx&logoColor=white)](README.md#benchmarks)
 [![Avg Time](https://img.shields.io/badge/Avg_Time-967ms-green?logo=speedtest&logoColor=white)](README.md#benchmarks)
 [![Node.js](https://img.shields.io/badge/Node.js-Bindings-339933?logo=nodedotjs&logoColor=white)](README.md#nodejs)
-[![crates.io](https://img.shields.io/crates/v/qrai-scanner-core?logo=rust&logoColor=white&label=crates.io)](https://crates.io/crates/qrai-scanner-core)
-[![npm](https://img.shields.io/npm/v/@supernovae-ai/qrai-scanner?logo=npm&logoColor=white&label=npm)](https://www.npmjs.com/package/@supernovae-ai/qrai-scanner)
+[![crates.io](https://img.shields.io/crates/v/qrcode-ai-scanner-core?logo=rust&logoColor=white&label=crates.io)](https://crates.io/crates/qrcode-ai-scanner-core)
+[![npm](https://img.shields.io/npm/v/@supernovae-st/qrcode-ai-scanner?logo=npm&logoColor=white&label=npm)](https://www.npmjs.com/package/@supernovae-st/qrcode-ai-scanner)
 
 <br>
 
-[Installation](#installation) · [Quick Start](#quick-start) · [Why QRAISC?](#why-qraisc) · [Benchmarks](#benchmarks) · [API Reference](#api-reference)
+[Installation](#installation) · [Quick Start](#quick-start) · [Why QRAISC?](#why-qrcode-ai) · [Benchmarks](#benchmarks) · [API Reference](#api-reference)
 
 </div>
 
@@ -50,11 +50,11 @@ flowchart LR
 Requires [Node.js](https://nodejs.org/) 18+ (includes npm).
 
 ```bash
-npm install @supernovae-ai/qrai-scanner
+npm install @supernovae-st/qrcode-ai-scanner
 ```
 
 ```typescript
-import { validate, score } from '@supernovae-ai/qrai-scanner';
+import { validate, score } from '@supernovae-st/qrcode-ai-scanner';
 ```
 
 ### Rust CLI
@@ -62,22 +62,22 @@ import { validate, score } from '@supernovae-ai/qrai-scanner';
 Requires [Rust](https://rustup.rs/) toolchain.
 
 ```bash
-cargo install qrai-scanner-cli
+cargo install qrcode-ai-scanner-cli
 ```
 
 ```bash
-qraisc image.png        # Full validation
-qraisc -s image.png     # Score only
+qrcode-ai image.png        # Full validation
+qrcode-ai -s image.png     # Score only
 ```
 
 ### Rust Library
 
 ```bash
-cargo add qrai-scanner-core
+cargo add qrcode-ai-scanner-core
 ```
 
 ```rust
-use qrai_scanner_core::{validate, score};
+use qrcode_ai_scanner_core::{validate, score};
 ```
 
 ---
@@ -87,7 +87,7 @@ use qrai_scanner_core::{validate, score};
 ### One-liner Rust
 
 ```rust
-use qrai_scanner_core::is_valid;
+use qrcode_ai_scanner_core::is_valid;
 
 // Check if QR is valid and get content
 if let Some(content) = is_valid("qr.png") {
@@ -98,7 +98,7 @@ if let Some(content) = is_valid("qr.png") {
 ### Score Check
 
 ```rust
-use qrai_scanner_core::{score, passes_threshold};
+use qrcode_ai_scanner_core::{score, passes_threshold};
 
 // Get scannability score (0-100)
 let s = score("qr.png");
@@ -113,7 +113,7 @@ if passes_threshold("qr.png", 70) {
 ### Full Validation
 
 ```rust
-use qrai_scanner_core::validate;
+use qrcode_ai_scanner_core::validate;
 
 let bytes = std::fs::read("qr.png")?;
 let result = validate(&bytes)?;
@@ -126,7 +126,7 @@ println!("Version: {:?}", result.metadata);     // QR metadata
 ### Node.js
 
 ```typescript
-import { validate, decode } from '@supernovae-ai/qrai-scanner';
+import { validate, decode } from '@supernovae-st/qrcode-ai-scanner';
 import { readFileSync } from 'fs';
 
 const result = validate(readFileSync('qr.png'));
@@ -138,13 +138,13 @@ console.log(`Content: ${result.content}`);
 
 ```bash
 # Full validation (JSON)
-qraisc image.png
+qrcode-ai image.png
 
 # Score only (for scripts)
-qraisc -s image.png    # Output: 85
+qrcode-ai -s image.png    # Output: 85
 
 # Decode only (fast)
-qraisc -d image.png
+qrcode-ai -d image.png
 ```
 
 ---
@@ -364,14 +364,14 @@ flowchart LR
 ### Installation
 
 ```bash
-cd crates/qrai-scanner-node
+cd crates/qrcode-ai-scanner-node
 npm install && npm run build
 ```
 
 ### One-liner Examples
 
 ```typescript
-import { isValid, score, isProductionReady, summarize } from '@supernovae-ai/qrai-scanner';
+import { isValid, score, isProductionReady, summarize } from '@supernovae-st/qrcode-ai-scanner';
 import { readFileSync } from 'fs';
 
 const buffer = readFileSync('qr.png');
@@ -394,7 +394,7 @@ if (isProductionReady(buffer)) {
 ### Full Validation
 
 ```typescript
-import { validate, validateFast, decode } from '@supernovae-ai/qrai-scanner';
+import { validate, validateFast, decode } from '@supernovae-st/qrcode-ai-scanner';
 import { readFileSync } from 'fs';
 
 const buffer = readFileSync('qr.png');
@@ -415,7 +415,7 @@ const decoded = decode(buffer);
 ### Summary Helper
 
 ```typescript
-import { summarize } from '@supernovae-ai/qrai-scanner';
+import { summarize } from '@supernovae-st/qrcode-ai-scanner';
 
 const summary = summarize(readFileSync('qr.png'));
 
@@ -492,21 +492,21 @@ interface QrSummary {
 
 ```bash
 # From npm (recommended)
-npm install @supernovae-ai/qrai-scanner
+npm install @supernovae-st/qrcode-ai-scanner
 
 # From GitHub
-npm install github:SuperNovae-ai/qrai-scanner
+npm install github:supernovae-st/qrcode-ai-scanner
 
 # Build from source
-git clone https://github.com/SuperNovae-ai/qrai-scanner.git
-cd qrai-scanner/crates/qrai-scanner-node
+git clone https://github.com/supernovae-st/qrcode-ai-scanner.git
+cd qrcode-ai-scanner/crates/qrcode-ai-scanner-node
 npm install && npm run build
 ```
 
 Then use it:
 
 ```typescript
-import { validate, isValid, score } from '@supernovae-ai/qrai-scanner';
+import { validate, isValid, score } from '@supernovae-st/qrcode-ai-scanner';
 import { readFileSync } from 'fs';
 
 const buffer = readFileSync('qr.png');
@@ -517,26 +517,26 @@ console.log(`Score: ${score(buffer)}/100`);
 
 ```bash
 # From crates.io (when published)
-cargo install qrai-scanner-cli
+cargo install qrcode-ai-scanner-cli
 
 # From GitHub
-cargo install --git https://github.com/SuperNovae-ai/qrai-scanner qrai-scanner-cli
+cargo install --git https://github.com/supernovae-st/qrcode-ai-scanner qrcode-ai-scanner-cli
 
 # Build from source
-git clone https://github.com/SuperNovae-ai/qrai-scanner.git
-cd qrai-scanner
-cargo build --release -p qrai-scanner-cli
+git clone https://github.com/supernovae-st/qrcode-ai-scanner.git
+cd qrcode-ai-scanner
+cargo build --release -p qrcode-ai-scanner-cli
 
 # Add to PATH (macOS/Linux)
-sudo cp target/release/qraisc /usr/local/bin/
+sudo cp target/release/qrcode-ai /usr/local/bin/
 ```
 
 Then use it:
 
 ```bash
-qraisc image.png           # Full validation
-qraisc -s image.png        # Score only (for scripts)
-qraisc -j image.png        # JSON output
+qrcode-ai image.png           # Full validation
+qrcode-ai -s image.png        # Score only (for scripts)
+qrcode-ai -j image.png        # JSON output
 ```
 
 ### Rust Library
@@ -544,21 +544,21 @@ qraisc -j image.png        # JSON output
 ```toml
 # From crates.io (when published)
 [dependencies]
-qrai-scanner-core = "0.1"
+qrcode-ai-scanner-core = "0.1"
 
 # From GitHub
 [dependencies]
-qrai-scanner-core = { git = "https://github.com/SuperNovae-ai/qrai-scanner" }
+qrcode-ai-scanner-core = { git = "https://github.com/supernovae-st/qrcode-ai-scanner" }
 
 # From local path
 [dependencies]
-qrai-scanner-core = { path = "../qrai-scanner/crates/qrai-scanner-core" }
+qrcode-ai-scanner-core = { path = "../qrcode-ai-scanner/crates/qrcode-ai-scanner-core" }
 ```
 
 Then use it:
 
 ```rust
-use qrai_scanner_core::{validate, is_valid, score};
+use qrcode_ai_scanner_core::{validate, is_valid, score};
 
 fn main() {
     // Simple check
@@ -589,17 +589,17 @@ fn main() {
 ### Project Structure
 
 ```
-qrai-scanner/
+qrcode-ai-scanner/
 ├── crates/
-│   ├── qrai-scanner-core/        # Core library (decoder, scorer, types)
+│   ├── qrcode-ai-scanner-core/        # Core library (decoder, scorer, types)
 │   │   ├── src/
 │   │   │   ├── decoder.rs  # Multi-decoder + 4-tier strategy
 │   │   │   ├── scorer.rs   # Stress tests + scoring
 │   │   │   ├── types.rs    # ValidationResult, QrMetadata
 │   │   │   └── error.rs    # Error types
 │   │   └── Cargo.toml
-│   ├── qrai-scanner-cli/         # CLI binary
-│   └── qrai-scanner-node/        # Node.js napi-rs bindings
+│   ├── qrcode-ai-scanner-cli/         # CLI binary
+│   └── qrcode-ai-scanner-node/        # Node.js napi-rs bindings
 ├── test-qr-speed/          # Benchmark images (74 artistic QRs)
 ├── scripts/                # Benchmark & test scripts
 └── docs/                   # Design documents
@@ -701,10 +701,10 @@ stateDiagram-v2
 cargo test --workspace
 
 # Build release
-cargo build -p qrai-scanner-cli --release
+cargo build -p qrcode-ai-scanner-cli --release
 
 # Run benchmarks
-cargo bench -p qrai-scanner-core
+cargo bench -p qrcode-ai-scanner-core
 
 # Format & lint
 cargo fmt --all && cargo clippy --workspace
@@ -728,7 +728,7 @@ Part of [**QR Code AI**](https://qrcode-ai.com) by **Thibaut MÉLEN** & [**Super
   <img src="https://avatars.githubusercontent.com/u/20891897?s=200&v=4" alt="Thibaut MÉLEN" width="32"/>
 </a>
 &nbsp;&nbsp;
-<a href="https://github.com/SuperNovae-ai">
+<a href="https://github.com/supernovae-st">
   <img src="https://avatars.githubusercontent.com/u/33066282?s=200&v=4" alt="SuperNovae Studio" width="32"/>
 </a>
 

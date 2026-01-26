@@ -6,7 +6,7 @@ members = ["crates/*"]
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
-repository = "https://github.com/SuperNovae-ai/qrai-scanner"
+repository = "https://github.com/supernovae-st/qrcode-ai-scanner"
 authors = ["Thibaut MÉLEN <thibaut@supernovae.studio>", "SuperNovae AGI <contact@supernovae.studio>"]
 
 [workspace.dependencies]

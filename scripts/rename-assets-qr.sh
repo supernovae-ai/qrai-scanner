@@ -1,8 +1,8 @@
 #!/bin/bash
 # Quick rename script for assets-qr directory
 
-cd /Users/thibaut/Projects/qrai-validator
-CLI="./target/release/qraisc"
+cd /Users/thibaut/Projects/qrcode-ai-scanner
+CLI="./target/release/qrcode-ai"
 DIR="assets-qr"
 
 echo "=== RENAMING QR CODES IN $DIR ==="

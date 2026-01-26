@@ -1,11 +1,11 @@
 <div align="center">
 
-# qrai-scanner-cli
+# qrcode-ai-scanner-cli
 
 **Command-line QR code validator and scannability scorer**
 
-[![Crates.io](https://img.shields.io/crates/v/qrai-scanner-cli?style=flat-square&logo=rust&logoColor=white&color=orange)](https://crates.io/crates/qrai-scanner-cli)
-[![License](https://img.shields.io/crates/l/qrai-scanner-cli?style=flat-square&color=blue)](LICENSE)
+[![Crates.io](https://img.shields.io/crates/v/qrcode-ai-scanner-cli?style=flat-square&logo=rust&logoColor=white&color=orange)](https://crates.io/crates/qrcode-ai-scanner-cli)
+[![License](https://img.shields.io/crates/l/qrcode-ai-scanner-cli?style=flat-square&color=blue)](LICENSE)
 
 *Validate AI-generated and artistic QR codes from the command line.*
 
@@ -18,32 +18,32 @@
 ### From crates.io (recommended)
 
 ```bash
-cargo install qrai-scanner-cli
+cargo install qrcode-ai-scanner-cli
 ```
 
 ### From GitHub
 
 ```bash
-cargo install --git https://github.com/SuperNovae-ai/qrai-scanner qrai-scanner-cli
+cargo install --git https://github.com/supernovae-st/qrcode-ai-scanner qrcode-ai-scanner-cli
 ```
 
 ### Build from source
 
 ```bash
-git clone https://github.com/SuperNovae-ai/qrai-scanner.git
-cd qrai-scanner
-cargo build --release -p qrai-scanner-cli
-# Binary at: target/release/qraisc
+git clone https://github.com/supernovae-st/qrcode-ai-scanner.git
+cd qrcode-ai-scanner
+cargo build --release -p qrcode-ai-scanner-cli
+# Binary at: target/release/qrcode-ai
 ```
 
 ### Add to PATH (after building)
 
 ```bash
 # macOS/Linux
-sudo cp target/release/qraisc /usr/local/bin/
+sudo cp target/release/qrcode-ai /usr/local/bin/
 
 # Or add to your shell profile
-echo 'export PATH="$PATH:/path/to/qrai-scanner/target/release"' >> ~/.zshrc
+echo 'export PATH="$PATH:/path/to/qrcode-ai-scanner/target/release"' >> ~/.zshrc
 ```
 
 ## Usage
@@ -52,13 +52,13 @@ echo 'export PATH="$PATH:/path/to/qrai-scanner/target/release"' >> ~/.zshrc
 
 ```bash
 # Full validation with visual output
-qraisc image.png
+qrcode-ai image.png
 
 # JSON output
-qraisc -j image.png
+qrcode-ai -j image.png
 
 # Score only (for scripts)
-qraisc -s image.png
+qrcode-ai -s image.png
 # Output: 85
 ```
 
@@ -66,28 +66,28 @@ qraisc -s image.png
 
 ```bash
 # Reduced stress tests (~2x faster)
-qraisc -f image.png
+qrcode-ai -f image.png
 ```
 
 ### Decode Only
 
 ```bash
 # Skip stress tests, just decode
-qraisc -d image.png
+qrcode-ai -d image.png
 ```
 
 ### Timing Information
 
 ```bash
 # Show processing time
-qraisc -t image.png
+qrcode-ai -t image.png
 ```
 
 ### Quiet Mode
 
 ```bash
 # Minimal output
-qraisc -q image.png
+qrcode-ai -q image.png
 ```
 
 ## Options
@@ -109,13 +109,13 @@ qraisc -q image.png
 
 ```bash
 # Check if QR is production-ready (score >= 70)
-if [ $(qraisc -s image.png) -ge 70 ]; then
+if [ $(qrcode-ai -s image.png) -ge 70 ]; then
     echo "Production ready!"
 fi
 
 # Batch process directory
 for f in *.png; do
-    score=$(qraisc -s "$f")
+    score=$(qrcode-ai -s "$f")
     echo "$f: $score"
 done
 ```
@@ -127,7 +127,7 @@ done
 - name: Validate QR codes
   run: |
     for qr in assets/qr/*.png; do
-      score=$(qraisc -s "$qr")
+      score=$(qrcode-ai -s "$qr")
       if [ $score -lt 70 ]; then
         echo "❌ $qr failed with score $score"
         exit 1
@@ -140,10 +140,10 @@ done
 
 ```bash
 # Extract content with jq
-qraisc -j image.png | jq -r '.content'
+qrcode-ai -j image.png | jq -r '.content'
 
 # Get all stress test results
-qraisc -j image.png | jq '.stress_results'
+qrcode-ai -j image.png | jq '.stress_results'
 ```
 
 ## Output Format
@@ -223,7 +223,7 @@ Part of [**QR Code AI**](https://qrcode-ai.com) by **Thibaut MÉLEN** & [**Super
   <img src="https://avatars.githubusercontent.com/u/20891897?s=200&v=4" alt="Thibaut MÉLEN" width="32"/>
 </a>
 &nbsp;&nbsp;
-<a href="https://github.com/SuperNovae-ai">
+<a href="https://github.com/supernovae-st">
   <img src="https://avatars.githubusercontent.com/u/33066282?s=200&v=4" alt="SuperNovae Studio" width="32"/>
 </a>
 

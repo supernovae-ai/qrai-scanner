@@ -1,13 +1,13 @@
 <div align="center">
 
-# qrai-scanner-core
+# qrcode-ai-scanner-core
 
 **High-performance QR code validation and scannability scoring**
 
-[![Crates.io](https://img.shields.io/crates/v/qrai-scanner-core?style=flat-square&logo=rust&logoColor=white&color=orange)](https://crates.io/crates/qrai-scanner-core)
-[![Docs.rs](https://img.shields.io/docsrs/qrai-scanner-core?style=flat-square&logo=docs.rs&logoColor=white)](https://docs.rs/qrai-scanner-core)
-[![License](https://img.shields.io/crates/l/qrai-scanner-core?style=flat-square&color=blue)](LICENSE)
-[![Downloads](https://img.shields.io/crates/d/qrai-scanner-core?style=flat-square&color=green)](https://crates.io/crates/qrai-scanner-core)
+[![Crates.io](https://img.shields.io/crates/v/qrcode-ai-scanner-core?style=flat-square&logo=rust&logoColor=white&color=orange)](https://crates.io/crates/qrcode-ai-scanner-core)
+[![Docs.rs](https://img.shields.io/docsrs/qrcode-ai-scanner-core?style=flat-square&logo=docs.rs&logoColor=white)](https://docs.rs/qrcode-ai-scanner-core)
+[![License](https://img.shields.io/crates/l/qrcode-ai-scanner-core?style=flat-square&color=blue)](LICENSE)
+[![Downloads](https://img.shields.io/crates/d/qrcode-ai-scanner-core?style=flat-square&color=green)](https://crates.io/crates/qrcode-ai-scanner-core)
 
 <br/>
 
@@ -38,13 +38,13 @@ Validate and score QR codes that standard scanners can't read:
 
 ```toml
 [dependencies]
-qrai-scanner-core = "0.1"
+qrcode-ai-scanner-core = "0.1"
 ```
 
 ## Quick Start
 
 ```rust
-use qrai_scanner_core::{validate, is_valid, score};
+use qrcode_ai_scanner_core::{validate, is_valid, score};
 
 fn main() {
     // Simple validation - just check if QR is readable
@@ -147,7 +147,7 @@ Part of [**QR Code AI**](https://qrcode-ai.com) by **Thibaut MÉLEN** & [**Super
   <img src="https://avatars.githubusercontent.com/u/20891897?s=200&v=4" alt="Thibaut MÉLEN" width="32"/>
 </a>
 &nbsp;&nbsp;
-<a href="https://github.com/SuperNovae-ai">
+<a href="https://github.com/supernovae-st">
   <img src="https://avatars.githubusercontent.com/u/33066282?s=200&v=4" alt="SuperNovae Studio" width="32"/>
 </a>
 

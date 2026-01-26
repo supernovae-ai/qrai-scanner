@@ -19,19 +19,19 @@ jobs:
           - os: macos-latest
             target: x86_64-apple-darwin
             build: |
-              cd crates/qrai-scanner-node
+              cd crates/qrcode-ai-scanner-node
               npm run build -- --target x86_64-apple-darwin
           - os: macos-latest
             target: aarch64-apple-darwin
             build: |
-              cd crates/qrai-scanner-node
+              cd crates/qrcode-ai-scanner-node
               npm run build -- --target aarch64-apple-darwin
 
           # Linux (glibc)
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             build: |
-              cd crates/qrai-scanner-node
+              cd crates/qrcode-ai-scanner-node
               npm run build -- --target x86_64-unknown-linux-gnu
           - os: ubuntu-latest
             target: aarch64-unknown-linux-gnu
@@ -41,7 +41,7 @@ jobs:
               export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc
               export CC_aarch64_unknown_linux_gnu=aarch64-linux-gnu-gcc
               export CXX_aarch64_unknown_linux_gnu=aarch64-linux-gnu-g++
-              cd crates/qrai-scanner-node
+              cd crates/qrcode-ai-scanner-node
               npm run build -- --target aarch64-unknown-linux-gnu
 
           # Linux (musl)
@@ -50,14 +50,14 @@ jobs:
             build: |
               sudo apt-get update
               sudo apt-get install -y musl-tools
-              cd crates/qrai-scanner-node
+              cd crates/qrcode-ai-scanner-node
               npm run build -- --target x86_64-unknown-linux-musl
 
           # Windows
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             build: |
-              cd crates/qrai-scanner-node
+              cd crates/qrcode-ai-scanner-node
               npm run build -- --target x86_64-pc-windows-msvc
 
     runs-on: ${{ matrix.os }}
@@ -76,7 +76,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd crates/qrai-scanner-node
+          cd crates/qrcode-ai-scanner-node
           npm install
 
       - name: Build
@@ -86,7 +86,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bindings-${{ matrix.target }}
-          path: crates/qrai-scanner-node/*.node
+          path: crates/qrcode-ai-scanner-node/*.node
           if-no-files-found: error
 
   publish:
@@ -103,7 +103,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd crates/qrai-scanner-node
+          cd crates/qrcode-ai-scanner-node
           npm install
 
       - name: Download all artifacts
@@ -113,7 +113,7 @@ jobs:
 
       - name: Move artifacts to npm directories
         run: |
-          cd crates/qrai-scanner-node
+          cd crates/qrcode-ai-scanner-node
           # Create npm directories
           mkdir -p npm/darwin-x64 npm/darwin-arm64 npm/linux-x64-gnu npm/linux-arm64-gnu npm/linux-x64-musl npm/win32-x64-msvc
           # Move binaries
@@ -129,7 +129,7 @@ jobs:
       - name: Check if version exists on npm
         id: check-version
         run: |
-          cd crates/qrai-scanner-node
+          cd crates/qrcode-ai-scanner-node
           PACKAGE_NAME=$(node -p "require('./package.json').name")
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           echo "package=$PACKAGE_NAME" >> $GITHUB_OUTPUT
@@ -145,7 +145,7 @@ jobs:
       - name: Prepare and publish to npm
         if: steps.check-version.outputs.exists == 'false'
         run: |
-          cd crates/qrai-scanner-node
+          cd crates/qrcode-ai-scanner-node
           # Copy all .node files to root directory
           find npm -name "*.node" -exec cp {} . \;
           ls -la *.node

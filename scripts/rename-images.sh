@@ -17,7 +17,7 @@ readonly VERSION="1.0.0"
 
 # Configuration
 readonly TEST_DIR="${PROJECT_ROOT}/test-images"
-readonly CLI_BINARY="${PROJECT_ROOT}/target/release/qraisc"
+readonly CLI_BINARY="${PROJECT_ROOT}/target/release/qrcode-ai"
 readonly BACKUP_DIR="${TEST_DIR}/.backup-$(date +%Y%m%d-%H%M%S)"
 readonly MAPPING_FILE="${TEST_DIR}/README.md"
 readonly TEMP_RESULTS="${TEST_DIR}/.rename-results.tmp"
@@ -174,7 +174,7 @@ check_dependencies() {
   # Check for CLI binary
   if [[ ! -x "$CLI_BINARY" ]]; then
     log_error "CLI binary not found or not executable: $CLI_BINARY"
-    log_error "Run: cargo build -p qrai-scanner-cli --release"
+    log_error "Run: cargo build -p qrcode-ai-scanner-cli --release"
     missing=1
   fi
 
@@ -531,7 +531,7 @@ main() {
   cat >&2 <<EOF
 
 ${C_BOLD}${C_CYAN}╔═══════════════════════════════════════════════════════╗${C_RESET}
-${C_BOLD}${C_CYAN}║${C_RESET}  ${C_BOLD}QRAI Test Image Renamer${C_RESET}                          ${C_BOLD}${C_CYAN}║${C_RESET}
+${C_BOLD}${C_CYAN}║${C_RESET}  ${C_BOLD}QRCode-AI Test Image Renamer${C_RESET}                          ${C_BOLD}${C_CYAN}║${C_RESET}
 ${C_BOLD}${C_CYAN}╚═══════════════════════════════════════════════════════╝${C_RESET}
 
 EOF

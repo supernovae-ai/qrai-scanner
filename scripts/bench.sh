@@ -1,5 +1,5 @@
 #!/bin/bash
-# QRAI Validator - Benchmark Runner
+# QRCode-AI - Benchmark Runner
 
 set -e
 
@@ -9,12 +9,12 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 cd "$PROJECT_DIR"
 
 echo "╔════════════════════════════════════════════════════════════════╗"
-echo "║            QRAI Validator - Performance Benchmarks             ║"
+echo "║            QRCode-AI - Performance Benchmarks             ║"
 echo "╚════════════════════════════════════════════════════════════════╝"
 echo ""
 
 # Run benchmarks
-cargo bench -p qrai-core
+cargo bench -p qrcode-ai-scanner-core
 
 echo ""
 echo "Benchmark results saved to: target/criterion/"

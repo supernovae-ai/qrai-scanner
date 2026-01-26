@@ -1,11 +1,11 @@
 <div align="center">
 
-# @supernovae-ai/qrai-scanner
+# @supernovae-st/qrcode-ai-scanner
 
-**Node.js bindings for qrai-scanner - High-performance QR code validation**
+**Node.js bindings for qrcode-ai-scanner - High-performance QR code validation**
 
-[![npm](https://img.shields.io/npm/v/@supernovae-ai/qrai-scanner?style=flat-square&logo=npm&logoColor=white&color=red)](https://www.npmjs.com/package/@supernovae-ai/qrai-scanner)
-[![License](https://img.shields.io/npm/l/@supernovae-ai/qrai-scanner?style=flat-square&color=blue)](LICENSE)
+[![npm](https://img.shields.io/npm/v/@supernovae-st/qrcode-ai-scanner?style=flat-square&logo=npm&logoColor=white&color=red)](https://www.npmjs.com/package/@supernovae-st/qrcode-ai-scanner)
+[![License](https://img.shields.io/npm/l/@supernovae-st/qrcode-ai-scanner?style=flat-square&color=blue)](LICENSE)
 
 *Native Rust performance in Node.js via napi-rs.<br/>Validate AI-generated and artistic QR codes that break standard scanners.*
 
@@ -18,24 +18,24 @@
 ### From npm (recommended)
 
 ```bash
-npm install @supernovae-ai/qrai-scanner
+npm install @supernovae-st/qrcode-ai-scanner
 # or
-yarn add @supernovae-ai/qrai-scanner
+yarn add @supernovae-st/qrcode-ai-scanner
 # or
-pnpm add @supernovae-ai/qrai-scanner
+pnpm add @supernovae-st/qrcode-ai-scanner
 ```
 
 ### From GitHub
 
 ```bash
-npm install github:SuperNovae-ai/qrai-scanner
+npm install github:supernovae-st/qrcode-ai-scanner
 ```
 
 ### Build from source
 
 ```bash
-git clone https://github.com/SuperNovae-ai/qrai-scanner.git
-cd qrai-scanner/crates/qrai-scanner-node
+git clone https://github.com/supernovae-st/qrcode-ai-scanner.git
+cd qrcode-ai-scanner/crates/qrcode-ai-scanner-node
 npm install
 npm run build
 ```
@@ -47,21 +47,21 @@ After building from source, you can use the package locally in several ways:
 **Option 1: npm link (symlink)**
 
 ```bash
-# In qrai-scanner-node directory
+# In qrcode-ai-scanner-node directory
 npm link
 
 # In your project
-npm link @supernovae-ai/qrai-scanner
+npm link @supernovae-st/qrcode-ai-scanner
 ```
 
 **Option 2: npm pack (tarball)**
 
 ```bash
-# In qrai-scanner-node directory
-npm pack  # Creates qrcodeai-qrai-scanner-0.1.0.tgz
+# In qrcode-ai-scanner-node directory
+npm pack  # Creates qrcodeai-qrcode-ai-scanner-0.1.0.tgz
 
 # In your project
-npm install /path/to/qrcodeai-qrai-scanner-0.1.0.tgz
+npm install /path/to/qrcodeai-qrcode-ai-scanner-0.1.0.tgz
 ```
 
 **Option 3: Direct path in package.json**
@@ -69,7 +69,7 @@ npm install /path/to/qrcodeai-qrai-scanner-0.1.0.tgz
 ```json
 {
   "dependencies": {
-    "@supernovae-ai/qrai-scanner": "file:../qrai-scanner/crates/qrai-scanner-node"
+    "@supernovae-st/qrcode-ai-scanner": "file:../qrcode-ai-scanner/crates/qrcode-ai-scanner-node"
   }
 }
 ```
@@ -77,14 +77,14 @@ npm install /path/to/qrcodeai-qrai-scanner-0.1.0.tgz
 **Option 4: Direct require**
 
 ```javascript
-const scanner = require('/path/to/qrai-scanner/crates/qrai-scanner-node');
+const scanner = require('/path/to/qrcode-ai-scanner/crates/qrcode-ai-scanner-node');
 ```
 
 ## Quick Start
 
 ```javascript
 import { readFileSync } from 'fs';
-import { validate, isValid, score, summarize } from '@supernovae-ai/qrai-scanner';
+import { validate, isValid, score, summarize } from '@supernovae-st/qrcode-ai-scanner';
 
 const buffer = readFileSync('qr.png');
 
@@ -231,7 +231,7 @@ import type {
   ValidationResult,
   DecodeResult,
   QrSummary
-} from '@supernovae-ai/qrai-scanner';
+} from '@supernovae-st/qrcode-ai-scanner';
 
 const result: ValidationResult = validate(buffer);
 ```
@@ -243,7 +243,7 @@ const result: ValidationResult = validate(buffer);
 ```typescript
 import express from 'express';
 import multer from 'multer';
-import { validate, isProductionReady } from '@supernovae-ai/qrai-scanner';
+import { validate, isProductionReady } from '@supernovae-st/qrcode-ai-scanner';
 
 const app = express();
 const upload = multer();
@@ -270,7 +270,7 @@ app.post('/check', upload.single('qr'), (req, res) => {
 ```typescript
 import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
-import { score, getRating } from '@supernovae-ai/qrai-scanner';
+import { score, getRating } from '@supernovae-st/qrcode-ai-scanner';
 
 const qrDir = './qr-codes';
 const files = readdirSync(qrDir).filter(f => f.endsWith('.png'));
@@ -287,7 +287,7 @@ for (const file of files) {
 ```typescript
 // pages/api/validate.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { validate } from '@supernovae-ai/qrai-scanner';
+import { validate } from '@supernovae-st/qrcode-ai-scanner';
 
 export const config = {
   api: { bodyParser: false }
@@ -349,7 +349,7 @@ Part of [**QR Code AI**](https://qrcode-ai.com) by **Thibaut MÉLEN** & [**Super
   <img src="https://avatars.githubusercontent.com/u/20891897?s=200&v=4" alt="Thibaut MÉLEN" width="32"/>
 </a>
 &nbsp;&nbsp;
-<a href="https://github.com/SuperNovae-ai">
+<a href="https://github.com/supernovae-st">
   <img src="https://avatars.githubusercontent.com/u/33066282?s=200&v=4" alt="SuperNovae Studio" width="32"/>
 </a>
 

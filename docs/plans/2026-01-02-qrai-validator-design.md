@@ -38,10 +38,10 @@ Users need real-time feedback (<200ms) on whether their customized QR code is st
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        qrai-scanner                           │
+│                        qrcode-ai-scanner                           │
 ├─────────────────────────────────────────────────────────────────┤
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
-│  │  qrai-scanner-cli   │  │ qrai-node   │  │   (future)  │             │
+│  │  qrcode-ai-scanner-cli   │  │ qrai-node   │  │   (future)  │             │
 │  │   binary    │  │  napi-rs    │  │    wasm     │             │
 │  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘             │
 │         │                │                │                     │
@@ -144,7 +144,7 @@ pub fn decode_only(image_bytes: &[u8]) -> Result<DecodeResult, QraiError>;
 ### Node.js (napi-rs)
 
 ```typescript
-import { validate } from '@supernovae-ai/qrai-scanner';
+import { validate } from '@supernovae-st/qrcode-ai-scanner';
 
 const result = await validate(imageBuffer);
 // {
@@ -160,14 +160,14 @@ const result = await validate(imageBuffer);
 
 ```bash
 # Full validation with JSON output
-qrai-scanner image.png
+qrcode-ai-scanner image.png
 
 # Score only (for scripts)
-qrai-scanner --score-only image.png
+qrcode-ai-scanner --score-only image.png
 # Output: 85
 
 # Decode only (fast, no stress tests)
-qrai-scanner --decode-only image.png
+qrcode-ai-scanner --decode-only image.png
 ```
 
 ## Dependencies
@@ -192,13 +192,13 @@ napi-derive = "2"
 ## Project Structure
 
 ```
-qrai-scanner/
+qrcode-ai-scanner/
 ├── Cargo.toml              (workspace)
 ├── .gitignore
 ├── README.md
 ├── docs/
 │   └── plans/
-│       └── 2026-01-02-qrai-scanner-design.md
+│       └── 2026-01-02-qrcode-ai-scanner-design.md
 ├── crates/
 │   ├── qrai-core/
 │   │   ├── Cargo.toml
@@ -209,7 +209,7 @@ qrai-scanner/
 │   │       ├── scorer.rs
 │   │       ├── error.rs
 │   │       └── preprocessing.rs
-│   ├── qrai-scanner-cli/
+│   ├── qrcode-ai-scanner-cli/
 │   │   ├── Cargo.toml
 │   │   └── src/main.rs
 │   └── qrai-node/
@@ -224,7 +224,7 @@ qrai-scanner/
 
 ## Implementation Plan
 
-See: `docs/plans/2026-01-02-qrai-scanner-implementation.md`
+See: `docs/plans/2026-01-02-qrcode-ai-scanner-implementation.md`
 
 ## Future Enhancements
 

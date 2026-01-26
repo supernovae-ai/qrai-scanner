@@ -1,5 +1,5 @@
 [package]
-name = "qrai-scanner-cli"
+name = "qrcode-ai-scanner-cli"
 version.workspace = true
 edition.workspace = true
 description = "CLI for QR code validation and scannability scoring"
@@ -11,11 +11,11 @@ categories = ["command-line-utilities", "multimedia::images"]
 readme = "README.md"
 
 [[bin]]
-name = "qraisc"
+name = "qrcode-ai"
 path = "src/main.rs"
 
 [dependencies]
-qrai-scanner-core = "0.1"
+qrcode-ai-scanner-core = { path = "../qrcode-ai-scanner-core" }
 clap.workspace = true
 serde_json.workspace = true
 anyhow.workspace = true

@@ -34,10 +34,10 @@ Examples:
 
 ```bash
 # Run CLI on test images
-qraisc test-images/clean/*.png
+qrcode-ai test-images/clean/*.png
 
 # Batch benchmark
 for f in test-images/**/*.png; do
-    echo "$f: $(qraisc -s "$f")"
+    echo "$f: $(qrcode-ai -s "$f")"
 done
 ```

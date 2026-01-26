@@ -1,5 +1,5 @@
 #!/bin/bash
-# QRAI Validator - Test Runner Script
+# QRCode-AI - Test Runner Script
 
 set -e
 
@@ -9,7 +9,7 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 cd "$PROJECT_DIR"
 
 echo "╔════════════════════════════════════════════════════════════════╗"
-echo "║              QRAI Validator - Test Suite                       ║"
+echo "║              QRCode-AI - Test Suite                       ║"
 echo "╚════════════════════════════════════════════════════════════════╝"
 echo ""
 
@@ -61,7 +61,7 @@ echo ""
 
 # Step 5: Build release
 echo -e "${YELLOW}[5/5] Building release binary...${NC}"
-if cargo build -p qrai-cli --release; then
+if cargo build -p qrcode-ai-scanner-cli --release; then
     echo -e "${GREEN}✓ Release build OK${NC}"
 else
     echo -e "${RED}✗ Release build failed${NC}"
@@ -73,9 +73,9 @@ echo "╔═══════════════════════�
 echo "║                    All checks passed! ✓                        ║"
 echo "╚════════════════════════════════════════════════════════════════╝"
 echo ""
-echo "Binary location: target/release/qrai-validator"
+echo "Binary location: target/release/qrcode-ai"
 echo ""
 echo "Usage:"
-echo "  ./target/release/qrai-validator <image.png>      # Full validation"
-echo "  ./target/release/qrai-validator -s <image.png>   # Score only"
-echo "  ./target/release/qrai-validator -d <image.png>   # Decode only (fast)"
+echo "  ./target/release/qrcode-ai <image.png>      # Full validation"
+echo "  ./target/release/qrcode-ai -s <image.png>   # Score only"
+echo "  ./target/release/qrcode-ai -d <image.png>   # Decode only (fast)"

@@ -2,7 +2,7 @@
 
 use criterion::{black_box, criterion_group, criterion_main, Criterion, BenchmarkId};
 use image::{DynamicImage, Luma};
-use qrai_scanner_core::{decode_only, validate};
+use qrcode_ai_scanner_core::{decode_only, validate};
 
 /// Create a test QR code with specified content
 fn create_qr(content: &str) -> Vec<u8> {
