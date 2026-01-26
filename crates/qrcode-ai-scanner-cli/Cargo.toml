@@ -2,7 +2,7 @@
 name = "qrcode-ai-scanner-cli"
 version.workspace = true
 edition.workspace = true
-description = "CLI for QR code validation and scannability scoring"
+description = "CLI for QR code validation and scannability scoring - supports artistic, image-embedded, custom styled, and photo-captured QR codes"
 license.workspace = true
 repository.workspace = true
 authors.workspace = true
@@ -15,7 +15,7 @@ name = "qrcode-ai"
 path = "src/main.rs"
 
 [dependencies]
-qrcode-ai-scanner-core = { version = "0.1", path = "../qrcode-ai-scanner-core" }
+qrcode-ai-scanner-core = { version = "0.2", path = "../qrcode-ai-scanner-core" }
 clap.workspace = true
 serde_json.workspace = true
 anyhow.workspace = true

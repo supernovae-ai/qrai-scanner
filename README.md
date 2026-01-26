@@ -9,7 +9,7 @@
 🎨 <strong>Artistic</strong> · 🖼️ <strong>Image-embedded</strong> · 🎯 <strong>Custom styled</strong> · 📸 <strong>Photo-captured</strong>
 </p>
 
-<p><em>Part of the <a href="https://qrcode-ai.com">QR Code AI</a> ecosystem</em></p>
+<p><em>Part of the <a href="https://qrcode-ai.com">QR Code AI</a> ecosystem · <a href="https://github.com/supernovae-st/qrcode-ai">GitHub</a></em></p>
 
 [![Rust](https://img.shields.io/badge/Rust-1.75+-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue?logo=opensourceinitiative&logoColor=white)](LICENSE)

@@ -2,7 +2,7 @@
 name = "qrcode-ai-scanner-node"
 version.workspace = true
 edition.workspace = true
-description = "Node.js bindings for QR code validation"
+description = "Node.js bindings for QR code validation - supports artistic, image-embedded, custom styled, and photo-captured QR codes"
 license.workspace = true
 repository.workspace = true
 

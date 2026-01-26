@@ -19,7 +19,7 @@
 
 <br/>
 
-[Features](#what-it-does) · [Install](#installation) · [Quick Start](#quick-start) · [API](#api-reference) · [QR Code AI](https://qrcode-ai.com)
+[Features](#what-it-does) · [Install](#installation) · [Quick Start](#quick-start) · [API](#api-reference) · [QR Code AI](https://qrcode-ai.com) · [GitHub](https://github.com/supernovae-st/qrcode-ai)
 
 </div>
 
