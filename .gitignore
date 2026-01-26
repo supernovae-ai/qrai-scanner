@@ -15,9 +15,16 @@ Cargo.lock
 .DS_Store
 Thumbs.db
 
-# Environment
+# Environment & Secrets
 .env
-.env.local
+.env.*
+*.env
+.npmrc
+*.pem
+*.key
+*.p12
+credentials*
+secrets*
 
 # Test assets (too large for git)
 /test-qr-speed/

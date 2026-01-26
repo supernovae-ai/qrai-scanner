@@ -14,17 +14,27 @@ let localFileExisted = false
 let loadError = null
 
 function isMusl() {
-  // For Node 10
-  if (!process.report || typeof process.report.getReport !== 'function') {
+  // Environment variable override for CI/CD environments
+  if (process.env.QRCODE_AI_SCANNER_FORCE_MUSL === 'true') return true
+  if (process.env.QRCODE_AI_SCANNER_FORCE_GLIBC === 'true') return false
+
+  // Use process.report API (Node 12+) - safe, no shell execution
+  if (process.report && typeof process.report.getReport === 'function') {
     try {
-      const lddPath = require('child_process').execSync('which ldd').toString().trim()
-      return readFileSync(lddPath, 'utf8').includes('musl')
+      const { glibcVersionRuntime } = process.report.getReport().header
+      return !glibcVersionRuntime
     } catch (e) {
-      return true
+      // Fallback if report fails
     }
-  } else {
-    const { glibcVersionRuntime } = process.report.getReport().header
-    return !glibcVersionRuntime
+  }
+
+  // Fallback: check /proc/self/maps for musl (no shell execution)
+  try {
+    const maps = readFileSync('/proc/self/maps', 'utf8')
+    return maps.includes('musl')
+  } catch (e) {
+    // Conservative fallback: assume glibc (more common)
+    return false
   }
 }
 
